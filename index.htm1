@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Spades Got Real!</title>
+
+  <style>
+
+    body {
+
+      margin: 0;
+
+      font-family: Arial, sans-serif;
+
+      background: #111;
+
+      color: white;
+
+      text-align: center;
+
+    }
+
+    .container {
+
+      max-width: 500px;
+
+      margin: auto;
+
+      padding: 40px 20px;
+
+    }
+
+    h1 {
+
+      font-size: 42px;
+
+      margin-bottom: 5px;
+
+    }
+
+    .spade {
+
+      font-size: 70px;
+
+    }
+
+    .tagline {
+
+      font-size: 18px;
+
+      margin-bottom: 35px;
+
+    }
+
+    button {
+
+      width: 100%;
+
+      padding: 18px;
+
+      margin: 10px 0;
+
+      font-size: 20px;
+
+      font-weight: bold;
+
+      border: none;
+
+      border-radius: 12px;
+
+      cursor: pointer;
+
+    }
+
+    .create {
+
+      background: white;
+
+      color: black;
+
+    }
+
+    .join {
+
+      background: #333;
+
+      color: white;
+
+      border: 2px solid white;
+
+    }
+
+    #status {
+
+      margin-top: 25px;
+
+      font-size: 16px;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="spade">♠</div>
+
+    <h1>SPADES GOT REAL!</h1>
+
+    <div class="tagline">
+
+      Multiplayer Spades. Play with family and friends.
+
+    </div>
+
+    <button class="create" onclick="createGame()">
+
+      CREATE GAME
+
+    </button>
+
+    <button class="join" onclick="joinGame()">
+
+      JOIN GAME
+
+    </button>
+
+    <div id="status">
+
+      Connecting to game server...
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const status = document.getElementById("status");
+
+    const protocol =
+
+      location.protocol === "https:" ? "wss://" : "ws://";
+
+    const socket =
+
+      new WebSocket(protocol + location.host);
+
+    socket.onopen = () => {
+
+      status.innerText = "Connected — Ready to Play!";
+
+    };
+
+    socket.onerror = () => {
+
+      status.innerText = "Unable to connect to game server.";
+
+    };
+
+    function createGame() {
+
+      socket.send(JSON.stringify({
+
+        type: "CREATE_ROOM"
+
+      }));
+
+      status.innerText = "Creating game...";
+
+    }
+
+    function joinGame() {
+
+      const code = prompt("Enter your game room code:");
+
+      if (!code) return;
+
+      socket.send(JSON.stringify({
+
+        type: "JOIN_ROOM",
+
+        roomCode: code.toUpperCase()
+
+      }));
+
+      status.innerText = "Joining game...";
+
+    }
+
+  </script>
+
+</body>
+
+</html>
