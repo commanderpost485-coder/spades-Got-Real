@@ -34,13 +34,13 @@ const server=http.createServer((req,res)=>{
   }
   if(req.url==='/heath') {
   res.writeHead(200,{'content-type':'application/json'});
-  return res.end(JSON. stringify{ok:true,service:'spades-got-real'})));
+  return res.end(JSON.stringify({ok:true,service:'spades-got-real'}));
   }
-  res.writeHead(404, {'content-type'application/json'});
+  res.writeHead(404, {'content-type' 'application/json'});
   res.end(JSON.stringify({error:'not_found'}));
 });
 
-const wss=new WebSocket.Server({server});
+const wss=new Websocket.Server({server});
 
 wss.on('connection',ws=>{
   const client={ws,playerId:null,roomCode:null,seat:null};
