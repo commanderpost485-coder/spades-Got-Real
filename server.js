@@ -26,14 +26,17 @@ function broadcast(room,type,payload={}) {
     if(client) send(client.ws,type,payload);
   }
 }
-
+const INDEX = path.join(__dirname, 'imdex.html' );
 const server=http.createServer((req,res)=>{
   res.setHeader('Access-Control-Allow-Origin','*');
-  if(req.url==='/health') {
-    res.writeHead(200,{'content-type':'application/json'});
-    return res.end(JSON.stringify({ok:true,service:'spades-got-real',version:'render-1.0'}));
+  if (req.url==='/index.html') {
+    return res.end(fs.readFileSync (INDEX));
   }
-  res.writeHead(404,{'content-type':'application/json'});
+  if(req.url==='/heath') {
+  res.writeHead(200,{'content-type':'application/json'});
+  return res.end(JSON. stringify{ok:true,service:'spades-got-real'})));
+  }
+  res.writeHead(404, {'content-type'application/json'});
   res.end(JSON.stringify({error:'not_found'}));
 });
 
