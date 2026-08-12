@@ -26,10 +26,10 @@ function broadcast(room,type,payload={}) {
     if(client) send(client.ws,type,payload);
   }
 }
-const INDEX = path.join(__dirname, 'imdex.html' );
+const INDEX = path.join(__dirname, 'index.html' );
 const server=http.createServer((req,res)=>{
   res.setHeader('Access-Control-Allow-Origin','*');
-  if (req.url==='/index.html') {
+  if (req.url==='/'|| req.url==='/index.html') {
     return res.end(fs.readFileSync (INDEX));
   }
   if(req.url==='/heath') {
