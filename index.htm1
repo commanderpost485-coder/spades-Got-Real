@@ -154,11 +154,10 @@
 
       new WebSocket(protocol + location.host);
 
-    socket.onopen = () => {
-
-      status.innerText = "Connected — Ready to Play!";
-      socket.send(JSON.stringify({type:'AUTH'}));}!u
-
+  socket.onopen = () => {
+       status.innerTEXT = "Connected - Ready to Play!";
+       socket.send(JSON.stringify({type:'AUTH'}));}
+};
 
     };
 
