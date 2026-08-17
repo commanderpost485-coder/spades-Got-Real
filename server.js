@@ -1,4 +1,4 @@
-const http = require('http')
+const http = require('http');
 const WebSocket = require('ws');
 const crypto = require('crypto');
 const fs = require( 'fs' );
