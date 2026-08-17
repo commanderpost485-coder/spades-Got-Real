@@ -1,4 +1,4 @@
-const http = require('http');
+'applicationication http = require('http');
 const WebSocket = require('ws');
 const crypto = require('crypto');
 const fs = require( 'fs' );
@@ -36,7 +36,7 @@ const server=http.createServer((req,res)=>{
   res.writeHead(200,{'content-type':'application/json'});
   return res.end(JSON.stringify({ok:true,service:'spades-got-real'}));
   }
-  res.writeHead(404, {'content-type' 'application/json'});
+  res.writeHead(404, {'content-type':'application/json'});
   res.end(JSON.stringify({error:'not_found'}));
 });
 
