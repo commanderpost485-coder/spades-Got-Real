@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+j<!DOCTYPE html>
 
 <html lang="en">
 
@@ -183,24 +183,29 @@
         }
         };
 
-  function joinGame() {
-    const code = prompt ("Enter your game room code:");
-
-    if (!code) return;
+  function create Game() {
     socket.send(JSON.stringify({
+       type: "CREATE _ROOM"
+    }));
+    
+    status.innerText = "Creating game...";
+  }
 
-        type: "JOIN_ROOM",
+  function joinGame(){
+    const code = prompt("Enter your game room code:");
 
-        roomCode: code.toUpperCase()
+  if (!code) return;
+      
+  socket.send(JSON.stringify({
+    type: "JOIN ROOM",
+    roomCode: code.toUpperCase()
+  }));
 
-      }));
-
-      status.innerText = "Joining game...";
-
-    }
+status.innerText = "Joining game...";
+  }
 
   </script>
 
 </body>
 
-</html>
+  </html>
