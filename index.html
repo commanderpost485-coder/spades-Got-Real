@@ -183,9 +183,9 @@ j<!DOCTYPE html>
         }
         };
 
-  function create Game() {
+  function createGame() {
     socket.send(JSON.stringify({
-       type: "CREATE _ROOM"
+       type: "CREATE_ROOM"
     }));
     
     status.innerText = "Creating game...";
@@ -197,7 +197,7 @@ j<!DOCTYPE html>
   if (!code) return;
       
   socket.send(JSON.stringify({
-    type: "JOIN ROOM",
+    type: "JOIN_ROOM",
     roomCode: code.toUpperCase()
   }));
 
