@@ -167,25 +167,27 @@
 
     };
 
-    function createGame() {
-
-      socket.send(JSON.stringify({
-
-        type: "CREATE_ROOM"
-
-      }));
-
-      status.innerText = "Creating game...";
-
+    socket.onmessage = (event) =>{
+      const msg = JSON.parse(event.data);
+     
+      if (msg.type === "ROOM_CREATED") {
+        status.innerText =  "Game created! Room code: " + msg.payload.roomCode;
+      }
+       
+        if (msg.type=== "PLAYER_JOINED"){
+          status.innerText = "Joined room: " + msg.payload.roomCode;
     }
 
-    function joinGame() {
+        if (msg.type === "ERROR") {
+          status.innerText = msg.payload.message || "Game error ";
+        }
+        };
 
-      const code = prompt("Enter your game room code:");
+  function joinGame() {
+    const code = prompt ("Enter your game room code:");
 
-      if (!code) return;
-
-      socket.send(JSON.stringify({
+    if (!code) return;
+    socket.send(JSON.stringify({
 
         type: "JOIN_ROOM",
 
