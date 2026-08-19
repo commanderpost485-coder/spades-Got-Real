@@ -150,9 +150,9 @@
 
       location.protocol === "https:" ? "wss://" : "ws://";
 
-    const socket =
+    const socket = new WebSocket(protocol + location.host);
 
-      new WebSocket("wss://spades-got-real-1.onrender.com");
+      
 
   socket.onopen = () => {
        status.innerText = "Connected - Ready to Play!";
