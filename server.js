@@ -40,7 +40,7 @@ const server=http.createServer((req,res)=>{
   res.end(JSON.stringify({error:'not_found'}));
 });
 
-const wss=new Websocket.Server({server});
+const wss=new WebSocket.WebSocketServer({server});
 
 wss.on('connection',ws=>{
   const client={ws,playerId:null,roomCode:null,seat:null};
