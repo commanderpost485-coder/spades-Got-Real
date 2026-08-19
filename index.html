@@ -166,6 +166,7 @@
 
   
 
+
     socket.onerror = () => {
 
       status.innerText = "Unable to connect to game server.";
@@ -178,10 +179,17 @@
       if (msg.type === "ROOM_CREATED") {
         status.innerText =  "Game created! Room code: " + msg.payload.roomCode;
       }
-       
         if (msg.type=== "PLAYER_JOINED"){
           status.innerText = "Joined room: " + msg.payload.roomCode;
-    }
+document.getElementById("seatN").innerText =
+  msg.payload.seats.N || "Open";
+document.getElementById("seatE").innerText =
+  msg.payload.seats.E || "Open";
+document.getElementById("seatS").innerText =
+  msg.payload.seats.S || "Open";
+document.getElementById("seatW").innerText =
+  msg.payload.seats.W || "Open";
+        }      
 
         if (msg.type === "ERROR") {
           status.innerText = msg.payload.message || "Game error ";
