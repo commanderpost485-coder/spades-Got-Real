@@ -182,13 +182,13 @@
         if (msg.type=== "PLAYER_JOINED"){
           status.innerText = "Joined room: " + msg.payload.roomCode;
 document.getElementById("seatN").innerText =
-  msg.payload.seats.N || "Open";
+  msg.payload.seats.N ? "Occupied" : "Open";
 document.getElementById("seatE").innerText =
-  msg.payload.seats.E || "Open";
+  msg.payload.seats.E  ? "Occupied" : "Open";
 document.getElementById("seatS").innerText =
-  msg.payload.seats.S || "Open";
+  msg.payload.seats.S  ? "Occupied" : "Open";
 document.getElementById("seatW").innerText =
-  msg.payload.seats.W || "Open";
+  msg.payload.seats.W  ? "Occupied" : "Open";
         }      
 
         if (msg.type === "ERROR") {
