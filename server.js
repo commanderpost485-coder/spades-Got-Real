@@ -30,6 +30,7 @@ const INDEX = path.join(__dirname, 'index.html' );
 const server=http.createServer((req,res)=>{
   res.setHeader('Access-Control-Allow-Origin','*');
   if (req.url==='/'|| req.url==='/index.html' || req.url.startsWith('/?')) {
+req.writeHead(200, {'Content-Type':'text/html;charset=utf-8'});
     return res.end(fs.readFileSync (INDEX));
   }
   if(req.url==='/heath') {
