@@ -194,7 +194,7 @@ document.getElementById("seatE").innerText =
 document.getElementById("seatS").innerText =
   msg.payload.seats.S  ? "Occupied" : "Open";
 document.getElementById("seatW").innerText =
-  msg.payload.seats.W  ? "Occupied" : "Open";                           if (                     msg.payload.seats.N &&    msg.payload.seats.E &&    msg.payload.seats.S &&    msg.payload.seats.W                 ) {    document.getElementById("startGame").style.display = "block";            } 
+  msg.payload.seats.W  ? "Occupied" : "Open";                           if (                     msg.payload.seats.N &&    msg.payload.seats.E &&    msg.payload.seats.S &&   msg.payload.seats.W                 ) {    document.getElementById("startGame").style.display = "block";            } 
 
         if (msg.type === "ERROR") {
           status.innerText = msg.payload.message || "Game error ";
