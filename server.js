@@ -83,9 +83,9 @@ wss.on('connection',ws=>{
       broadcast(room,'PLAYER_JOINED',{roomCode:code,playerId:client.playerId,seat,seats:room.seats});
       return;
     }
-
-    const room=rooms.get(client.roomCode);
-    if(!room) return send(ws,'ERROR',{message:'No active room'});
+if (type === 'START_GAME') {     const room =                          if (!room) {                     return send(ws, 'ERROR', { message: 'No active room' });                 }                                    if (client.playerId !== room.hostId)  {                                   return send(ws, 'ERROR', { message: 'Only the host can start the game' }):                                   }                                    if (!room.seats.N || !room.seats.E|| !room.seats.S|| !room.seats.W) {                   return send(ws, 'ERROR', { message: 'All four players are const                     
+    const room = rooms.get(client.roomCode);
+    if(!room) return send(ws, 'ERROR',{message:'No active room'});                                     }                                    broadcast(room, 'GAME_STARTED', {      roomCode: room.code                 });                                                                        return;                            }  
 
     if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
       if(payload.seat!==client.seat) return send(ws,'ERROR',{message:'Seat ownership mismatch'});
@@ -103,3 +103,4 @@ wss.on('connection',ws=>{
 server.listen(PORT,'0.0.0.0',()=>{
   console.log(`Spades Got Real listening on port ${PORT}`);
 });
+<
