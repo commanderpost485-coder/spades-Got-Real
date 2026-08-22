@@ -211,9 +211,7 @@ function startGame() {
     type: "START_GAME"
   }));
 }
-  function joinGame(){
-  isHost = false;
-document.getElementById("startGame").style.display = "none";
+  
   const code = prompt("Enter your game room code:");
 
   if (!code) return;
