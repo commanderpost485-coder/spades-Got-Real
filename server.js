@@ -126,8 +126,10 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
     });
   }
 });
+});
 
 server.listen(PORT,'0.0.0.0',()=>{
   console.log(`Spades Got Real listening on port ${PORT}`);
 });
+
 
