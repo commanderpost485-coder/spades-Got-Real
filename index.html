@@ -206,7 +206,11 @@ document.getElementById("seatW").innerText =
     
     status.innerText = "Creating game...";
   }
-
+function startGame() {
+  socket.send(JSON.stringify({
+    type: "START_GAME"
+  }));
+}
   function joinGame(){
     const code = prompt("Enter your game room code:");
 
