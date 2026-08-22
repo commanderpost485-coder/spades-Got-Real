@@ -212,7 +212,9 @@ function startGame() {
   }));
 }
   function joinGame(){
-    const code = prompt("Enter your game room code:");
+  isHost = false;
+
+  const code = prompt("Enter your game room code:");
 
   if (!code) return;
       
