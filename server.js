@@ -83,11 +83,8 @@ wss.on('connection',ws=>{
       broadcast(room,'PLAYER_JOINED',{roomCode:code,playerId:client.playerId,seat,seats:room.seats});
       return;
     }
-if (type === 'START_GAME') {     const room =                          if (!room) {                     return send(ws, 'ERROR', { message: 'No active room' });                 }                                    if (client.playerId !== room.hostId)  {                                   return send(ws, 'ERROR', { message: 'Only the host can start the game' }):                                   }                                    if (!room.seats.N || !room.seats.E|| !room.seats.S|| !room.seats.W) {                   return send(ws, 'ERROR', { message: 'All four players are const                     
-    const room = rooms.get(client.roomCode);
-    if(!room) return send(ws, 'ERROR',{message:'No active room'});                                     }                                    broadcast(room, 'GAME_STARTED', {      roomCode: room.code                 });                                                                        return;                            }  
-
-    if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
+if (type === 'START_GAME') {     const room =                         rooms.get(clien.roomCode);                                              if (!room) {                     return send(ws, 'ERROR', { message: 'No active room' });                 }                                    if (client.playerId !== room.hostId)  {                                   return send(ws, 'ERROR', { message: 'Only the host can start the game' }):                                   }                                    if (!room.seats.N || !room.seats.E|| !room.seats.S|| !room.seats.W) {                   return send(ws, 'ERROR', { message: 'All four players are required       '});                              
+}if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
       if(payload.seat!==client.seat) return send(ws,'ERROR',{message:'Seat ownership mismatch'});
       return broadcast(room,type,{...payload,serverTs:Date.now()});
     }
