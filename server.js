@@ -110,7 +110,22 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
     }
   });
 
-  
+  ws.on('close', () => {
+  if (client.playerId)
+    clients.delete(client.playerId);
+
+  const room = rooms.get(client.roomCode);
+
+  if (room && client.seat) {
+    room.seats[client.seat] = null;
+
+    broadcast(room, 'PLAYER_DISCONNECTED', {
+      playerId: client.playerId,
+      seat: client.seat,
+      seats: room.seats
+    });
+  }
+});
 
 server.listen(PORT,'0.0.0.0',()=>{
   console.log(`Spades Got Real listening on port ${PORT}`);
