@@ -171,7 +171,8 @@
   <script>
 
     const status = document.getElementById("status"); let isHost = false;
-
+let mySeat = null;
+let myPlayerId = null;
     const protocol =
 
       location.protocol === "https:" ? "wss://" : "ws://";
@@ -196,15 +197,21 @@
 
     socket.onmessage = (event) =>{
       const msg = JSON.parse(event.data);
+  if (msg.type === "AUTH_OK") { 
+ myPlayerId = msg.payload.playerId;
+    }   
      
       if (msg.type === "ROOM_CREATED") { isHost = true;
-        status.innerText = "Game created! Room  code: "+ msg.payload.roomCode;
-document.getElementById("seatS").innerText = "Occupied";
-      }
+status.innerText = "Game created! Room  code: "+ msg.payload.roomCode;
+mySeat = msg.payload.seat;
+                                        document.getElementById("seatS").innerText = "Occupied";
+                                       }
       
       
-        if (msg.type=== "PLAYER_JOINED"){
-          status.innerText = "Joined room: " + msg.payload.roomCode;
+if (msg.type === "PLAYER_JOINED"){
+if (msg.payload.playerId === myPlayerId mySeat = msg.payload.seat;
+          
+ status.innerText = "Joined room: " + msg.payload.roomCode;
 document.getElementById("seatN").innerText =
   msg.payload.seats.N ? "Occupied" : "Open";
 document.getElementById("seatE").innerText =
@@ -233,6 +240,19 @@ function startGame() {
     type: "START_GAME"
   }));
 }
+    function submitBid(bid) {
+  socket.send(JSON.stringify({
+    type: "BID_SUBMITTED",
+    payload: {
+      seat: mySeat,
+      bid: bid
+    }
+  }));
+
+  document.getElementById("bidding").style.display = "none";
+  status.innerText = "Bid submitted: " + bid;
+}
+    }));
   function joinGame(){
   isHost = false;
 document.getElementById("startGame").style.display = "none";
