@@ -105,6 +105,7 @@ wss.on('connection',ws=>{
   return;
 }                     
 if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
+  const room = rooms.get(client.roomCode);
       if(payload.seat!==client.seat) return send(ws,'ERROR',{message:'Seat ownership mismatch'});
       return broadcast(room,type,{...payload,serverTs:Date.now()});
     }
