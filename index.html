@@ -173,13 +173,7 @@
     const status = document.getElementById("status"); let isHost = false;
 let mySeat = null;
 let myPlayerId = null;
-    const protocol =
-
-      location.protocol === "https:" ? "wss://" : "ws://";
-
-    const socket = new WebSocket(protocol + location.host);
-
-      
+    const socket = new WebSocket("wss://spades-got-real-1.onrender.com");
 
   socket.onopen = () => {
        status.innerText = "Connected - Ready to Play!";
