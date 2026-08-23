@@ -195,7 +195,7 @@ let myPlayerId = null;
  myPlayerId = msg.payload.playerId;
     }   
      
-      if (msg.type === "ROOM_CREATED") { isHost = true;
+ if (msg.type === "ROOM_CREATED") { isHost = true;
 status.innerText = "Game created! Room  code: "+ msg.payload.roomCode;
 mySeat = msg.payload.seat;
                                         document.getElementById("seatS").innerText = "Occupied";
@@ -247,7 +247,6 @@ function startGame() {
   document.getElementById("bidding").style.display = "none";
   status.innerText = "Bid submitted: " + bid;
 }
-    }));
   function joinGame(){
   isHost = false;
 document.getElementById("startGame").style.display = "none";
