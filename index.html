@@ -209,7 +209,7 @@ mySeat = msg.payload.seat;
       
       
 if (msg.type === "PLAYER_JOINED"){
-if (msg.payload.playerId === myPlayerId mySeat = msg.payload.seat;
+if (msg.payload.playerId === myPlayerId) mySeat = msg.payload.seat;
           
  status.innerText = "Joined room: " + msg.payload.roomCode;
 document.getElementById("seatN").innerText =
@@ -221,7 +221,8 @@ document.getElementById("seatS").innerText =
 document.getElementById("seatW").innerText =
   msg.payload.seats.W  ? "Occupied" : "Open";                           if (                              isHost &&           msg.payload.seats.N &&    msg.payload.seats.E &&    msg.payload.seats.S &&   msg.payload.seats.W                 ) {    document.getElementById("startGame").style.display = "block";            }                                    } if (msg.type === "GAME_STARTED") {
   status.innerText = "Game started!";
-  document.getElementById("startGame").style.display = "none";
+document.getElementById("bidding ").style.display = "block";
+document.getElementById("startGame").style.display = "none";
 }
   if (msg.type === "ERROR") {
   status.innerText = msg.payload.message || "Game error ";
