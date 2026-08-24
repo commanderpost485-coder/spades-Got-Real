@@ -234,7 +234,7 @@ document.getElementById("startGame").style.display = "none";
 if (msg.type === "HAND_DEALT") {
     const hand = document.getElementById("hand");
     hand.innerHTML = msg.payload.cards
-      .map(card => `<button>${card.rank}${card.suit}</button>`)
+      `<button onclick="playCard('${card.rank}','${card.suit}')">${card.rank}${card.suit}</button>`
       .join("");
     status.innerText = "Cards dealt";
   }
@@ -266,6 +266,7 @@ function startGame() {
 
 
 }
+    function playCard(rank, suit) {              socket.send(JSON.stringify({                 type: "CARD_PLAYED",                      payload: {                                  seat: mySeat,                             card: { rank, suit }                      }                                       }));                                    }
   function joinGame(){
   isHost = false;
 document.getElementById("startGame").style.display = "none";
