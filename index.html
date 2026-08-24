@@ -209,13 +209,13 @@ if (msg.payload.playerId === myPlayerId) mySeat = msg.payload.seat;
 document.getElementById("seatN").innerText =
   msg.payload.seats.N ? "Occupied" : "Open";
 document.getElementById("seatE").innerText =
-  msg.payload.seats.E  ? "Occupied" : "Open";
+  msg.payload.seats.E  ? "Occupied" : "Open"
 document.getElementById("seatS").innerText =
   msg.payload.seats.S  ? "Occupied" : "Open";
 document.getElementById("seatW").innerText =
   msg.payload.seats.W  ? "Occupied" : "Open";                           if (                              isHost &&           msg.payload.seats.N &&    msg.payload.seats.E &&    msg.payload.seats.S &&   msg.payload.seats.W                 ) {    document.getElementById("startGame").style.display = "block";            }                                    } if (msg.type === "GAME_STARTED") {
   status.innerText = "Game started!";
-document.getElementById("bidding ").style.display = "block";
+document.getElementById("bidding").style.display = "block";
 document.getElementById("startGame").style.display = "none";
 }
   if (msg.type === "ERROR") {
