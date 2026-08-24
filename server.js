@@ -113,7 +113,9 @@ wss.on('connection',ws=>{
 if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   const room = rooms.get(client.roomCode);
       if(payload.seat!==client.seat) return send(ws,'ERROR',{message:'Seat ownership mismatch'});
-    
+    if (type === "BID_SUBMITTED" && client.seat !== room.bidTurn) {
+  return send(ws, "ERROR", { message: "Not your turn to bid" });
+}
   return broadcast(room,type,{...payload,serverTs:Date.now()});
     }
   });
