@@ -227,14 +227,15 @@ document.getElementById("startGame").style.display = "none";
 }
 
 if (msg.type === "HAND_DEALT") {
-  status.innerText = "Cards dealt";
-  console.log("My hand:", msg.payload.cards);
-}
-
-if (msg.type === "ERROR") {
+    const hand = document.getElementById("hand");
+    hand.innerHTML = msg.payload.cards
+      .map(card => `<button>${card.rank}${card.suit}</button>`)
+      .join("");
+    status.innerText = "Cards dealt";
+  }
+     if (msg.type === "ERROR") {
   status.innerText =
       msg.payload.message || "Game error ";
-  
 }
     }     
       function createGame() {
