@@ -170,9 +170,7 @@ room.hands = {
 }
   broadcast(room, "BIDDING_COMPLETE", { bids: room.bids });
   }
-return broadcast(room,type,
-  }
-  return broadcast(room,type,{...payload,serverTs:Date.now()});
+return broadcast(room,type,{...payload,serverTs:Date.now()});
 } 
   });
 
