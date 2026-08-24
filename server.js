@@ -141,6 +141,13 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   const nextBid = { N: "E", E: "W", W: "S", S: null };
     room.bidTurn = nextBid[client.seat];}
   if (Object.keys(room.bids).length === 4) {
+    const deck = createDeck();
+room.hands = {
+  N: deck.slice(0, 13),
+  E: deck.slice(13, 26),
+  W: deck.slice(26, 39),
+  S: deck.slice(39, 52)
+};
   broadcast(room, "BIDDING_COMPLETE", { bids: room.bids });
   }
   return broadcast(room,type,{...payload,serverTs:Date.now()});
