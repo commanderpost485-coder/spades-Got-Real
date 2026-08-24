@@ -148,6 +148,17 @@ room.hands = {
   W: deck.slice(26, 39),
   S: deck.slice(39, 52)
 };
+    for (const seat of ["N", "E", "W", "S"]) {
+  const playerId = room.seats[seat];
+  const player = clients.get(playerId);
+
+  if (player) {
+    send(player.ws, "HAND_DEALT", {
+      seat,
+      cards: room.hands[seat]
+    });
+  }
+}
   broadcast(room, "BIDDING_COMPLETE", { bids: room.bids });
   }
   return broadcast(room,type,{...payload,serverTs:Date.now()});
