@@ -224,8 +224,14 @@ document.getElementById("startGame").style.display = "none";
     status.innerText = "Bid submitted: " + msg.payload.bid;
   }
 }
+
+if (msg.type === "HAND_DEALT") {
+  status.innerText = "Cards dealt";
+  console.log("My hand:", msg.payload.cards);
+}
+
 if (msg.type === "ERROR") {
-    status.innerText =
+  status.innerText =
       msg.payload.message || "Game error ";
   
 }
