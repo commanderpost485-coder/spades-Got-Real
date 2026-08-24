@@ -232,12 +232,12 @@ document.getElementById("startGame").style.display = "none";
 }
 
 if (msg.type === "HAND_DEALT") {
-    const hand = document.getElementById("hand");
-    hand.innerHTML = msg.payload.cards
-      `<button onclick="playCard('${card.rank}','${card.suit}')">${card.rank}${card.suit}</button>`
-      .join("");
-    status.innerText = "Cards dealt";
-  }
+  const hand = document.getElementById("hand");
+  hand.innerHTML = msg.payload.cards
+    .map(card => `<button onclick="playCard('${card.rank}','${card.suit}')">${card.rank}${card.suit}</button>`)
+    .join("");
+  status.innerText = "Cards dealt";
+}
      if (msg.type === "ERROR") {
   status.innerText =
       msg.payload.message || "Game error ";
