@@ -64,7 +64,13 @@ wss.on('connection',ws=>{
     if(type==='CREATE_ROOM'){
       let code=roomCode();
       while(rooms.has(code)) code=roomCode();
-      const room={code,hostId:client.playerId,seats:{S:client.playerId,N:null,E:null,W:null}};
+      const room =
+{
+  code,
+  hostId: client.playerId,
+  seats: {S: client.playerId, N:null, E:null, W:null},
+  bidTurn: "W"
+};
       rooms.set(code,room);
       client.roomCode=code;
       client.seat='S';
@@ -107,7 +113,8 @@ wss.on('connection',ws=>{
 if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   const room = rooms.get(client.roomCode);
       if(payload.seat!==client.seat) return send(ws,'ERROR',{message:'Seat ownership mismatch'});
-      return broadcast(room,type,{...payload,serverTs:Date.now()});
+    
+  return broadcast(room,type,{...payload,serverTs:Date.now()});
     }
   });
 
