@@ -218,19 +218,19 @@ document.getElementById("seatW").innerText =
 document.getElementById("bidding").style.display = "block";
 document.getElementById("startGame").style.display = "none";
 }
-  if (msg.type === "ERROR") {
-    if (msg.type === "BID_SUBMITTED") {
+  if (msg.type === "BID_SUBMITTED") {
   if (msg.payload.seat === mySeat) {
-document.getElementById("bidding").style.display = "none";
+    document.getElementById("bidding").style.display = "none";
     status.innerText = "Bid submitted: " + msg.payload.bid;
   }
 }
-    if (msg.type === "ERROR") {
-  status.innerText = msg.payload.message || "Game error ";
-    }
-    }
-
-  function createGame() {
+if (msg.type === "ERROR") {
+    status.innerText =
+      msg.payload.message || "Game error ";
+  
+}
+    }     
+      function createGame() {
     socket.send(JSON.stringify({
        type: "CREATE_ROOM"
     }));
