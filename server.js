@@ -117,6 +117,9 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   return send(ws, "ERROR", { message: "Not your turn to bid" });
 }
   if (type === "BID_SUBMITTED") {
+  room.bids = room.bids || {};
+  room.bids[client.seat] = payload.bid;
+
   const nextBid = { N: "E", E: "W", W: "S", S: null };
     room.bidTurn = nextBid[client.seat];}
   return broadcast(room,type,{...payload,serverTs:Date.now()});
