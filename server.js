@@ -104,8 +104,16 @@ wss.on('connection',ws=>{
       room.seats[seat]=client.playerId;
       client.roomCode=code;
       client.seat=seat;
-      broadcast(room,'PLAYER_JOINED',{roomCode:code,playerId:client.playerId,seat,seats:room.seats});
-      return;
+     const joinPayload = {
+  roomCode: code,
+  playerId: client.playerId,
+  seat: seat,
+  seats: { ...room.seats }
+};
+
+broadcast(room, "PLAYER_JOINED", joinPayload);
+send(ws, "PLAYER_JOINED", joinPayload);
+return;
     }
     if (type === 'START_GAME') {
   const room = rooms.get(client.roomCode);
