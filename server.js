@@ -16,6 +16,24 @@ function roomCode() {
   for(let i=0;i<6;i++) s+=chars[Math.floor(Math.random()*chars.length)];
   return s;
 }
+function createDeck() {
+  const suits = ["S", "H", "D", "C"];
+  const ranks = ["2","3","4","5","6","7","8","9","10","J","Q","K","A"];
+  const deck = [];
+
+  for (const suit of suits) {
+    for (const rank of ranks) {
+      deck.push({ suit, rank });
+    }
+  }
+
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+
+  return deck;
+}
 function send(ws,type,payload={}) {
   if(ws && ws.readyState===WebSocket.OPEN) ws.send(JSON.stringify({type,payload}));
 }
