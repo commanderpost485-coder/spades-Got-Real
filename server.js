@@ -142,6 +142,11 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
     if (type === "BID_SUBMITTED" && client.seat !== room.bidTurn) {
   return send(ws, "ERROR", { message: "Not your turn to bid" });
 }
+  if (type === "CARD_PLAYED" && client.seat !== room.playTurn) {
+  return send(ws, "ERROR", {
+    message: "Not your turn to play"
+  });
+}
   if (type === "BID_SUBMITTED") {
   room.bids = room.bids || {};
   room.bids[client.seat] = payload.bid;
