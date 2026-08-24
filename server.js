@@ -69,7 +69,7 @@ wss.on('connection',ws=>{
   code,
   hostId: client.playerId,
   seats: {S: client.playerId, N:null, E:null, W:null},
-  bidTurn: "W"
+  bidTurn: "N"
 };
       rooms.set(code,room);
       client.roomCode=code;
@@ -117,7 +117,7 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   return send(ws, "ERROR", { message: "Not your turn to bid" });
 }
   if (type === "BID_SUBMITTED") {
-  const nextBid = { W: "N", N: "E", E: "S", S: null };
+  const nextBid = { N: "E", E "W", W: "S", S: null };
     room.bidTurn = nextBid[client.seat];}
   return broadcast(room,type,{...payload,serverTs:Date.now()});
 } 
