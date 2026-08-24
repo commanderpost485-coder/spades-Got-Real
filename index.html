@@ -266,8 +266,16 @@ function startGame() {
 
 
 }
-    function playCard(rank, suit) {              socket.send(JSON.stringify({                 type: "CARD_PLAYED",                      payload: {                                  seat: mySeat,                             card: { rank, suit }                      }                                       }));                                    }
-  function joinGame(){
+    function playCard(rank, suit) {  
+      socket.send(JSON.stringify({
+        type: "CARD_PLAYED",
+        payload: {
+      seat: mySeat,
+      card: { rank, suit }
+    }
+  }));
+}
+  function joinGame() {
   isHost = false;
 document.getElementById("startGame").style.display = "none";
   const code = prompt("Enter your game room code:");
