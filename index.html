@@ -277,11 +277,21 @@ hand.innerHTML = msg.payload.cards
     .join("");
   status.innerText = "Cards dealt";
 }
-     if (msg.type === "ERROR") {
+     if (msg.type === "CARD_PLAYED") {
   status.innerText =
-      msg.payload.message || "Game error ";
+    msg.payload.seat +
+    " played " +
+    msg.payload.card .rank +
+    msg.payload.card.suit +
+    " _ " +
+    msg.payload.nextTurn +
+    "s turn";
 }
-    }     
+    if (msg.type === "ERROR") { 
+      status.innerTect =
+        msg.payload.message || "Game error";
+    }
+    }
       function createGame() {
     socket.send(JSON.stringify({
        type: "CREATE_ROOM"
