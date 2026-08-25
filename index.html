@@ -268,9 +268,9 @@ if (msg.type === "HAND_DEALT") {
 hand.innerHTML = msg.payload.cards
     .map(card => {
         const isRed = card.suit === "H" || card.suit === "D";
-        return \`<button
+        return `<button
             style="color: ${isRed ? '#c62828' : '#111'};"      onclick="playCard('${card.rank}', '${card.suit}')">          ${card.rank}${suitSymbols[card.suit] || card.suit}
-            </button>\`;
+            </button>`;
     })
     .join("");
   status.innerText = "Cards dealt";
