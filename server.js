@@ -152,7 +152,7 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   room.bids[client.seat] = payload.bid;
 
   const nextBid = { N: "E", E: "W", W: "S", S: null };
-    room.bidTurn = nextBid[client.seat];}
+    room.bidTurn = nextBid[client.seat];
   if (Object.keys(room.bids).length === 4) {
   room.playTurn = "N";
     const deck = createDeck();
