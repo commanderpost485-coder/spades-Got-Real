@@ -173,9 +173,53 @@ room.hands = {
     });
   }
 }
-  broadcast(room, "BIDDING_COMPLETE", { bids: room.bids });
+  broadcast(room, type,{...payload, serverTs: Date.now()});
   }
-return broadcast(room,type,{...payload,serverTs:Date.now()});
+if (type === "CARD_PLAYED") {
+    const hand = room.hands && room.hands[client.seat];
+
+  if (!hand) {
+      return send(ws, "ERROR", {
+        message: " Hand not found"
+      });
+  }
+  
+  const cardIndex = hand.findIndex(card =>
+    card.rank === payload.card.rank &&
+    card.suit === payload.card.suit
+);
+
+  if (cardIndex === -1) {
+    return send(ws, "ERROR", {
+      message: "Card not in your hand"
+    });
+  }
+
+  const playedCard = hand.splice(cardIndex, 1)[0];
+
+  const nextPlay = {
+    N: "E",
+    E: "W", 
+    W: "S",
+    S: "N"
+  };
+
+  room.playTurn = nextPlay[client.seat];
+
+  send(ws, "HAND_DEALT", {
+    seat: client.seat,
+    cards: hand
+  });
+
+  return broadcast(room,  "CARD_PLAYED", {
+    seat: client.seat,
+    card: playedCard,
+    nextTurn: room.playTurn,
+    serverTs: Date.now()
+  });
+}            
+return broadcast(,room, type,
+  {...payload,serverTs:Date.now()});
 } 
   });
 
