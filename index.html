@@ -257,7 +257,9 @@ document.getElementById("startGame").style.display = "none";
 }
 
 if (msg.type === "HAND_DEALT") {
-  const hand = document.getElementById("hand");
+   if (msg.payload.seat !== mySeat) return;
+  const hand = 
+    document.getElementById("hand");
   const suitSymbols = {
     S: "♠",
     H: "♥",
