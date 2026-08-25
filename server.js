@@ -218,7 +218,7 @@ if (type === "CARD_PLAYED") {
     serverTs: Date.now()
   });
 }            
-return broadcast(,room, type,
+return broadcast(room, type,
   {...payload,serverTs:Date.now()});
 } 
   });
