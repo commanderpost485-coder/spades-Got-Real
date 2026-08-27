@@ -172,14 +172,13 @@ room.hands = {
       cards: room.hands[seat]
     });
   }
-}
-  if (type === "BID_SUBMITTED") {
+    }
     broadcast(room, type, {
       ...payload, 
       serverTs: Date.now()
   });
   }
-  }
+  
 if (type === "CARD_PLAYED") {
     const hand = room.hands && room.hands[client.seat];
 
