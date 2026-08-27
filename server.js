@@ -178,6 +178,7 @@ room.hands = {
       serverTs: Date.now()
   });
   }
+  }
   
 if (type === "CARD_PLAYED") {
     const hand = room.hands && room.hands[client.seat];
