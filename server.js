@@ -203,10 +203,10 @@ if (type === "CARD_PLAYED") {
   const playedCard = hand.splice(cardIndex, 1)[0];
 
       const nextPlay = {
-  N: "E",
-  E: "W",
+  E: "N",
+  N: "W",
   W: "S",
-  S: "N"
+  S: "E"
 };
 
 room.currentTrick = room.currentTrick || [];
