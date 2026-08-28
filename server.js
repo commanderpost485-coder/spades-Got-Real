@@ -99,7 +99,7 @@ wss.on('connection',ws=>{
       const code=String(payload.roomCode||'').toUpperCase();
       const room=rooms.get(code);
       if(!room) return send(ws,'ERROR',{message:'Room not found'});
-      const seat=['N','E','W'].find(s=>!room.seats[s]);
+      const seat=['E','S','W'].find(s=>!room.seats[s]);
       if(!seat) return send(ws,'ERROR',{message:'Room full'});
       room.seats[seat]=client.playerId;
       client.roomCode=code;
