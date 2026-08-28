@@ -87,7 +87,7 @@ wss.on('connection',ws=>{
   code,
   hostId: client.playerId,
   seats: {S: client.playerId, N:null, E:null, W:null},
-  bidTurn: "W"
+  bidTurn: "E"
 };
       rooms.set(code,room);
       client.roomCode=code;
