@@ -271,8 +271,36 @@ if (room.currentTrick.length < 4) {
     }
   }
 
-  room.playTurn = winner.seat;
-  room.currentTrick = [];
+ room.tricks = room.tricks || {
+  N: 0,
+  E: 0,
+  W: 0,
+  S: 0
+};
+
+room.tricks[winner.seat]++;
+  const totalTricks =
+  room.tricks.N +
+  room.tricks.E +
+  room.tricks.W +
+  room.tricks.S;
+
+if (totalTricks === 13) {
+  const ns = room.tricks.N + room.tricks.S;
+  const ew = room.tricks.E + room.tricks.W;
+
+  const winningTeam =
+    ns > ew ? "North/South" :
+    ew > ns ? "East/West" :
+    "Tie";
+
+  return broadcast(room, "HAND_OVER", {
+    tricks: room.tricks,
+    winner: winningTeam
+  });
+}
+room.playTurn = winner.seat;
+room.currentTrick = [];
 }
 
 send(ws, "HAND_DEALT", {
