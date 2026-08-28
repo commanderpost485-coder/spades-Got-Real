@@ -287,7 +287,17 @@ hand.innerHTML = msg.payload.cards
     msg.payload.nextTurn +
     "s turn";
 }
-    if (msg.type === "ERROR") { 
+    if (msg.type === "HAND_OVER") {
+  status.innerText =
+    "HAND OVER! " +
+    msg.payload.winner +
+    " wins! " +
+    "N:" + msg.payload.tricks.N +
+    " S:" + msg.payload.tricks.S +
+    " E:" + msg.payload.tricks.E +
+    " W:" + msg.payload.tricks.W;
+}
+      if (msg.type === "ERROR") { 
       status.innerTect =
         msg.payload.message || "Game error";
     }
