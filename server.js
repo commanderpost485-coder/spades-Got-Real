@@ -151,7 +151,7 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   room.bids = room.bids || {};
   room.bids[client.seat] = payload.bid;
 
-  const nextBid = { W: "N", N: "E", E: "S", S: null };
+  const nextBid = { E: "N", N: "W", W: "S", S: null };
     room.bidTurn = nextBid[client.seat];
   if (Object.keys(room.bids).length === 4) {
   room.playTurn = "E";
