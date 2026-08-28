@@ -287,17 +287,54 @@ room.tricks[winner.seat]++;
 
 if (totalTricks === 13) {
   const ns = room.tricks.N + room.tricks.S;
-  const ew = room.tricks.E + room.tricks.W;
+const ew = room.tricks.E + room.tricks.W;
 
-  const winningTeam =
-    ns > ew ? "North/South" :
-    ew > ns ? "East/West" :
-    "Tie";
+const nsBid =
+  Number(room.bids.N || 0) +
+  Number(room.bids.S || 0);
 
-  return broadcast(room, "HAND_OVER", {
-    tricks: room.tricks,
-    winner: winningTeam
-  });
+const ewBid =
+  Number(room.bids.E || 0) +
+  Number(room.bids.W || 0);
+
+const nsHandScore =
+  ns >= nsBid
+    ? (nsBid * 10) + (ns - nsBid)
+    : -(nsBid * 10);
+
+const ewHandScore =
+  ew >= ewBid
+    ? (ewBid * 10) + (ew - ewBid)
+    : -(ewBid * 10);
+
+room.scores = room.scores || {
+  NS: 0,
+  EW: 0
+};
+
+room.scores.NS += nsHandScore;
+room.scores.EW += ewHandScore;
+
+const winningTeam =
+  room.scores.NS > room.scores.EW
+    ? "North/South"
+    : room.scores.EW > room.scores.NS
+      ? "East/West"
+      : "Tie";
+
+return broadcast(room, "HAND_OVER", {
+  tricks: room.tricks,
+  bids: {
+    NS: nsBid,
+    EW: ewBid
+  },
+  handScore: {
+    NS: nsHandScore,
+    EW: ewHandScore
+  },
+  totalScore: room.scores,
+  winner: winningTeam
+});
 }
 room.playTurn = winner.seat;
 room.currentTrick = [];
