@@ -87,7 +87,7 @@ wss.on('connection',ws=>{
   code,
   hostId: client.playerId,
   seats: {S: client.playerId, N:null, E:null, W:null},
-  bidTurn: "N"
+  bidTurn: "W"
 };
       rooms.set(code,room);
       client.roomCode=code;
@@ -99,7 +99,7 @@ wss.on('connection',ws=>{
       const code=String(payload.roomCode||'').toUpperCase();
       const room=rooms.get(code);
       if(!room) return send(ws,'ERROR',{message:'Room not found'});
-      const seat=['E','S','W'].find(s=>!room.seats[s]);
+      const seat=['N','E','W'].find(s=>!room.seats[s]);
       if(!seat) return send(ws,'ERROR',{message:'Room full'});
       room.seats[seat]=client.playerId;
       client.roomCode=code;
@@ -151,10 +151,10 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   room.bids = room.bids || {};
   room.bids[client.seat] = payload.bid;
 
-  const nextBid = { N: "E", E: "W", W: "S", S: null };
+  const nextBid = { W: "N", N: "E", E: "S", S: null };
     room.bidTurn = nextBid[client.seat];
   if (Object.keys(room.bids).length === 4) {
-  room.playTurn = "N";
+  room.playTurn = "W";
     const deck = createDeck();
 room.hands = {
   N: deck.slice(0, 13),
