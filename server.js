@@ -195,12 +195,26 @@ if (type === "CARD_PLAYED") {
 );
 
   if (cardIndex === -1) {
+  return send(ws, "ERROR", {
+    message: "Card not in your hand"
+  });
+}
+
+const trick = room.currentTrick || [];
+
+if (trick.length > 0) {
+  const leadSuit = trick[0].card.suit;
+  const hasLeadSuit = hand.some(card => card.suit === leadSuit);
+
+  if (hasLeadSuit && payload.card.suit !== leadSuit) {
     return send(ws, "ERROR", {
-      message: "Card not in your hand"
+      message: "You must follow suit"
     });
   }
+}
 
-  const playedCard = hand.splice(cardIndex, 1)[0];
+const playedCard =
+  hand.splice(cardIndex, 1)[0];
 
       const nextPlay = {
   E: "N",
