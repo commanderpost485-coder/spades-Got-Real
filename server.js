@@ -202,27 +202,91 @@ if (type === "CARD_PLAYED") {
 
   const playedCard = hand.splice(cardIndex, 1)[0];
 
-  const nextPlay = {
-    N: "E",
-    E: "W", 
-    W: "S",
-    S: "N"
-  };
+      const nextPlay = {
+  N: "E",
+  E: "W",
+  W: "S",
+  S: "N"
+};
+
+room.currentTrick = room.currentTrick || [];
+
+room.currentTrick.push({
+  seat: client.seat,
+  card: playedCard
+});
+
+if (room.currentTrick.length < 4) {
 
   room.playTurn = nextPlay[client.seat];
 
-  send(ws, "HAND_DEALT", {
-    seat: client.seat,
-    cards: hand
-  });
+} else {
 
-  return broadcast(room,  "CARD_PLAYED", {
-    seat: client.seat,
-    card: playedCard,
-    nextTurn: room.playTurn,
-    serverTs: Date.now()
-  });
-}            
+  const leadSuit = room.currentTrick[0].card.suit;
+
+  const rankValue = {
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "10": 10,
+    "J": 11,
+    "Q": 12,
+    "K": 13,
+    "A": 14
+  };
+
+  let winner = room.currentTrick[0];
+
+  for (const play of room.currentTrick.slice(1)) {
+
+    const winnerSuit = winner.card.suit;
+    const playSuit = play.card.suit;
+
+    if (
+      winnerSuit === "S" &&
+      playSuit === "S" &&
+      rankValue[play.card.rank] > rankValue[winner.card.rank]
+    ) {
+      winner = play;
+    }
+
+    else if (
+      winnerSuit !== "S" &&
+      playSuit === "S"
+    ) {
+      winner = play;
+    }
+
+    else if (
+      winnerSuit !== "S" &&
+      playSuit === leadSuit &&
+      rankValue[play.card.rank] > rankValue[winner.card.rank]
+    ) {
+      winner = play;
+    }
+  }
+
+  room.playTurn = winner.seat;
+  room.currentTrick = [];
+}
+
+send(ws, "HAND_DEALT", {
+  seat: client.seat,
+  cards: hand
+});
+
+return broadcast(room, "CARD_PLAYED", {
+  seat: client.seat,
+  card: playedCard,
+  nextTurn: room.playTurn,
+  serverTs: Date.now()
+});   
+}
 return broadcast(room, type,
   {...payload,serverTs:Date.now()});
 } 
