@@ -154,7 +154,7 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   const nextBid = { W: "N", N: "E", E: "S", S: null };
     room.bidTurn = nextBid[client.seat];
   if (Object.keys(room.bids).length === 4) {
-  room.playTurn = "W";
+  room.playTurn = "E";
     const deck = createDeck();
 room.hands = {
   N: deck.slice(0, 13),
