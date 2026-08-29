@@ -151,7 +151,11 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   room.bids = room.bids || {};
   room.bids[client.seat] = payload.bid;
 
-  const nextBid = { E: "N", N: "W", W: "S", S: null };
+ broadcast(room, type, {
+  ...payload,
+  serverTs: Date.now()
+});
+    const nextBid = { E: "N", N: "W", W: "S", S: null };
     room.bidTurn = nextBid[client.seat];
   if (Object.keys(room.bids).length === 4) {
   room.playTurn = "E";
@@ -171,12 +175,6 @@ room.hands = {
       seat,
       cards: room.hands[seat]
     });
-  }
-    }
-    broadcast(room, type, {
-      ...payload, 
-      serverTs: Date.now()
-  });
   }
   }
   
