@@ -289,13 +289,15 @@ hand.innerHTML = msg.payload.cards
 }
     if (msg.type === "HAND_OVER") {
   status.innerText =
-    "HAND OVER! " +
-    msg.payload.winner +
-    " wins! " +
-    "N:" + msg.payload.tricks.N +
-    " S:" + msg.payload.tricks.S +
-    " E:" + msg.payload.tricks.E +
-    " W:" + msg.payload.tricks.W;
+  "HAND OVER! " +
+  msg.payload.winner +
+  " wins! " +
+  "N:" + msg.payload.tricks.N +
+  " S:" + msg.payload.tricks.S +
+  " E:" + msg.payload.tricks.E +
+  " W:" + msg.payload.tricks.W +
+  " | NS Score: " + msg.payload.totalScore.NS +
+  " | EW Score: " + msg.payload.totalScore.EW;
 }
       if (msg.type === "ERROR") { 
       status.innerTect =
