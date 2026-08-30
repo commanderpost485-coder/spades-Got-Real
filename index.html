@@ -287,8 +287,10 @@ hand.innerHTML = msg.payload.cards
     msg.payload.nextTurn +
     "s turn";
 }
-    if (msg.type === "HAND_OVER") {
+if (msg.type === "HAND_OVER") {
+document.getElementById("hand").innerHTML = "";
   status.innerText =
+      
   "HAND OVER! " +
   msg.payload.winner +
   " wins! " +
