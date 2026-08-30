@@ -133,7 +133,26 @@ return;
   broadcast(room, 'GAME_STARTED', {
     roomCode: room.code
   });
+const deck = createDeck();
 
+room.hands = {
+  N: deck.slice(0, 13),
+  E: deck.slice(13, 26),
+  W: deck.slice(26, 39),
+  S: deck.slice(39, 52)
+};
+
+for (const seat of ["N", "E", "W", "S"]) {
+  const playerId = room.seats[seat];
+  const player = clients.get(playerId);
+
+  if (player) {
+    send(player.ws, "HAND_DEALT", {
+      seat,
+      cards: room.hands[seat]
+    });
+  }
+}
   return;
 }                     
 if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
@@ -159,24 +178,7 @@ if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
     room.bidTurn = nextBid[client.seat];
   if (Object.keys(room.bids).length === 4) {
   room.playTurn = "E";
-    const deck = createDeck();
-room.hands = {
-  N: deck.slice(0, 13),
-  E: deck.slice(13, 26),
-  W: deck.slice(26, 39),
-  S: deck.slice(39, 52)
-};
-    for (const seat of ["N", "E", "W", "S"]) {
-  const playerId = room.seats[seat];
-  const player = clients.get(playerId);
-
-  if (player) {
-    send(player.ws, "HAND_DEALT", {
-      seat,
-      cards: room.hands[seat]
-  });
-  }
-  }
+    
   }
   }
   
