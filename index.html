@@ -210,6 +210,7 @@
 let mySeat = null;
 let myPlayerId = null;
 let trickPlays = [];
+    let nilLocked = false;
     const socket = new WebSocket("wss://spades-got-real-1.onrender.com");
 
   socket.onopen = () => {
@@ -262,8 +263,22 @@ document.getElementById("startGame").style.display = "none";
   }
 }
 
-if (msg.type === "HAND_DEALT") {
+if (msg.type === "NIL_PROMPT") {
+  document.getElementById("nilChoice").style.display = "block";
+  document.getElementById("bidding").style.display = "none";
+  document.getElementById("hand").innerHTML = "";
+  status.innerText = "Choose NIL for 100 points or SEE CARDS";
+}
+
+if (msg.type === "NIL_LOCKED") {
+  nilLocked = true;
+document.getElementById("nilChoice").style.display = "none";
+  status.innerText = "NIL locked in for 100 points";
+}
+      if (msg.type === "HAND_DEALT") {
    if (msg.payload.seat !== mySeat) return;
+document.getElementById("nilChoice").style.display= "none";
+document.getElementById("biddling").style.display = nilLicked ? "none" : "block";
   const hand = 
     document.getElementById("hand");
   const suitSymbols = {
@@ -342,6 +357,25 @@ function startGame() {
   }));
 
 
+}
+    function chooseNil() {
+  socket.send(JSON.stringify({
+    type: "NIL_CHOICE",
+    payload: {
+      seat: mySeat,
+      choice: "NIL"
+    }
+  }));
+}
+
+function seeCards() {
+  socket.send(JSON.stringify({
+    type: "NIL_CHOICE",
+    payload: {
+      seat: mySeat,
+      choice: "SEE_CARDS"
+    }
+  }));
 }
     function playCard(rank, suit) {  
       socket.send(JSON.stringify({
