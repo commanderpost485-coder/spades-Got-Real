@@ -204,6 +204,7 @@
     const status = document.getElementById("status"); let isHost = false;
 let mySeat = null;
 let myPlayerId = null;
+let trickPlays = [];
     const socket = new WebSocket("wss://spades-got-real-1.onrender.com");
 
   socket.onopen = () => {
@@ -278,14 +279,22 @@ hand.innerHTML = msg.payload.cards
   status.innerText = "Cards dealt";
 }
      if (msg.type === "CARD_PLAYED") {
-  status.innerText =
-    msg.payload.seat +
-    " played " +
-    msg.payload.card .rank +
-    msg.payload.card.suit +
-    " _ " +
-    msg.payload.nextTurn +
-    "s turn";
+  trickPlays.push(
+  msg.payload.seat +
+  " played " +
+  msg.payload.card.rank +
+  msg.payload.card.suit
+);
+
+status.innerText =
+  trickPlays.join("\n") +
+  "\n" +
+  msg.payload.nextTurn +
+  "'s turn";
+
+if (trickPlays.length === 4) {
+  trickPlays = [];
+}
 }
 if (msg.type === "HAND_OVER") {
 document.getElementById("hand").innerHTML = "";
