@@ -171,7 +171,7 @@ room.hands = {
   const player = clients.get(playerId);
 
   if (player) {
-    send(player.ws, "HAND_DEAL "   , {
+    send(player.ws, "HAND_DEALT", {
       seat,
       cards: room.hands[seat]
   });
