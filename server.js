@@ -313,15 +313,40 @@ const ewBid =
   Number(room.bids.E || 0) +
   Number(room.bids.W || 0);
 
-const nsHandScore =
+const nNil =
+  room.bids.N === "NIL"
+    ? (room.tricks.N === 0 ? 100 : -100)
+    : 0;
+
+const sNil =
+  room.bids.S === "NIL"
+    ? (room.tricks.S === 0 ? 100 : -100)
+    : 0;
+
+const eNil =
+  room.bids.E === "NIL"
+    ? (room.tricks.E === 0 ? 100 : -100)
+    : 0;
+
+const wNil =
+  room.bids.W === "NIL"
+    ? (room.tricks.W === 0 ? 100 : -100)
+    : 0;
+  const nsRegularScore =
   ns >= nsBid
     ? (nsBid * 10) + (ns - nsBid)
     : -(nsBid * 10);
 
-const ewHandScore =
+const ewRegularScore =
   ew >= ewBid
     ? (ewBid * 10) + (ew - ewBid)
     : -(ewBid * 10);
+
+const nsHandScore =
+  nsRegularScore + nNil + sNil;
+
+const ewHandScore =
+  ewRegularScore + eNil + wNil;
 
 room.scores = room.scores || {
   NS: 0,
