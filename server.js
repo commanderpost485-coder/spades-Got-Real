@@ -147,17 +147,33 @@ for (const seat of ["N", "E", "W", "S"]) {
   const player = clients.get(playerId);
 
   if (player) {
-    send(player.ws, "HAND_DEALT", {
+    send(player.ws, "NIL_PROMT", {
       seat,
-      cards: room.hands[seat]
     });
   }
 }
   return;
 }                     
-if(['BID_SUBMITTED','CARD_PLAYED'].includes(type)){
+if(['NIL_CHOICE','BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   const room = rooms.get(client.roomCode);
       if(payload.seat!==client.seat) return send(ws,'ERROR',{message:'Seat ownership mismatch'});
+  if (type === "NIL_CHOICE") {
+  if (payload.choice === "NIL") {
+    room.bids = room.bids || {};
+    room.bids[client.seat] = "NIL";
+
+    return send(ws, "NIL_LOCKED", {
+      seat: client.seat
+    });
+  }
+
+  if (payload.choice === "SEE_CARDS") {
+    return send(ws, "HAND_DEALT", {
+      seat: client.seat,
+      cards: room.hands[client.seat]
+    });
+  }
+}
     if (type === "BID_SUBMITTED" && client.seat !== room.bidTurn) {
   return send(ws, "ERROR", { message: "Not your turn to bid" });
 }
