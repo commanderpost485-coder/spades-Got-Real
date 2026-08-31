@@ -250,14 +250,21 @@ document.getElementById("seatE").innerText =
 document.getElementById("seatS").innerText =
   msg.payload.seats.S  ? "Occupied" : "Open";
 document.getElementById("seatW").innerText =
-  msg.payload.seats.W  ? "Occupied" : "Open";                           if (                              isHost &&           msg.payload.seats.N &&    msg.payload.seats.E &&    msg.payload.seats.S &&   msg.payload.seats.W                 ) {    document.getElementById("startGame").style.display = "block";            }                                    } if (msg.type === "GAME_STARTED") {
+  msg.payload.seats.W  ? "Occupied" : "Open";                           if (                              isHost &&           msg.payload.seats.N &&    msg.payload.seats.E &&    msg.payload.seats.S &&   msg.payload.seats.W                 ) {    document.getElementById("startGame").style.display = "block";            }                                    
+if (msg.type === "GAME_STARTED") {
   status.innerText = "Game started!";
+document.querySelector(".create").style.display = "none";
+document.querySelector(".join").style.display = "none";
+document.getElementById("bidding").style.display = "none";
+document.getElementById("startGame").style.display = "none";
+}
+
 document.getElementById("bidding").style.display = "block";
 document.getElementById("startGame").style.display = "none";
 }
   if (msg.type === "BID_SUBMITTED") {
   if (msg.payload.seat === mySeat) {
-    document.getElementById("bidding").style.display = "none";
+document.getElementById("bidding").style.display = "none";
     status.innerText = "Bid submitted: " + msg.payload.bid;
   }
 }
