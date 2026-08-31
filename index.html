@@ -212,7 +212,6 @@ let myPlayerId = null;
 let trickPlays = [];
     let nilLocked = false;
     const socket = new WebSocket("wss://spades-got-real-1.onrender.com");
-
   socket.onopen = () => {
        status.innerText = "Connected - Ready to Play!";
        socket.send(JSON.stringify({type:'AUTH'}));
