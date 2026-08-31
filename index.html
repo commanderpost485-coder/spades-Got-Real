@@ -264,9 +264,10 @@ document.getElementById("startGame").style.display = "none";
 }
 
 if (msg.type === "NIL_PROMPT") {
-  document.getElementById("nilChoice").style.display = "block";
-  document.getElementById("bidding").style.display = "none";
-  document.getElementById("hand").innerHTML = "";
+document.getElementById("nilChoice").style.display = "block";
+  nilLicked = false;
+document.getElementById("bidding").style.display = "none";
+document.getElementById("hand").innerHTML = "";
   status.innerText = "Choose NIL for 100 points or SEE CARDS";
 }
 
@@ -369,6 +370,8 @@ function startGame() {
 }
 
 function seeCards() {
+  nilLocked = false;
+
   socket.send(JSON.stringify({
     type: "NIL_CHOICE",
     payload: {
