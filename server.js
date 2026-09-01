@@ -199,6 +199,12 @@ return send(ws, "NIL_LOCKED", {
 });
     const nextBid = { E: "N", N: "W", W: "S", S: null };
     room.bidTurn = nextBid[client.seat];
+    while (
+  room.bidTurn &&
+  room.bids[room.bidTurn] === "NIL"
+) {
+  room.bidTurn = nextBid[room.bidTurn];
+}
   if (Object.keys(room.bids).length === 4) {
   room.playTurn = "E";
     
