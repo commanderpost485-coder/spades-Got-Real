@@ -454,7 +454,11 @@ return broadcast(room, type,
 
   const room = rooms.get(client.roomCode);
 
-  if (room && client.seat) {
+if (
+  room &&
+  client.seat &&
+  room.seats[client.seat] === client.playerId
+) {
     room.seats[client.seat] = null;
 
     broadcast(room, 'PLAYER_DISCONNECTED', {
