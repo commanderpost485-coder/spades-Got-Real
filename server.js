@@ -142,48 +142,58 @@ room.hands = {
   S: deck.slice(39, 52)
 };
 
+room.nilChoices =  {};
+room.bids = {};
+room.bidTurn = null;
+      
 broadcast(room, "NIL_PROMPT", {});
   return;
 }                     
 if(['NIL_CHOICE','BID_SUBMITTED','CARD_PLAYED'].includes(type)){
   const room = rooms.get(client.roomCode);
-      if(payload.seat!==client.seat) return send(ws,'ERROR',{message:'Seat ownership mismatch'});
-  if (type === "NIL_CHOICE") {
-  if (payload.choice === "NIL") {
-room.bids = room.bids || {};
-room.bids[client.seat] = "NIL";
-
-const nextBid = { E: "N", N: "W", W: "S", S: null };
-
-if (room.bidTurn === client.seat) {
-  room.bidTurn = nextBid[client.seat];
-while (
-    room.bidTurn &&
-    room.bids[room.bidTurn] === "NIL"
-  ) {
-    room.bidTurn = nextBid[room.bidTurn];
-  }
+if(payload.seat!==client.seat) return send(ws,'ERROR',{message:'Seat ownership mismatch'});
+if (type === "BID_SUBMITTED" && client.seat !== room.bidTurn) {
+  return send(ws, "ERROR", { message: "Not your turn to bid" });
 }
+if (type === "NIL_CHOICE") {
+  room.nilChoices = room.nilChoices || {};
+  room.bids = room.bids || {};
 
-return send(ws, "NIL_LOCKED", {
-  seat: client.seat
-});
+  room.nilChoices[client.seat] = payload.choice;
 
+  if (payload.choice === "NIL") {
+    room.bids[client.seat] = "NIL";
+  }
+
+  if (payload.choice === "SEE_CARDS") {
+    send(ws, "HAND_DEALT", {
+      seat: client.seat,
+      cards: room.hands[client.seat]
+    });
+  }
+
+  if (Object.keys(room.nilChoices).length === 4) {
+    const nextBid = { E: "N", N: "W", W: "S", S: null };
+
+    room.bidTurn = "E";
+
+    while (
+      room.bidTurn &&
+      room.bids[room.bidTurn] === "NIL"
+    ) {
+      room.bidTurn = nextBid[room.bidTurn];
+    }
+  }
+
+  if (payload.choice === "NIL") {
     return send(ws, "NIL_LOCKED", {
       seat: client.seat
     });
   }
 
-  if (payload.choice === "SEE_CARDS") {
-    return send(ws, "HAND_DEALT", {
-      seat: client.seat,
-      cards: room.hands[client.seat]
-    });
-  }
+  return;
 }
-    if (type === "BID_SUBMITTED" && client.seat !== room.bidTurn) {
-  return send(ws, "ERROR", { message: "Not your turn to bid" });
-}
+  
   if (type === "CARD_PLAYED" && client.seat !== room.playTurn) {
   return send(ws, "ERROR", {
     message: "Not your turn to play"
