@@ -342,7 +342,7 @@ if (trickPlays.length === 4) {
 }
 if (msg.type === "HAND_OVER") {
 document.getElementById("hand").innerHTML = "";
-  status.innerText =
+  status.innerText = msg.payload.message || "Game error ";
       
   "HAND OVER! " +
   msg.payload.winner +
@@ -355,7 +355,7 @@ document.getElementById("hand").innerHTML = "";
   " | EW Score: " + msg.payload.totalScore.EW;
 }
       if (msg.type === "ERROR") { 
-      status.innerTect =
+      status.innerText =
         msg.payload.message || "Game error";
     }
     }
