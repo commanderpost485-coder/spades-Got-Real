@@ -142,16 +142,7 @@ room.hands = {
   S: deck.slice(39, 52)
 };
 
-for (const seat of ["N", "E", "W", "S"]) {
-  const playerId = room.seats[seat];
-  const player = clients.get(playerId);
-
-  if (player) {
-    send(player.ws, "NIL_PROMT", {
-      seat,
-    });
-  }
-}
+broadcast(room, "NIK_PROMPT", {};
   return;
 }                     
 if(['NIL_CHOICE','BID_SUBMITTED','CARD_PLAYED'].includes(type)){
