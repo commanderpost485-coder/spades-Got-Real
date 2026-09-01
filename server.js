@@ -183,6 +183,17 @@ if (type === "NIL_CHOICE") {
     ) {
       room.bidTurn = nextBid[room.bidTurn];
     }
+    for (const seat of ["N", "E", "W", "S"]) {
+  const playerId = room.seats[seat];
+  const player = clients.get(playerId);
+
+  if (player) {
+    send(player.ws, "HAND_DEALT", {
+      seat: seat,
+      cards: room.hands[seat]
+    });
+  }
+}
   }
 
   if (payload.choice === "NIL") {
