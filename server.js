@@ -150,8 +150,24 @@ if(['NIL_CHOICE','BID_SUBMITTED','CARD_PLAYED'].includes(type)){
       if(payload.seat!==client.seat) return send(ws,'ERROR',{message:'Seat ownership mismatch'});
   if (type === "NIL_CHOICE") {
   if (payload.choice === "NIL") {
-    room.bids = room.bids || {};
-    room.bids[client.seat] = "NIL";
+room.bids = room.bids || {};
+room.bids[client.seat] = "NIL";
+
+const nextBid = { E: "N", N: "W", W: "S", S: null };
+
+if (room.bidTurn === client.seat) {
+  room.bidTurn = nextBid[client.seat];
+while (
+    room.bidTurn &&
+    room.bids[room.bidTurn] === "NIL"
+  ) {
+    room.bidTurn = nextBid[room.bidTurn];
+  }
+}
+
+return send(ws, "NIL_LOCKED", {
+  seat: client.seat
+});
 
     return send(ws, "NIL_LOCKED", {
       seat: client.seat
