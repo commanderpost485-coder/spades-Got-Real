@@ -269,7 +269,7 @@ document.getElementById("startGame").style.display = "none";
   if (msg.type === "BID_SUBMITTED") {
   if (msg.payload.seat === mySeat) {
 document.getElementById("bidding").style.display = "none";
-    status.innerText = "Bid submitted: " + msg.payload.bid;
+status.innerText = "Bid submitted: " + msg.payload.bid;
   }
 }
 
@@ -277,17 +277,16 @@ if (msg.type === "NIL_PROMPT") {
 document.getElementById("nilChoice").style.display = "block";
   nilLicked = false;
 document.getElementById("bidding").style.display = "none";
-document.getElementById("hand").innerHTML = "";
-  status.innerText = "Choose NIL or PLAY";
+document.getElementById("hand").innerHTML = ""; status.innerText = "Choose NIL or PLAY";
 }
 
 if (msg.type === "NIL_LOCKED") {
   nilLocked = true;
 document.getElementById("nilChoice").style.display = "none";
-  status.innerText = "NIL locked in for 100 points";
+status.innerText = "NIL locked in for 100 points";
 }
-      if (msg.type === "HAND_DEALT") {
-   if (msg.payload.seat !== mySeat) return;
+if (msg.type === "HAND_DEALT") {
+if (msg.payload.seat !== mySeat) return;
 document.getElementById("nilChoice").style.display= "none";
 document.getElementById("biddling").style.display = nilLicked ? "none" : "block";
   const hand = 
@@ -322,7 +321,7 @@ hand.innerHTML = sortedCards
     .join("");
   status.innerText = "Cards dealt";
 }
-     if (msg.type === "CARD_PLAYED") {
+ if (msg.type === "CARD_PLAYED") {
   trickPlays.push(
   msg.payload.seat +
   " played " +
