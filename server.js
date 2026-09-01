@@ -142,7 +142,7 @@ room.hands = {
   S: deck.slice(39, 52)
 };
 
-broadcast(room, "NIL_PROMPT", {};
+broadcast(room, "NIL_PROMPT", {});
   return;
 }                     
 if(['NIL_CHOICE','BID_SUBMITTED','CARD_PLAYED'].includes(type)){
