@@ -292,7 +292,7 @@ status.innerText = "Bid submitted: " + msg.payload.bid;
 
 if (msg.type === "NIL_PROMPT") {
 document.getElementById("nilChoice").style.display = "block";
-  nilLicked = false;
+  nilLocked = false;
 document.getElementById("bidding").style.display = "none";
 document.getElementById("hand").innerHTML = ""; status.innerText = "Choose NIL or PLAY";
 }
@@ -305,7 +305,7 @@ status.innerText = "NIL locked in for 100 points";
 if (msg.type === "HAND_DEALT") {
 if (msg.payload.seat !== mySeat) return;
 document.getElementById("nilChoice").style.display= "none";
-document.getElementById("biddling").style.display = nilLicked ? "none" : "block";
+document.getElementById("bidding").style.display = nilLocked ? "none" : "block";
   const hand = 
     document.getElementById("hand");
   const suitSymbols = {
