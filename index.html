@@ -240,8 +240,16 @@ socket.onerror = () => {
       const msg = JSON.parse(event.data);
   if (msg.type === "AUTH_OK") { 
  myPlayerId = msg.payload.playerId;
-    }   
-     
+ if (savedRoomCode && savedSeat) {
+    socket.send(JSON.stringify({
+      type: "REJOIN_ROOM",
+      payload: {
+        roomCode: savedRoomCode,
+        seat: savedSeat
+  }   
+    }));
+ }
+}
 if (msg.type === "ROOM_CREATED") { isHost = true;
 status.innerText = "Game created! Room  code: "+ msg.payload.roomCode;
 mySeat = msg.payload.seat;
