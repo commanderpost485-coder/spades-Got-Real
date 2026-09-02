@@ -221,7 +221,7 @@ let nilLocked = false;
 let savedRoomCode = localStorage.getItem("roomCode");
 let savedSeat = localStorage.getItem("seat");
 
-const socket = new WebSocket("wss://spades-got-real-1.onrender.com");
+const socket = new WebSocket("wss://spades-got-real.onrender.com");
 socket.onopen = () => {
 status.innerText = "Connected - Ready to Play!";
        socket.send(JSON.stringify({type:'AUTH'}));
