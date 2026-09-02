@@ -59,7 +59,7 @@ res.writeHead(200, {'Content-Type':'text/html;charset=utf-8'});
   res.end(JSON.stringify({error:'not_found'}));
 });
 
-const wss=new WebSocket.WebSocketServer({server});
+const wss = new WebSocket.Server({ server });
 
 wss.on('connection',ws=>{
   const client={ws,playerId:null,roomCode:null,seat:null};
