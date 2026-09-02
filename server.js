@@ -115,7 +115,44 @@ broadcast(room, "PLAYER_JOINED", joinPayload);
 send(ws, "PLAYER_JOINED", joinPayload);
 return;
     }
-    if (type === 'START_GAME') {
+   if (type === 'REJOIN_ROOM') {
+  const code = String(payload.roomCode || '').toUpperCase();
+  const seat = payload.seat;
+
+  const room = rooms.get(code);
+
+  if (!room) {
+    return send(ws, 'ERROR', {
+      message: 'Room not found'
+    });
+  }
+
+  if (!['N', 'E', 'S', 'W'].includes(seat)) {
+    return send(ws, 'ERROR', {
+      message: 'Invalid seat'
+    });
+  }
+  room.seats[seat] = client.playerId;
+  client.roomCode = code;
+  client.seat = seat;
+
+  if (seat === 'S') {
+    room.hostId = client.playerId;
+  }
+
+  const rejoinPayload = {
+    roomCode: code,
+    playerId: client.playerId,
+    seat: seat,
+    seats: { ...room.seats }
+  };
+
+  broadcast(room, 'PLAYER_JOINED', rejoinPayload);
+  send(ws, 'PLAYER_JOINED', rejoinPayload);
+
+  return;
+}
+     if (type === 'START_GAME') {
   const room = rooms.get(client.roomCode);
 
   if (!room) {
