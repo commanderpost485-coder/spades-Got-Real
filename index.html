@@ -434,11 +434,12 @@ document.getElementById("startGame").style.display = "none";
   const code = prompt("Enter your game room code:");
 
   if (!code) return;
-      
+localStorage.removeItem("roomCode");
+localStorage.removeItem("seat"):
   socket.send(JSON.stringify({
     type: "JOIN_ROOM",
    payload: { roomCode: code.toUpperCase()
-            }}));
+  }}));
 
 status.innerText = "Joining game...";
   }
