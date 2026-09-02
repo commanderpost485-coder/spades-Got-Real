@@ -435,7 +435,7 @@ document.getElementById("startGame").style.display = "none";
 
   if (!code) return;
 localStorage.removeItem("roomCode");
-localStorage.removeItem("seat"):
+localStorage.removeItem("seat");
   socket.send(JSON.stringify({
     type: "JOIN_ROOM",
    payload: { roomCode: code.toUpperCase()
