@@ -260,7 +260,7 @@ localStorage.setItem("seat", msg.payload.seat);
       
       
 if (msg.type === "PLAYER_JOINED"){
-if (mag.payload.playerId === myPlayerId) {
+if (msg.payload.playerId === myPlayerId) {
   mySeat = msg.payload.seat;
   localStorage.setItem("roomCode", msg.payload.roomCode);
 localStorage.setItem("seat", msg.payload.seat);
