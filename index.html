@@ -216,19 +216,23 @@
 let mySeat = null;
 let myPlayerId = null;
 let trickPlays = [];
-    let nilLocked = false;
-    const socket = new WebSocket("wss://spades-got-real-1.onrender.com");
-  socket.onopen = () => {
-       status.innerText = "Connected - Ready to Play!";
+let nilLocked = false;
+    
+let savedRoomCode = localStorage.getItem("roomCode");
+let savedSeat = localStorage.getItem("seat");
+
+const socket = new WebSocket("wss://spades-got-real-1.onrender.com");
+socket.onopen = () => {
+status.innerText = "Connected - Ready to Play!";
        socket.send(JSON.stringify({type:'AUTH'}));
 };
 
   
 
 
-    socket.onerror = () => {
+socket.onerror = () => {
 
-      status.innerText = "Unable to connect to game server.";
+  status.innerText = "Unable to connect to game server.";
 
     };
 
