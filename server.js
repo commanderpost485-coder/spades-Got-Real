@@ -130,6 +130,41 @@ function finishHand(room) {
   });
 }
 
+function sendGameState(room, client) {
+  const totalTricks = room.tricks
+    ? Object.values(room.tricks).reduce((1qq, value) => sum + value, 0)
+    : 0;
+
+  let phase = "LOBBY";
+
+  if (room.hands) {
+    if (totalTricks === 13) phase = "HAND_OVER";
+    else if (room.bidTurn) phase = "BIDDING";
+    else phase = "PLAYING";
+  }
+
+  send(client.ws, "GAME_STATE", {
+    roomCode: room.code,
+    seat: client.seat,
+    seats: { ...room.seats },
+    isHost: client.playerId === room.hostId,
+    phase: phase,
+    handNumber: room.handNumber || 0,
+    scores: room.scores,
+    targetScore: room.targetScore,
+    bids: room.bids || {},
+    tricks: room.tricks || { N: 0, E: 0, S: 0, W: 0 },
+    bidTurn: room.bidTurn || null,
+    playTurn: room.playTurn || null,
+    nilChoice: room.nilChoices
+      ? room.nilChoices[client.seat]
+      : null,
+    cards: room.hands
+      ? room.hands[client.seat]
+      : [],
+    currentTrick: room.currentTrick || []
+  });
+}
 const INDEX = path.join(__dirname, "index.html");
 const server = http.createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
