@@ -148,13 +148,6 @@ function send(ws, type, payload = {}) {
 }
 
 function broadcast(room, type, payload = {}) {
-  function broadcastTableTalk(room) {
-  let message;
-
-  do {
-    message =
-      TABLE_TALK[Math.floor(Math.random() * TABLE_TALK.length)];
-  } while (message === room.lastTableTalk);
   const sent = new Set();
   for (const playerId of Object.values(room.seats)) {
     if (!playerId || sent.has(playerId)) continue;
