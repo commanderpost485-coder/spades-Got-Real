@@ -7,6 +7,16 @@
   <style>
     body { margin: 0; font-family: Arial, sans-serif; background: #111; color: white; text-align: center; }
     .container { max-width: 600px; margin: auto; padding: 24px 14px 50px; }
+    .game-logo {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  border-radius: 18px;
+}
+
+.game-active .game-logo {
+  max-width: 150px;
+}
     .spade { font-size: 58px; }
     h1 { font-size: 42px; margin: 0 0 4px; }
     .subtitle { color: #d4af37; font-size: 22px; font-weight: bold; letter-spacing: 2px; }
@@ -42,15 +52,6 @@
     <div>South: <span id="seatS">Open</span></div>
     <div>West: <span id="seatW">Open</span></div>
   </div>
-    <button class="create wide" onclick="createGame()">CREATE GAME</button>
-    <button class="join wide" onclick="joinGame()">JOIN GAME</button>
-
-    <div id="seats">
-      <div>North: <span id="seatN">Open</span></div>
-      <div>East: <span id="seatE">Open</span></div>
-      <div>South: <span id="seatS">Open</span></div>
-      <div>West: <span id="seatW">Open</span></div>
-    </div>
 
     <div id="matchSetup" class="hidden">
       <label for="targetScore">Play to:</label>
@@ -200,7 +201,6 @@
 
   updateSeats(p.seats);
   updateScore(p.scores, currentTarget);
-  updateScore(p.scores, currentTarget);
   updateBoards();
 
   show("nilChoice", false);
@@ -210,7 +210,7 @@
 
   if (p.phase !== "LOBBY") {
     document.querySelector(".create").style.display = "none";
-    document.budy.classList.add("game-active");
+    document.body.classList.add("game-active");
 document.querySelector(".join").style.display = "none";
     show("matchSetup", false);
     show("startGame", false);
