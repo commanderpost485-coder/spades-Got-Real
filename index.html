@@ -121,6 +121,90 @@
   font-size: 54px;
   transform: translate(-50%, -50%);
 }
+
+    .table-player {
+  --skin: #a86f4a;
+  --shirt: #7b1e2b;
+  padding: 34px 8px 6px;
+}
+
+.table-player::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 27px;
+  height: 27px;
+  background: var(--skin);
+  border: 2px solid #3a1d12;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.table-player::after {
+  content: "";
+  position: absolute;
+  top: 26px;
+  left: 50%;
+  width: 58px;
+  height: 29px;
+  background: var(--shirt);
+  border: 2px solid #351017;
+  border-radius: 25px 25px 8px 8px;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.table-player b {
+  position: relative;
+  z-index: 3;
+}
+
+.held-cards {
+  position: relative;
+  display: inline-block;
+  padding: 0 13px;
+  z-index: 4;
+}
+
+.held-cards::before,
+.held-cards::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  width: 12px;
+  height: 17px;
+  background: var(--skin);
+  border: 1px solid #3a1d12;
+  border-radius: 55%;
+  z-index: 5;
+}
+
+.held-cards::before {
+  left: 0;
+  transform: rotate(-25deg);
+}
+
+.held-cards::after {
+  right: 0;
+  transform: rotate(25deg);
+}
+
+.table-east {
+  --skin: #6f4028;
+  --shirt: #1e4f8b;
+}
+
+.table-south {
+  --skin: #9b603c;
+  --shirt: #6b2c91;
+}
+
+.table-west {
+  --skin: #d2a679;
+  --shirt: #2f6b3c;
+}
   @keyframes tableRumble {
   0%, 100% {
     transform: translate(0, 0);
