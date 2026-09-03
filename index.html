@@ -249,6 +249,16 @@ body.table-rumble .container {
     function show(id, visible = true) {
       document.getElementById(id).classList.toggle("hidden", !visible);
     }
+    function showRoomCode(roomCode) {
+  const roomCodeDisplay =
+    document.getElementById("roomCodeDisplay");
+
+  roomCodeDisplay.innerText =
+    `ROOM CODE: ${roomCode}`;
+
+  show("roomCodeDisplay", true);
+  show("exitGame", true);
+}
 function requestTalkChoices() {
   socket.send(JSON.stringify({ type: "GET_TALK_CHOICES" }));
 }
