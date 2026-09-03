@@ -407,7 +407,20 @@ document.querySelector(".create").style.display = "none";
       if (msg.type === "CARD_PLAYED") {
         tricks = p.tricks || tricks;
         trickPlays.push(`${p.seat} played ${p.card.rank}${p.card.suit}`);
-        if (trickPlays.length > 4) trickPlays.shift();
+        if (trickPlays.length > 4) {
+  trickPlays = [
+    trickPlays[trickPlays.length - 1]
+  ];
+}
+
+if (trickPlays.length === 4) {
+  setTimeout(() => {
+    if (trickPlays.length === 4) {
+      trickPlays = [];
+      statusEl.innerText = `${p.nextTurn}'s turn`;
+    }
+  }, 1500);
+}
         updateBoards();
         statusEl.innerText = `${trickPlays.join("\n")}\n${p.nextTurn}'s turn`;
       }
