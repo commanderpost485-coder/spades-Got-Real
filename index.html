@@ -98,7 +98,13 @@
     <button id="newMatch" class="wide hidden" onclick="newMatch()">START NEW MATCH</button>
     <div id="tableTalk" class="hidden"></div>
     <div id="talkChoices" class="hidden"></div>
-<button id="newTalk" class="wide hidden" onclick="requestTalkChoices()">NEW SAYINGS</button>
+<div id="customTalk" class="hidden">
+  <input id="customTalkInput" maxlength="80"
+    placeholder="Type your own saying">
+  <button type="button"
+    onclick="sendCustomTalk()">SEND CUSTOM SAYING</button>
+</div>
+    <button id="newTalk" class="wide hidden" onclick="requestTalkChoices()">NEW SAYINGS</button>
     <div id="status">Connecting to game server...</div>
   </div>
 
