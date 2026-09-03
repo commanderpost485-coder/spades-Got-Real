@@ -193,6 +193,22 @@ if (msg.type === "TABLE_TALK") {
   tableTalk.innerText = p.message;
   show("tableTalk", true);
 }
+     if (msg.type === "TABLE_TALK_CHOICES") {
+  const talkChoices =
+    document.getElementById("talkChoices");
+
+  talkChoices.innerHTML = "";
+
+  for (const message of p.choices || []) {
+    const button = document.createElement("button");
+    button.textContent = message;
+    button.onclick = () => sendTableTalk(message);
+    talkChoices.appendChild(button);
+  }
+
+  show("talkChoices", true);
+  show("newTalk", true);
+}
       if (msg.type === "AUTH_OK") {
         myPlayerId = p.playerId;
         if (savedRoomCode && savedSeat) socket.send(JSON.stringify({ type: "REJOIN_ROOM", payload: { roomCode: savedRoomCode, seat: savedSeat } }));
