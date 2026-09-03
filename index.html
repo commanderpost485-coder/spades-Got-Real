@@ -463,7 +463,24 @@ if (trickPlays.length === 4) {
     function chooseNil() { socket.send(JSON.stringify({ type: "NIL_CHOICE", payload: { seat: mySeat, choice: "NIL" } })); }
     function seeCards() { socket.send(JSON.stringify({ type: "NIL_CHOICE", payload: { seat: mySeat, choice: "SEE_CARDS" } })); }
     function submitBid(bid) { socket.send(JSON.stringify({ type: "BID_SUBMITTED", payload: { seat: mySeat, bid } })); }
-    function playCard(rank, suit) { socket.send(JSON.stringify({ type: "CARD_PLAYED", payload: { seat: mySeat, card: { rank, suit } } })); }
+    function playCard(rank, suit) {
+  playCard.selected = { rank, suit };
+  show("throwCard", true);
+  statusEl.innerText = `${rank}${suit} selected`;
+}
+
+function throwDownCard() {
+  const card = playCard.selected;
+  if (!card) return;
+
+  socket.send(JSON.stringify({
+    type: "CARD_PLAYED",
+    payload: { seat: mySeat, card }
+  }));
+
+  playCard.selected = null;
+  show("throwCard", false);
+}
     function nextHand() { socket.send(JSON.stringify({ type: "NEXT_HAND" })); }
     function newMatch() {
       currentTarget = Number(document.getElementById("targetScore").value);
