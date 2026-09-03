@@ -381,6 +381,7 @@ if (msg.type === "TABLE_TALK") {
     if (msg.type === "GAME_STATE") {
   mySeat = p.seat;
   isHost = Boolean(p.isHost);
+      showRoomCode(p.roomCode);
   bids = p.bids || {};
   myBid = bids[mySeat] === undefined
     ? null
