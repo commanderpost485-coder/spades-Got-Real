@@ -132,7 +132,7 @@ function finishHand(room) {
 
 function sendGameState(room, client) {
   const totalTricks = room.tricks
-    ? Object.values(room.tricks).reduce((1qq, value) => sum + value, 0)
+    ? Object.values(room.tricks).reduce((sum, value) => sum + value, 0)
     : 0;
 
   let phase = "LOBBY";
