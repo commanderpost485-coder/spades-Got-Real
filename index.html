@@ -472,9 +472,12 @@ if (trickPlays.length === 4) {
 
       if (msg.type === "ERROR") {
   if (p.message === "Room not found") {
-    localStorage.removeItem("roomCode");
+localStorage.removeItem("roomCode");
     localStorage.removeItem("seat");
     mySeat = null;
+    statusEl.innerText =
+  "Choose CREATE GAME or JOIN GAME";
+return;
   }
 
   statusEl.innerText =
