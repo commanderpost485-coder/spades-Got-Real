@@ -426,6 +426,13 @@ document.querySelector(".create").style.display = "none";
       }
 
       if (msg.type === "CARD_PLAYED") {
+    document.body.classList.remove("table-rumble");
+void document.body.offsetWidth;
+document.body.classList.add("table-rumble");
+
+setTimeout(() => {
+document.body.classList.remove("table-rumble");
+}, 350);
         tricks = p.tricks || tricks;
         trickPlays.push(`${p.seat} played ${p.card.rank}${p.card.suit}`);
         if (trickPlays.length > 4) {
