@@ -444,7 +444,16 @@ if (trickPlays.length === 4) {
         }
       }
 
-      if (msg.type === "ERROR") statusEl.innerText = p.message || "Game error";
+      if (msg.type === "ERROR") {
+  if (p.message === "Room not found") {
+    localStorage.removeItem("roomCode");
+    localStorage.removeItem("seat");
+    mySeat = null;
+  }
+
+  statusEl.innerText =
+    p.message || "Game error";
+}
     };
 
     function createGame() { socket.send(JSON.stringify({ type: "CREATE_ROOM" })); statusEl.innerText = "Creating game..."; }
