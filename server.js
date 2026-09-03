@@ -235,10 +235,11 @@ wss.on("connection", ws => {
       client.roomCode = code;
       client.seat = seat;
       if (seat === "S") room.hostId = client.playerId;
-      return broadcast(room, "PLAYER_JOINED", {
+      broadcast(room, "PLAYER_JOINED", {
         roomCode: code, playerId: client.playerId,
-        seat, seats: { ...room.seats }
-      });
+        seat, seats: { ...room.seats });
+    sendGameState(room, client);
+    retutn;
     }
 
     const room = rooms.get(client.roomCode);
