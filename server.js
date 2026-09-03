@@ -167,6 +167,12 @@ function broadcastTableTalk(room) {
   room.lastTableTalk = message;
   broadcast(room, "TABLE_TALK", { message });
 }
+function getTalkChoices(room) {
+  return TABLE_TALK
+    .filter(message => message !== room.lastTableTalk)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
+}
 function seatClient(room, seat) {
   return clients.get(room.seats[seat]);
 }
