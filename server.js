@@ -370,7 +370,25 @@ wss.on("connection", ws => {
 
     const room = rooms.get(client.roomCode);
     if (!room) return send(ws, "ERROR", { message: "No active room" });
+if (type === "GET_TALK_CHOICES") {
+  return send(ws, "TABLE_TALK_CHOICES", {
+    choices: getTalkChoices(room)
+  });
+}
 
+if (type === "SEND_TABLE_TALK") {
+  const message = String(payload.message || "");
+
+  if (!TABLE_TALK.includes(message)) {
+    return send(ws, "ERROR", {
+      message: "Invalid saying"
+    });
+  }
+
+  room.lastTableTalk = message;
+  broadcast(room, "TABLE_TALK", { message });
+  return;
+}
     if (type === "START_GAME" || type === "NEW_MATCH") {
       if (client.playerId !== room.hostId) return send(ws, "ERROR", { message: "Only the host can start" });
       if (!room.seats.N || !room.seats.E || !room.seats.S || !room.seats.W) {
