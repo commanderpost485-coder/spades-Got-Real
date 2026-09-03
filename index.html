@@ -31,6 +31,17 @@
     <div class="subtitle">BADAZZ SPADES</div>
     <div class="tagline">Talk yo ish. Bid big. Don't get set.</div>
 
+   <img class="game-logo" src="https://raw.githubusercontent.com/commanderpost485-coder/spades-Got-Real/main/file_00000000015481fb92483bd950b979d0.jpg" alt="MuthaSpades BADAZZ SPADES">
+
+  <button class="create wide" onclick="createGame()">CREATE GAME</button>
+  <button class="join wide" onclick="joinGame()">JOIN GAME</button>
+
+  <div id="seats">
+    <div>North: <span id="seatN">Open</span></div>
+    <div>East: <span id="seatE">Open</span></div>
+    <div>South: <span id="seatS">Open</span></div>
+    <div>West: <span id="seatW">Open</span></div>
+  </div>
     <button class="create wide" onclick="createGame()">CREATE GAME</button>
     <button class="join wide" onclick="joinGame()">JOIN GAME</button>
 
@@ -199,7 +210,8 @@
 
   if (p.phase !== "LOBBY") {
     document.querySelector(".create").style.display = "none";
-    document.querySelector(".join").style.display = "none";
+    document.budy.classList.add("game-active");
+document.querySelector(".join").style.display = "none";
     show("matchSetup", false);
     show("startGame", false);
     renderHand(p.cards || []);
@@ -249,6 +261,7 @@
   }
 }
        if (msg.type === "GAME_STARTED") {
+document.body.classList.add("game-active");
       currentTarget = p.targetScore;
         document.querySelector(".create").style.display = "none";
         document.querySelector(".join").style.display = "none";
