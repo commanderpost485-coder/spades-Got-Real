@@ -146,6 +146,16 @@ function sendTableTalk(message) {
   show("talkChoices", false);
   show("newTalk", true);
 }
+    function sendCustomTalk() {
+  const input =
+    document.getElementById("customTalkInput");
+  const message = input.value.trim();
+
+  if (!message) return;
+
+  sendTableTalk(message);
+  input.value = "";
+}
     function updateSeats(seats) {
       for (const seat of ["N", "E", "S", "W"]) {
         document.getElementById(`seat${seat}`).innerText = seats[seat] ? "Occupied" : "Open";
