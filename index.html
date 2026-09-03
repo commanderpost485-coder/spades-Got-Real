@@ -445,10 +445,11 @@ document.querySelector(".join").style.display = "none";
 }
        if (msg.type === "GAME_STARTED") {
 document.body.classList.add("game-active");
-         requestTalkChoices();
+      requestTalkChoices();
+      show("cardTable", true);
       currentTarget = p.targetScore;
 document.querySelector(".create").style.display = "none";
-        document.querySelector(".join").style.display = "none";
+document.querySelector(".join").style.display = "none";
         show("matchSetup", false);
         show("startGame", false);
         updateScore({ NS: 0, EW: 0 }, currentTarget);
