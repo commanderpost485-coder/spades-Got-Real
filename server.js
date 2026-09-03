@@ -9,6 +9,114 @@ const rooms = new Map();
 const clients = new Map();
 const BID_NEXT = { E: "N", N: "W", W: "S", S: null };
 const PLAY_NEXT = { E: "N", N: "W", W: "S", S: "E" };
+const TABLE_TALK = `
+Let’s see how high you wanna go—jump, Judy, jump!
+Get that weak shit off the table!
+Time to run them spades!
+Go play at the children’s table—you’re not ready for grown folk!
+Time to ride that train to Boston!
+We not trying to stop no floods—bid your damn hand!
+Y’all picked the wrong table today!
+This ain’t a game—this is a lesson!
+Somebody call for backup!
+We cookin’ now!
+Keep dealing—I ain’t done yet!
+Y’all just spectators at this point!
+Sit back and watch how it’s done!
+This table belongs to me!
+Ain’t nobody safe!
+I came to collect books, not feelings!
+Another one! Keep ’em coming!
+Y’all brought cards to a beatdown!
+I’m handing out lessons for free!
+Who’s next?!
+Talk yo ish now!
+BADAZZ SPADES in full effect!
+MuthaSpades came to work!
+Don’t get quiet now—keep that same energy!
+I know somebody mad over there!
+Pack it up—this table is closed!
+Friendly fire!
+Wrong enemy, partner!
+You just robbed your own house!
+Save that smoke for the other team!
+Partner, why you cutting MuthaSpades?!
+Class is in session—bring dat ass and let the whoppings commence!
+Partner, we wear the same jersey!
+Why are you fighting me and helping them?
+That was our book, partner!
+You just set your own teammate!
+Partner, put the knife down!
+Stop cutting your partner!
+We have enough enemies across the table!
+Partner, whose side are you on?
+That card had our name on it!
+You stole my book and gave them the next one!
+Partner, read the table!
+You cut me like I owed you money!
+Quit shooting at your own team!
+That was not the time to get fancy!
+Partner, you just opened the door for them!
+You threw away a guaranteed book!
+Partner, I was already winning that!
+Why waste a spade on your own partner?
+You burned a spade for nothing!
+That play hurt us more than them!
+Partner, please pay attention!
+You just helped the enemy!
+Keep playing like that and we both going down!
+That was a donation to the other team!
+You took my book and handed them control!
+Partner, I need you over here with me!
+That card belonged in somebody else’s trick!
+We are partners, not opponents!
+You cutting me again? That’s personal!
+I can’t fight three people at this table!
+Partner, stop making their job easy!
+Thank you for the gift!
+That book belongs to us now!
+Come get this work!
+You should have stayed home today!
+Don’t look at your partner—this was your fault!
+That card couldn’t save you!
+You played yourself!
+Your bid is looking real suspicious!
+All that talking and no books!
+Where did your confidence go?
+We about to set y’all!
+Your books are drying up!
+I hope you counted correctly!
+That nil is in danger!
+We see that nil hiding over there!
+Your partner cannot save you!
+You better protect that bid!
+That book just changed addresses!
+We taking everything that isn’t nailed down!
+That little card was cute!
+You thought that was going to win?
+Not at this table!
+Your high card just got introduced to a higher one!
+That ace had a short life!
+Your king just got dethroned!
+The queen said move over!
+That joker came to collect!
+We pulling every spade out of your hand!
+Your bid is about to become a wish!
+You are one book away from trouble!
+The set is coming—can you feel it?
+Keep smiling; the scorekeeper knows the truth!
+No mercy at the MuthaSpades table!
+Y’all are officially on bag patrol!
+Stop collecting bags and start collecting books!
+That bid was pure fiction!
+You ordered books we don’t have in stock!
+The enemy is getting nervous!
+Don’t blame the cards—blame that play!
+That was a rookie move at a grown-folks table!
+You talked big and played small!
+We came for the win and stayed for the lesson!
+MuthaSpades just shut that down!
+`.trim().split("\n");
 
 function id(prefix = "id") {
   return `${prefix}_${crypto.randomBytes(8).toString("hex")}`;
@@ -40,6 +148,13 @@ function send(ws, type, payload = {}) {
 }
 
 function broadcast(room, type, payload = {}) {
+  function broadcastTableTalk(room) {
+  let message;
+
+  do {
+    message =
+      TABLE_TALK[Math.floor(Math.random() * TABLE_TALK.length)];
+  } while (message === room.lastTableTalk);
   const sent = new Set();
   for (const playerId of Object.values(room.seats)) {
     if (!playerId || sent.has(playerId)) continue;
@@ -48,7 +163,17 @@ function broadcast(room, type, payload = {}) {
     if (player) send(player.ws, type, payload);
   }
 }
+function broadcastTableTalk(room) {
+  let message;
 
+  do {
+    message =
+      TABLE_TALK[Math.floor(Math.random() * TABLE_TALK.length)];
+  } while (message === room.lastTableTalk);
+
+  room.lastTableTalk = message;
+  broadcast(room, "TABLE_TALK", { message });
+}
 function seatClient(room, seat) {
   return clients.get(room.seats[seat]);
 }
@@ -78,6 +203,7 @@ function promptBidder(room) {
 
 function advanceBid(room) {
   room.bidTurn = BID_NEXT[room.bidTurn];
+  broadcastTableTalk(room);
   promptBidder(room);
 }
 
@@ -334,6 +460,7 @@ wss.on("connection", ws => {
         seat: client.seat, card: playedCard,
         nextTurn: room.playTurn, tricks: room.tricks, bids: room.bids
       });
+      if (room.currentTrick.length === 0) broadcastTableTalk(room);
       if (handOver) finishHand(room);
       return;
     }
