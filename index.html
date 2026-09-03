@@ -128,7 +128,18 @@
     function show(id, visible = true) {
       document.getElementById(id).classList.toggle("hidden", !visible);
     }
+function requestTalkChoices() {
+  socket.send(JSON.stringify({ type: "GET_TALK_CHOICES" }));
+}
 
+function sendTableTalk(message) {
+  socket.send(JSON.stringify({
+    type: "SEND_TABLE_TALK",
+    payload: { message }
+  }));
+  show("talkChoices", false);
+  show("newTalk", true);
+}
     function updateSeats(seats) {
       for (const seat of ["N", "E", "S", "W"]) {
         document.getElementById(`seat${seat}`).innerText = seats[seat] ? "Occupied" : "Open";
