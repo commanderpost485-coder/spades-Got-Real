@@ -476,9 +476,8 @@ if (type === "SEND_TABLE_TALK") {
         seat: client.seat, card: playedCard,
         nextTurn: room.playTurn, tricks: room.tricks, bids: room.bids
       });
-      if (room.currentTrick.length === 0) broadcastTableTalk(room);
       if (handOver) finishHand(room);
-      return;
+return;
     }
 
     send(ws, "ERROR", { message: "Unknown action" });
