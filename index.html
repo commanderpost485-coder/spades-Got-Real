@@ -169,9 +169,87 @@
       }
 
       if (msg.type === "PLAYER_DISCONNECTED") updateSeats(p.seats);
+    if (msg.type === "GAME_STATE") {
+  mySeat = p.seat;
+  isHost = Boolean(p.isHost);
+  bids = p.bids || {};
+  myBid = bids[mySeat] === undefined
+    ? null
+    : bids[mySeat];
+  tricks = p.tricks || {
+    N: 0,
+    E: 0,
+    S: 0,
+    W: 0
+  };
+  currentTarget = p.targetScore || 500;
 
-      if (msg.type === "GAME_STARTED") {
-        currentTarget = p.targetScore;
+  localStorage.setItem("roomCode", p.roomCode);
+  localStorage.setItem("seat", mySeat);
+
+  updateSeats(p.seats);
+  updateScore(p.scores, currentTarget);
+  updateScore(p.scores, currentTarget);
+  updateBoards();
+
+  show("nilChoice", false);
+  show("bidding", false);
+  show("nextHand", false);
+  show("newMatch", false);
+
+  if (p.phase !== "LOBBY") {
+    document.querySelector(".create").style.display = "none";
+    document.querySelector(".join").style.display = "none";
+    show("matchSetup", false);
+    show("startGame", false);
+    renderHand(p.cards || []);
+  }
+
+  if (p.phase === "LOBBY") {
+    statusEl.innerText =
+      `Rejoined room: ${p.roomCode}`;
+  } else if (p.phase === "BIDDING") {
+    if (p.bidTurn === mySeat && !p.nilChoice) {
+      show("nilChoice", true);
+    }
+
+    if (
+      p.bidTurn === mySeat &&
+      p.nilChoice === "SEE_CARDS" &&
+      myBid === null
+    ) {
+      show("bidding", true);
+    }
+
+    statusEl.innerText =
+      p.bidTurn === mySeat
+        ? "Your turn to bid"
+        : `${p.bidTurn}'s turn to bid`;
+  } else if (p.phase === "PLAYING") {
+    statusEl.innerText =
+      p.playTurn === mySeat
+        ? "Your turn to play"
+        : `${p.playTurn}'s turn`;
+  } else if (p.phase === "HAND_OVER") {
+    document.getElementById("hand").innerHTML = "";
+    statusEl.innerText = "Hand over.";
+
+    if (isHost) {
+      const gameOver =
+        p.scores.NS >= currentTarget ||
+        p.scores.EW >= currentTarget;
+
+      if (gameOver) {
+        show("matchSetup", true);
+        show("newMatch", true);
+      } else {
+        show("nextHand", true);
+      }
+    }
+  }
+}
+       if (msg.type === "GAME_STARTED") {
+      currentTarget = p.targetScore;
         document.querySelector(".create").style.display = "none";
         document.querySelector(".join").style.display = "none";
         show("matchSetup", false);
