@@ -202,7 +202,6 @@ function promptBidder(room) {
 
 function advanceBid(room) {
   room.bidTurn = BID_NEXT[room.bidTurn];
-  broadcastTableTalk(room);
   promptBidder(room);
 }
 
