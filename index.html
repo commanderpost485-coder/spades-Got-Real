@@ -593,7 +593,11 @@ return;
     p.message || "Game error";
 }
     };
-
+function exitGame() {
+  localStorage.removeItem("roomCode");
+  localStorage.removeItem("seat");
+  window.location.reload();
+}
     function createGame() { socket.send(JSON.stringify({ type: "CREATE_ROOM" })); statusEl.innerText = "Creating game..."; }
     function joinGame() {
       const code = prompt("Enter your game room code:");
