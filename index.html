@@ -31,6 +31,16 @@
     #hand { margin-top: 15px; }
     #hand button { width: 64px; height: 90px; padding: 6px; margin: 3px; background: linear-gradient(145deg,#fff,#f3f3f3); color: #111; border: 1px solid #bbb; border-radius: 7px; font-family: Georgia,"Times New Roman",serif; font-size: 22px; font-weight: bold; vertical-align: top; box-shadow: 0 3px 7px rgba(0,0,0,.45); }
     #status { margin-top: 20px; font-size: 18px; white-space: pre-line; }
+    #tableTalk {
+  margin: 18px 0;
+  padding: 14px;
+  color: #ffd700;
+  background: #300;
+  border: 2px solid #d4af37;
+  border-radius: 12px;
+  font-size: 21px;
+  font-weight: bold;
+}
     .hidden { display: none; }
   </style>
 </head>
@@ -76,7 +86,7 @@
 
     <button id="nextHand" class="wide hidden" onclick="nextHand()">START NEXT HAND</button>
     <button id="newMatch" class="wide hidden" onclick="newMatch()">START NEW MATCH</button>
-
+    <div id="tableTalk" class"hidden"></div>
     <div id="status">Connecting to game server...</div>
   </div>
 
@@ -155,7 +165,11 @@
     socket.onmessage = event => {
       const msg = JSON.parse(event.data);
       const p = msg.payload || {};
-
+if (msg.type === "TABLE_TALK") {
+  const tableTalk = document.getElementById("tableTalk");
+  tableTalk.innerText = p.message;
+  show("tableTalk", true);
+}
       if (msg.type === "AUTH_OK") {
         myPlayerId = p.playerId;
         if (savedRoomCode && savedSeat) socket.send(JSON.stringify({ type: "REJOIN_ROOM", payload: { roomCode: savedRoomCode, seat: savedSeat } }));
