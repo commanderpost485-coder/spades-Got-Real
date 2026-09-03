@@ -376,14 +376,17 @@ if (type === "GET_TALK_CHOICES") {
 }
 
 if (type === "SEND_TABLE_TALK") {
-  const message = String(payload.message || "");
+  const message =
+  String(payload.message || "").trim();
 
-  if (!TABLE_TALK.includes(message)) {
-    return send(ws, "ERROR", {
-      message: "Invalid saying"
-    });
-  }
-
+if (
+  !message ||
+  (!TABLE_TALK.includes(message) && message.length > 80)
+) {
+  return send(ws, "ERROR", {
+    message: "Saying must be 1 to 80 characters"
+  });
+}
   room.lastTableTalk = message;
   broadcast(room, "TABLE_TALK", { message });
   return;
