@@ -363,6 +363,7 @@ if (msg.type === "TABLE_TALK") {
         localStorage.setItem("seat", p.seat);
         statusEl.innerText = `Game created! Room code: ${p.roomCode}`;
         updateSeats(p.seats);
+        showRoomCode(p.roomCode);
       }
 
       if (msg.type === "PLAYER_JOINED") {
@@ -373,6 +374,7 @@ if (msg.type === "TABLE_TALK") {
         }
         statusEl.innerText = `Joined room: ${p.roomCode}`;
         updateSeats(p.seats);
+        showRoomCode(p.roomCode);
       }
 
       if (msg.type === "PLAYER_DISCONNECTED") updateSeats(p.seats);
