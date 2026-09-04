@@ -200,12 +200,18 @@ body.game-active #status {
   transform: translateY(-50%);
 }
 
-.held-cards {
-  margin-top: 3px;
-  color: #c91524;
-  font-size: 25px;
-  letter-spacing: -7px;
+  .held-cards {
+  margin-top: 6px;
+  width: 70px;
+  height: 32px;
+  color: transparent;
+  font-size: 0;
   white-space: nowrap;
+  background:
+    repeating-linear-gradient(45deg, #d71920 0 3px, #5b0d12 3px 6px) 0 4px / 18px 26px no-repeat,
+    repeating-linear-gradient(45deg, #d71920 0 3px, #5b0d12 3px 6px) 13px 2px / 18px 26px no-repeat,
+    repeating-linear-gradient(45deg, #d71920 0 3px, #5b0d12 3px 6px) 26px 2px / 18px 26px no-repeat,
+    repeating-linear-gradient(45deg, #d71920 0 3px, #5b0d12 3px 6px) 39px 4px / 18px 26px no-repeat;
 }
 
 .table-center {
