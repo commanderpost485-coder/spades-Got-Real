@@ -78,10 +78,10 @@ body.game-active #exitGame {
     body.game-active .container {
   display: flex;
   flex-direction: column;
-}q
+}
 
 body.game-active #status {
-  order: 1;
+  order: 7;
 }
 
 body.game-active #nilChoice,
@@ -119,6 +119,25 @@ body.game-active #talkChoices,
 body.game-active #customTalk,
 body.game-active #newTalk {
   order: 9;
+}
+    body.game-active #scoreBoard,
+body.game-active #bidBoard,
+body.game-active #status {
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  background: #222;
+  border-radius: 0;
+}
+
+body.game-active #scoreBoard {
+  margin-top: 18px;
+  border-radius: 10px 10px 0 0;
+}
+
+body.game-active #status {
+  padding: 10px;
+  border-radius: 0 0 10px 10px;
 }
     .hidden { display: none; }
     .card-table {
