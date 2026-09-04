@@ -407,6 +407,7 @@ document.getElementById("matchSetup")
     let tricks = { N: 0, E: 0, S: 0, W: 0 };
     let trickPlays = [];
     let currentTarget = 500;
+    let currentPlayTurn = null;
 
     const savedRoomCode = localStorage.getItem("roomCode");
     const savedSeat = localStorage.getItem("seat");
@@ -425,6 +426,20 @@ document.getElementById(id).classList.toggle("hidden", !visible);
   if (id === "cardTable") {
     document.body.classList.toggle("game-active", visible);
   }
+}
+    function updatePlayControls() {
+  const myTurn = currentPlayTurn === mySeat;
+  const button = document.getElementById("throwCard");
+
+  show("throwCard", Boolean(currentPlayTurn));
+  button.disabled = !myTurn || !playCard.selected;
+      button.textContent = playCard.selected
+  ? `THROW DOWN ${playCard.selected.rank}${playCard.selected.suit}`
+  : "THROW DOWN CARD";
+
+  document.querySelectorAll("#hand button").forEach(cardButton => {
+    cardButton.disabled = !myTurn;
+  });
 }
     function showRoomCode(roomCode) {
     const roomCodeDisplay = document.getElementById("roomCodeDisplay");
@@ -573,12 +588,16 @@ if (msg.type === "TABLE_TALK") {
     W: 0
   };
   currentTarget = p.targetScore || 500;
+      trickPlays = (p.currentTrick || []).map(play =>
+  `${play.seat} played ${play.card.rank}${play.card.suit}`
+);
 
   localStorage.setItem("roomCode", p.roomCode);
   localStorage.setItem("seat", mySeat);
 
   updateSeats(p.seats);
   updateScore(p.scores, currentTarget);
+  currentPlayTurn = p.playTurn || null;
   updateBoards();
 
   show("nilChoice", false);
@@ -618,10 +637,15 @@ document.querySelector(".join").style.display = "none";
         ? "Your turn to bid"
         : `${p.bidTurn}'s turn to bid`;
   } else if (p.phase === "PLAYING") {
-    statusEl.innerText =
-      p.playTurn === mySeat
-        ? "Your turn to play"
-        : `${p.playTurn}'s turn`;
+    currentPlayTurn = p.playTurn;
+updatePlayControls();
+    const turnText = p.playTurn === mySeat
+  ? "YOUR TURN TO PLAY"
+  : `NEXT PLAYER: ${p.playTurn}`;
+
+statusEl.innerText = trickPlays.length
+  ? `${trickPlays.join("\n")}\n${turnText}`
+  : turnText;
   } else if (p.phase === "HAND_OVER") {
     document.getElementById("hand").innerHTML = "";
     statusEl.innerText = "Hand over.";
@@ -657,7 +681,10 @@ document.querySelector(".join").style.display = "none";
         myBid = null;
         tricks = { N: 0, E: 0, S: 0, W: 0 };
         trickPlays = [];
-        document.getElementById("hand").innerHTML = "";
+        currentPlayTurn = null;
+playCard.selected = null;
+show("throwCard", false);
+document.getElementById("hand").innerHTML = "";
         show("nilChoice", false);
         show("bidding", false);
         show("nextHand", false);
@@ -668,6 +695,7 @@ document.querySelector(".join").style.display = "none";
       }
 
       if (msg.type === "BID_TURN") {
+        currentPlayTurn = null;
         bids = p.bids || bids;
         updateBoards();
         show("nilChoice", false);
@@ -708,6 +736,9 @@ document.querySelector(".join").style.display = "none";
       if (msg.type === "BIDDING_COMPLETE") {
         bids = p.bids;
         tricks = p.tricks;
+        currentPlayTurn = p.playTurn;
+        playCard.selected = null;
+updatePlayControls();
         show("bidding", false);
         show("nilChoice", false);
         updateBoards();
@@ -715,6 +746,9 @@ document.querySelector(".join").style.display = "none";
       }
 
       if (msg.type === "CARD_PLAYED") {
+        currentPlayTurn = p.nextTurn;
+playCard.selected = null;
+updatePlayControls();
     document.body.classList.remove("table-rumble");
 void document.body.offsetWidth;
 document.body.classList.add("table-rumble");
@@ -730,19 +764,15 @@ document.body.classList.remove("table-rumble");
   ];
 }
 
-if (trickPlays.length === 4) {
-  setTimeout(() => {
-    if (trickPlays.length === 4) {
-      trickPlays = [];
-      statusEl.innerText = `${p.nextTurn}'s turn`;
-    }
-  }, 1500);
-}
         updateBoards();
-        statusEl.innerText = `${trickPlays.join("\n")}\n${p.nextTurn}'s turn`;
+        statusEl.innerText =
+  `${trickPlays.join("\n")}\nNEXT PLAYER: ${p.nextTurn}`;
       }
 
       if (msg.type === "HAND_OVER") {
+        currentPlayTurn = null;
+playCard.selected = null;
+show("throwCard", false);
         tricks = p.tricks;
         bids = p.bids;
         document.getElementById("hand").innerHTML = "";
@@ -794,25 +824,27 @@ function exitGame() {
     function chooseNil() { socket.send(JSON.stringify({ type: "NIL_CHOICE", payload: { seat: mySeat, choice: "NIL" } })); }
     function seeCards() { socket.send(JSON.stringify({ type: "NIL_CHOICE", payload: { seat: mySeat, choice: "SEE_CARDS" } })); }
     function submitBid(bid) { socket.send(JSON.stringify({ type: "BID_SUBMITTED", payload: { seat: mySeat, bid } })); }
-    function playCard(rank, suit) {
+  function playCard(rank, suit) {
+  if (currentPlayTurn !== mySeat) return;
+
   playCard.selected = { rank, suit };
-  show("throwCard", true);
-  statusEl.innerText = `${rank}${suit} selected`;
-}
+  updatePlayControls();
+  }
 
 function throwDownCard() {
   const card = playCard.selected;
   if (!card) return;
-
+  
+if (currentPlayTurn !== mySeat) return;
   socket.send(JSON.stringify({
     type: "CARD_PLAYED",
     payload: { seat: mySeat, card }
   }));
 
   playCard.selected = null;
-  show("throwCard", false);
+  updatePlayControls();
 }
-    function nextHand() { socket.send(JSON.stringify({ type: "NEXT_HAND" })); }
+    function nextHand() { socket.send(JSON.stringify({ type:cfgf is "NEXT_HAND" })); }
     function newMatch() {
       currentTarget = Number(document.getElementById("targetScore").value);
       socket.send(JSON.stringify({ type: "NEW_MATCH", payload: { targetScore: currentTarget } }));
