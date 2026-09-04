@@ -74,6 +74,51 @@ body.game-active #roomCodeDisplay,
 body.game-active #exitGame {
   display: none;
 }
+    body.game-active .container {
+  display: flex;
+  flex-direction: column;
+}
+
+body.game-active #status {
+  order: 1;
+}
+
+body.game-active #nilChoice,
+body.game-active #bidding {
+  order: 2;
+}
+
+body.game-active #hand {
+  order: 3;
+}
+
+body.game-active #throwCard {
+  order: 4;
+}
+
+body.game-active #cardTable {
+  order: 5;
+}
+
+body.game-active #scoreBoard {
+  order: 6;
+}
+
+body.game-active #bidBoard {
+  order: 7;
+}
+
+body.game-active #nextHand,
+body.game-active #newMatch {
+  order: 8;
+}
+
+body.game-active #tableTalk,
+body.game-active #talkChoices,
+body.game-active #customTalk,
+body.game-active #newTalk {
+  order: 9;
+}
     .hidden { display: none; }
     .card-table {
   position: relative;
