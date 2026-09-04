@@ -343,10 +343,12 @@ wss.on("connection", ws => {
       room.seats[seat] = client.playerId;
       client.roomCode = code;
       client.seat = seat;
-      return broadcast(room, "PLAYER_JOINED", {
+      broadcast(room, "PLAYER_JOINED", {
         roomCode: code, playerId: client.playerId,
         seat, seats: { ...room.seats }
       });
+      sendGameState(room, client);
+return;
     }
 
     if (type === "REJOIN_ROOM") {
