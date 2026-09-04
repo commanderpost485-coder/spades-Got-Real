@@ -367,7 +367,11 @@ function sendTableTalk(message) {
 }
     function updateSeats(seats) {
       for (const seat of ["N", "E", "S", "W"]) {
-        document.getElementById(`seat${seat}`).innerText = seats[seat] ? "Occupied" : "Open";
+        document.getElementById(`seat${seat}`).innerText =
+  (document.body.classList.contains("game-active") ||
+    seats[seat])
+    ? "Occupied"
+    : "Open";
       }
       const full = seats.N && seats.E && seats.S && seats.W;
       if (isHost) {
