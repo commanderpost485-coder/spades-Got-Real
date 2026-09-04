@@ -91,7 +91,7 @@ body.game-active #bidding {
 body.game-active #hand {
   order: 3;
 }
-
+body.game-active #playCardButton,
 body.game-active #throwCard {
   order: 4;
 }
@@ -376,7 +376,10 @@ body.table-rumble .container {
     </div>
 
     <div id="hand"></div>
-    <button id="throwCard" class="wide hidden"
+    <button id="playCardButton" class="wide hidden"
+  onclick="playSelectedCard()">PLAY CARD</button>
+
+<button id="throwCard" class="wide hidden"
   onclick="throwDownCard()">THROW DOWN CARD</button>
     <div id="bidding" class="hidden"></div>
 
@@ -429,13 +432,24 @@ document.getElementById(id).classList.toggle("hidden", !visible);
 }
     function updatePlayControls() {
   const myTurn = currentPlayTurn === mySeat;
-  const button = document.getElementById("throwCard");
+  const playButton = document.getElementById("playCardButton");
+  const throwButton = document.getElementById("throwCard");
+  const selected = playCard.selected;
+  const disabled = !myTurn || !selected;
 
+  show("playCardButton", Boolean(currentPlayTurn));
   show("throwCard", Boolean(currentPlayTurn));
-  button.disabled = !myTurn || !playCard.selected;
-      button.textContent = playCard.selected
-  ? `THROW DOWN ${playCard.selected.rank}${playCard.selected.suit}`
-  : "THROW DOWN CARD";
+
+  playButton.disabled = disabled;
+  throwButton.disabled = disabled;
+
+  playButton.textContent = selected
+    ? `PLAY ${selected.rank}${selected.suit}`
+    : "PLAY CARD";
+
+  throwButton.textContent = selected
+    ? `THROW DOWN ${selected.rank}${selected.suit}`
+    : "THROW DOWN CARD";
 
   document.querySelectorAll("#hand button").forEach(cardButton => {
     cardButton.disabled = !myTurn;
@@ -749,13 +763,15 @@ updatePlayControls();
         currentPlayTurn = p.nextTurn;
 playCard.selected = null;
 updatePlayControls();
-    document.body.classList.remove("table-rumble");
-void document.body.offsetWidth;
-document.body.classList.add("table-rumble");
+    if (p.playStyle === "throw") {
+  document.body.classList.remove("table-rumble");
+  void document.body.offsetWidth;
+  document.body.classList.add("table-rumble");
 
-setTimeout(() => {
-document.body.classList.remove("table-rumble");
-}, 350);
+  setTimeout(() => {
+    document.body.classList.remove("table-rumble");
+  }, 350);
+}
         tricks = p.tricks || tricks;
         trickPlays.push(`${p.seat} played ${p.card.rank}${p.card.suit}`);
         if (trickPlays.length > 4) {
@@ -831,18 +847,29 @@ function exitGame() {
   updatePlayControls();
   }
 
-function throwDownCard() {
+function sendSelectedCard(playStyle) {
   const card = playCard.selected;
-  if (!card) return;
-  
-if (currentPlayTurn !== mySeat) return;
+  if (!card || currentPlayTurn !== mySeat) return;
+
   socket.send(JSON.stringify({
     type: "CARD_PLAYED",
-    payload: { seat: mySeat, card }
+    payload: {
+      seat: mySeat,
+      card,
+      playStyle
+    }
   }));
 
   playCard.selected = null;
   updatePlayControls();
+}
+
+function playSelectedCard() {
+  sendSelectedCard("normal");
+}
+
+function throwDownCard() {
+  sendSelectedCard("throw");
 }
     function nextHand() { socket.send(JSON.stringify({ type: "NEXT_HAND" })); }
     function newMatch() {
