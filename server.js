@@ -454,6 +454,8 @@ if (
         const leadSuit = room.currentTrick[0].card.suit;
         const hasLeadSuit = hand.some(card => card.suit === leadSuit);
         if (hasLeadSuit && payload.card.suit !== leadSuit) return send(ws, "ERROR", { message: "You must follow suit" });
+}
+        
         const playedCard =
   hand.splice(cardIndex, 1)[0];
 
