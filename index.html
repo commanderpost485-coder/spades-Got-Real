@@ -399,10 +399,13 @@ body.table-rumble .container {
     }
 
     function show(id, visible = true) {
-      document.getElementById(id).classList.toggle("hidden", !visible);
-    }
+document.getElementById(id).classList.toggle("hidden", !visible);
+
+  if (id === "cardTable") {
+    document.body.classList.toggle("game-active", visible);
+  }
+}
     function showRoomCode(roomCode) {
-  const roomCodeDisplay =
     document.getElementById("roomCodeDisplay");
 
   roomCodeDisplay.innerText =
