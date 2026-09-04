@@ -567,8 +567,12 @@ send(ws, "ERROR", { message: "Unknown action" });
     const room = rooms.get(client.roomCode);
     if (room && client.seat && room.seats[client.seat] === client.playerId) {
       room.seats[client.seat] = null;
-      broadcast(room, "PLAYER_DISCONNECTED", { seat: client.seat, seats: room.seats });
-    }
+      broadcast(room, "PLAYER_DISCONNECTED", {
+  seat: client.seat,
+  seats: room.seats,
+  avatars: { ...(room.avatars || {}) },
+  playerNames: { ...(room.playerNames || {}) }
+});
   });
 });
 
