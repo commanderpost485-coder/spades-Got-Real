@@ -483,19 +483,19 @@ room.currentTrick.push({ seat:
       }
       sendHand(room, client.seat, false);
       broadcast(room, "CARD_PLAYED", {
-seat: client.seat,
-card: playedCard,
-playStyle,
-nextTurn: room.playTurn,
-tricks: room.tricks,
-bids: room.bids
+      seat: client.seat,
+      card: playedCard,
+      playStyle,
+      nextTurn: room.playTurn,
+      tricks: room.tricks,
+      bids: room.bids
       });
       if (handOver) finishHand(room);
 return;
-    }
+}
 
-    send(ws, "ERROR", { message: "Unknown action" });
-  });
+send(ws, "ERROR", { message: "Unknown action" });
+});
 
   ws.on("close", () => {
     if (client.playerId) clients.delete(client.playerId);
