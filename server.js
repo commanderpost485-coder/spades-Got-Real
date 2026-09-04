@@ -454,9 +454,14 @@ if (
         const leadSuit = room.currentTrick[0].card.suit;
         const hasLeadSuit = hand.some(card => card.suit === leadSuit);
         if (hasLeadSuit && payload.card.suit !== leadSuit) return send(ws, "ERROR", { message: "You must follow suit" });
-      }
-      const playedCard = hand.splice(cardIndex, 1)[0];
-      room.currentTrick.push({ seat: client.seat, card: playedCard });
+        const playedCard =
+  hand.splice(cardIndex, 1)[0];
+
+const playStyle =
+  payload.playStyle === "throw" ? "throw" : "normal";
+
+room.currentTrick.push({ seat:
+  client.seat, card: playedCard });
       let handOver = false;
       if (room.currentTrick.length < 4) {
         room.playTurn = PLAY_NEXT[client.seat];
@@ -478,8 +483,10 @@ if (
       }
       sendHand(room, client.seat, false);
       broadcast(room, "CARD_PLAYED", {
-        seat: client.seat, card: playedCard,
-        nextTurn: room.playTurn, tricks: room.tricks, bids: room.bids
+        seat: client.seat, 
+        card: playedCard, playStyle,
+        nextTurn: room.playTurn, tricks: room.tricks, 
+        bids: room.bids
       });
       if (handOver) finishHand(room);
 return;
