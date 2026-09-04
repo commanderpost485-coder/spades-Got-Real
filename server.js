@@ -9,6 +9,26 @@ const rooms = new Map();
 const clients = new Map();
 const BID_NEXT = { E: "N", N: "W", W: "S", S: null };
 const PLAY_NEXT = { E: "N", N: "W", W: "S", S: "E" };
+const PRIVATE_AVATARS = new Set([
+  "avatar-south.png",
+  "avatar-charly-sunglasses.png",
+  "avatar-charly-hoodie.png"
+]);
+
+function isLillyName(name = "") {
+  return ["lilly", "charly", "charleen"].includes(
+    String(name).trim().toLowerCase()
+  );
+}
+
+function cleanAvatar(file, playerName) {
+  const avatar = String(file || "").replace(/[^a-z0-9_.-]/gi, "");
+  if (!avatar) return "avatar-pj-photo.png";
+  if (PRIVATE_AVATARS.has(avatar) && !isLillyName(playerName)) {
+    return "avatar-pj-photo.png";
+  }
+  return avatar;
+}
 const TABLE_TALK = `
 Let’s see how high you wanna go—jump, Judy, jump!
 Get that weak shit off the table!
@@ -324,10 +344,25 @@ wss.on("connection", ws => {
       let code = roomCode();
       while (rooms.has(code)) code = roomCode();
       const room = {
-        code, hostId: client.playerId,
-        seats: { S: client.playerId, N: null, E: null, W: null },
-        scores: { NS: 0, EW: 0 }, targetScore: 500, handNumber: 0
-      };
+  code,
+  hostId: client.playerId,
+  seats: { S: client.playerId, N: null, E: null, W: null },
+  scores: { NS: 0, EW: 0 },
+  targetScore: 500,
+  handNumber: 0,
+  avatars: {
+    S: cleanAvatar(payload.avatar, payload.playerName),
+    N: null,
+    E: null,
+    W: null
+  },
+  playerNames: {
+    S: String(payload.playerName || "Lilly"),
+    N: null,
+    E: null,
+    W: null
+  }
+};
       rooms.set(code, room);
       client.roomCode = code;
       client.seat = "S";
@@ -343,11 +378,22 @@ wss.on("connection", ws => {
       room.seats[seat] = client.playerId;
       client.roomCode = code;
       client.seat = seat;
-      broadcast(room, "PLAYER_JOINED", {
-        roomCode: code, playerId: client.playerId,
-        seat, seats: { ...room.seats }
-      });
-      sendGameState(room, client);
+      room.seats[seat] = client.playerId;
+
+room.avatars = room.avatars || { S: null, N: null, E: null, W: null };
+room.playerNames = room.playerNames || { S: null, N: null, E: null, W: null };
+room.avatars[seat] = cleanAvatar(payload.avatar, payload.playerName);
+room.playerNames[seat] = String(payload.playerName || seat);
+      
+  broadcast(room, "PLAYER_JOINED", {
+  roomCode: code,
+  playerId: client.playerId,
+  seat,
+  seats: { ...room.seats },
+  avatars: { ...room.avatars },
+  playerNames: { ...room.playerNames }
+});
+  sendGameState(room, client);
 return;
     }
 
@@ -360,10 +406,19 @@ return;
       room.seats[seat] = client.playerId;
       client.roomCode = code;
       client.seat = seat;
+      room.avatars = room.avatars || { S: null, N: null, E: null, W: null };
+room.playerNames = room.playerNames || { S: null, N: null, E: null, W: null };
+room.avatars[seat] = room.avatars[seat] || cleanAvatar(payload.avatar, payload.playerName);
+room.playerNames[seat] = room.playerNames[seat] || String(payload.playerName || seat);
       if (seat === "S") room.hostId = client.playerId;
-      broadcast(room, "PLAYER_JOINED", {
-      roomCode: code, playerId: client.playerId,
-     seat, seats: { ...room.seats }
+broadcast(room, "PLAYER_JOINED", {
+  roomCode code, 
+  playerId:
+  client.playerId,
+seat,
+seats: { ...room.seats },
+avatars: { ...room.avatars },
+playerNames: { ...room.playerNames }
     });
     sendGameState(room, client);
     return;
