@@ -844,7 +844,7 @@ if (currentPlayTurn !== mySeat) return;
   playCard.selected = null;
   updatePlayControls();
 }
-    function nextHand() { socket.send(JSON.stringify({ type:cfgf is "NEXT_HAND" })); }
+    function nextHand() { socket.send(JSON.stringify({ type: "NEXT_HAND" })); }
     function newMatch() {
       currentTarget = Number(document.getElementById("targetScore").value);
       socket.send(JSON.stringify({ type: "NEW_MATCH", payload: { targetScore: currentTarget } }));
