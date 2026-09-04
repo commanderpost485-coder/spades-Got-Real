@@ -398,6 +398,8 @@ body.table-rumble .container {
   <script>
     const statusEl = document.getElementById("status");
     const socket = new WebSocket("wss://spades-got-real.onrender.com");
+document.getElementById("matchSetup")
+.after(document.getElementById("exitGame"));
     let isHost = false;
     let mySeat = null;
     let myPlayerId = null;
