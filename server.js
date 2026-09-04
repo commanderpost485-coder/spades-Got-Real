@@ -291,6 +291,8 @@ function sendGameState(room, client) {
     roomCode: room.code,
     seat: client.seat,
     seats: { ...room.seats },
+    avatars: { ...(room.avatars || {}) },
+playerNames: { ...(room.playerNames || {}) },
     isHost: client.playerId === room.hostId,
     phase: phase,
     handNumber: room.handNumber || 0,
@@ -366,7 +368,13 @@ wss.on("connection", ws => {
       rooms.set(code, room);
       client.roomCode = code;
       client.seat = "S";
-      return send(ws, "ROOM_CREATED", { roomCode: code, seat: "S", seats: room.seats });
+      return send(ws, "ROOM_CREATED", {
+  roomCode: code,
+  seat: "S",
+  seats: room.seats,
+  avatars: { ...room.avatars },
+  playerNames: { ...room.playerNames }
+});
     }
 
     if (type === "JOIN_ROOM") {
