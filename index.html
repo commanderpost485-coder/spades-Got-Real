@@ -346,7 +346,8 @@ body.table-rumble .container {
     </div>
 
     <div id="scoreBoard" class="hidden">NS: 0 &nbsp;|&nbsp; EW: 0 &nbsp;|&nbsp; Goal: 500</div>
-    <div id="bidBoard" class="hidden">Bids — N: — | E: — | S: — | W: —<br>Your bid: — | Your tricks: 0</div>
+<div id="playedCards" class="hidden">Cards played: —</div>
+<div id="bidBoard" class="hidden">Bids — N: — | E: — | S: — | W: —<br>Your bid: — | Your tricks: 0</div>
 <div id="cardTable" class="card-table hidden">
   <div class="table-player table-north">
     <b>North</b>
@@ -504,6 +505,7 @@ function sendTableTalk(message) {
     function updateBoards() {
       show("bidBoard", true);
       show("scoreBoard", true);
+      show("playedCards", true);
       const value = seat => bids[seat] === undefined ? "—" : bids[seat];
       const mine = myBid === null ? "—" : myBid;
       const myTricks = mySeat ? (tricks[mySeat] || 0) : 0;
@@ -657,9 +659,9 @@ updatePlayControls();
   ? "YOUR TURN TO PLAY"
   : `NEXT PLAYER: ${p.playTurn}`;
 
-statusEl.innerText = trickPlays.length
-  ? `${trickPlays.join("\n")}\n${turnText}`
-  : turnText;
+document.getElementById("playedCards").innerText =
+  trickPlays.length ? `Cards played: ${trickPlays.join(" | ")}` : "Cards played: —";
+statusEl.innerText = turnText;
   } else if (p.phase === "HAND_OVER") {
     document.getElementById("hand").innerHTML = "";
     statusEl.innerText = "Hand over.";
@@ -769,7 +771,7 @@ updatePlayControls();
   document.body.classList.add("table-rumble");
 
   setTimeout(() => {
-    document.body.classList.remove("table-rumble");
+document.body.classList.remove("table-rumble");
   }, 350);
 }
         tricks = p.tricks || tricks;
@@ -780,17 +782,18 @@ updatePlayControls();
   ];
 }
 
-        updateBoards();
-        statusEl.innerText =
-  `${trickPlays.join("\n")}\nNEXT PLAYER: ${p.nextTurn}`;
+document.getElementById("playedCards").innerText =
+  `Cards played: ${trickPlays.join(" | ")}`;
+statusEl.innerText = `NEXT PLAYER: ${p.nextTurn}`;
       }
 
       if (msg.type === "HAND_OVER") {
         currentPlayTurn = null;
 playCard.selected = null;
+show("playCardButton", false);
 show("throwCard", false);
-        tricks = p.tricks;
-        bids = p.bids;
+tricks = p.tricks;
+bids = p.bids;
         document.getElementById("hand").innerHTML = "";
         show("bidding", false);
         show("nilChoice", false);
