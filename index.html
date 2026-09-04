@@ -25,8 +25,8 @@
     .wide { width: 100%; border: none; }
     .create { background: white; color: black; }
     .join { background: #333; color: white; border: 2px solid white; }
-    #matchSetup, #scoreBoard, #bidBoard { margin: 14px 0; }
-    #scoreBoard, #bidBoard { padding: 10px; background: #222; border-radius: 10px; line-height: 1.5; }
+    #matchSetup, #scoreBoard, #playedCards, #bidBoard { margin: 14px 0; }
+#scoreBoard, #playedCards, #bidBoard { padding: 10px; background: #222; border-radius: 10px; line-height: 1.5; }
     #bidding button { width: 60px; padding: 8px; margin: 4px; }
     #hand { margin-top: 15px; }
     #hand button { width: 42px; height: 58px; padding: 2px; margin: 1px; background: linear-gradient(145deg,#fff,#f3f3f3); color: #111; border: 1px solid #bbb; border-radius: 7px; font-family: Georgia,"Times New Roman",serif; font-size: 16px; font-weight: bold; vertical-align: top; box-shadow: 0 3px 7px rgba(0,0,0,.45); }
@@ -100,8 +100,16 @@ body.game-active #cardTable {
   order: 5;
 }
 
-body.game-active #scoreBoard {
+    body.game-active #scoreBoard {
   order: 6;
+}
+
+body.game-active #playedCards {
+  order: 7;
+}
+
+body.game-active #bidBoard {
+  order: 8;
 }
 
 body.game-active #bidBoard {
@@ -774,14 +782,11 @@ updatePlayControls();
 document.body.classList.remove("table-rumble");
   }, 350);
 }
-        tricks = p.tricks || tricks;
-        trickPlays.push(`${p.seat} played ${p.card.rank}${p.card.suit}`);
-        if (trickPlays.length > 4) {
-  trickPlays = [
-    trickPlays[trickPlays.length - 1]
-  ];
+  
+if (trickPlays.length >= 4) {
+  trickPlays = [];
 }
-
+trickPlays.push(`${p.seat} played ${p.card.rank}${p.card.suit}`);
 document.getElementById("playedCards").innerText =
   `Cards played: ${trickPlays.join(" | ")}`;
 statusEl.innerText = `NEXT PLAYER: ${p.nextTurn}`;
