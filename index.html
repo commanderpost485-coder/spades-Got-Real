@@ -512,7 +512,6 @@ function renderAvatarChoices() {
   const name = getPlayerName();
 
   select.innerHTML = "";
-
   for (const avatar of AVATARS) {
     if (avatar.private && !isLillyName(name)) continue;
 
