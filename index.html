@@ -971,7 +971,16 @@ localStorage.removeItem("roomCode");
 localStorage.removeItem("seat");
   window.location.reload();
 }
-    function createGame() { socket.send(JSON.stringify({ type: "CREATE_ROOM" })); statusEl.innerText = "Creating game..."; }
+    function createGame() {
+  socket.send(JSON.stringify({
+    type: "CREATE_ROOM",
+    payload: {
+      playerName: getPlayerName(),
+      avatar: getSelectedAvatar()
+    }
+  }));
+  statusEl.innerText = "Creating game...";
+}
     function joinGame() {
       const code = prompt("Enter your game room code:");
       if (!code) return;
