@@ -982,13 +982,23 @@ localStorage.removeItem("seat");
   statusEl.innerText = "Creating game...";
 }
     function joinGame() {
-      const code = prompt("Enter your game room code:");
-      if (!code) return;
-      localStorage.removeItem("roomCode");
-      localStorage.removeItem("seat");
-      socket.send(JSON.stringify({ type: "JOIN_ROOM", payload: { roomCode: code.toUpperCase() } }));
-      statusEl.innerText = "Joining game...";
+  const code = prompt("Enter your game room code:");
+  if (!code) return;
+
+  localStorage.removeItem("roomCode");
+  localStorage.removeItem("seat");
+
+  socket.send(JSON.stringify({
+    type: "JOIN_ROOM",
+    payload: {
+      roomCode: code.toUpperCase(),
+      playerName: getPlayerName(),
+      avatar: getSelectedAvatar()
     }
+  }));
+
+  statusEl.innerText = "Joining game...";
+}
     function startGame() {
       currentTarget = Number(document.getElementById("targetScore").value);
       socket.send(JSON.stringify({ type: "START_GAME", payload: { targetScore: currentTarget } }));
