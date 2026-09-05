@@ -374,7 +374,6 @@ body.table-rumble .container {
     <div class="subtitle">BADAZZ SPADES</div>
     <div class="tagline">Talk yo ish. Bid big. Don't get set.</div>
 
-   <img class="game-logo" src="https://raw.githubusercontent.com/commanderpost485-coder/spades-Got-Real/main/file_00000000015481fb92483bd950b979d0.jpg" alt="MuthaSpades BADAZZ SPADES">
 <img class="game-logo"
   src="..."
   alt="MuthaSpades BADAZZ SPADES">
@@ -967,9 +966,9 @@ return;
     p.message || "Game error";
 }
     };
-function exitGame() {
-  localStorage.removeItem("roomCode");
-  localStorage.removeItem("seat");
+fucntion exitGame(){
+localStorage.removeItem("roomCode");
+localStorage.removeItem("seat");
   window.location.reload();
 }
     function createGame() { socket.send(JSON.stringify({ type: "CREATE_ROOM" })); statusEl.innerText = "Creating game..."; }
