@@ -420,14 +420,13 @@ room.avatars[seat] = room.avatars[seat] || cleanAvatar(payload.avatar, payload.p
 room.playerNames[seat] = room.playerNames[seat] || String(payload.playerName || seat);
       if (seat === "S") room.hostId = client.playerId;
 broadcast(room, "PLAYER_JOINED", {
-  roomCode code, 
-  playerId:
-  client.playerId,
-seat,
-seats: { ...room.seats },
-avatars: { ...room.avatars },
-playerNames: { ...room.playerNames }
-    });
+  roomCode: code,
+  playerId: client.playerId,
+  seat,
+  seats: { ...room.seats },
+  avatars: { ...room.avatars },
+  playerNames: { ...room.playerNames }
+});
     sendGameState(room, client);
     return;
     }
