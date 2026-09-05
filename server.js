@@ -570,8 +570,8 @@ send(ws, "ERROR", { message: "Unknown action" });
   seat: client.seat,
   seats: room.seats,
   avatars: { ...(room.avatars || {}) },
-  playerNames: { ...(room.playerNames || 
-  });                
+  playerNames: { ...(room.playerNames || {}) }
+      });              
 }
 });
 });
