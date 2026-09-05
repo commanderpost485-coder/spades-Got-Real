@@ -711,8 +711,17 @@ if (msg.type === "TABLE_TALK") {
 }
       if (msg.type === "AUTH_OK") {
         myPlayerId = p.playerId;
-        if (savedRoomCode && savedSeat) socket.send(JSON.stringify({ type: "REJOIN_ROOM", payload: { roomCode: savedRoomCode, seat: savedSeat } }));
-      }
+        if (savedRoomCode && savedSeat) {
+  socket.send(JSON.stringify({
+    type: "REJOIN_ROOM",
+    payload: {
+      roomCode: savedRoomCode,
+      seat: savedSeat,
+      playerName: getPlayerName(),
+      avatar: getSelectedAvatar()
+    }
+  }));
+}
 
       if (msg.type === "ROOM_CREATED") {
         isHost = true;
@@ -733,15 +742,19 @@ if (msg.type === "TABLE_TALK") {
         }
         statusEl.innerText = `Joined room: ${p.roomCode}`;
         updateSeats(p.seats);
+        updateTableAvatars(p.avatars, p.playerNames);
         showRoomCode(p.roomCode);
       }
-
-      if (msg.type === "PLAYER_DISCONNECTED") updateSeats(p.seats);
+      if (msg.type === "PLAYER_DISCONNECTED") }
+    updateSeats(p.seats); 
+    updateTableAvatars(p.avatars, p.playerNames);
+    }
     if (msg.type === "GAME_STATE") {
   mySeat = p.seat;
   isHost = Boolean(p.isHost);
       showRoomCode(p.roomCode);
-  bids = p.bids || {};
+      updateTableAvatars(p.avatars, p.playerNames);
+bids = p.bids || {};
   myBid = bids[mySeat] === undefined
     ? null
     : bids[mySeat];
