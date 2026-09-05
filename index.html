@@ -721,6 +721,9 @@ if (msg.type === "TABLE_TALK") {
         localStorage.setItem("seat", p.seat);
         statusEl.innerText = `Game created! Room code: ${p.roomCode}`;
         updateSeats(p.seats);
+        updateSeats(p.seats);
+updateTableAvatars(p.avatars, p.playerNames);
+showRoomCode(p.roomCode);
         showRoomCode(p.roomCode);
       }
 
