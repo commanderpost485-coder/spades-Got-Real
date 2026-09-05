@@ -570,9 +570,10 @@ send(ws, "ERROR", { message: "Unknown action" });
   seat: client.seat,
   seats: room.seats,
   avatars: { ...(room.avatars || {}) },
-  playerNames: { ...(room.playerNames || {}) }
+  playerNames: { ...(room.playerNames || 
+  });                
+}
 });
-  });
 });
 
 server.listen(PORT, "0.0.0.0", () => console.log(`Spades Got Real listening on port ${PORT}`));
