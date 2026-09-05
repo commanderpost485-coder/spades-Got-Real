@@ -466,6 +466,89 @@ body.table-rumble .container {
   <script>
     const statusEl = document.getElementById("status");
     const socket = new WebSocket("wss://spades-got-real.onrender.com");
+    const AVATARS = [
+  { file: "avatar-pj-photo.png", label: "PJ" },
+  { file: "avatar-01.png", label: "Avatar 1" },
+  { file: "avatar-02.png", label: "Avatar 2" },
+  { file: "avatar-03.png", label: "Avatar 3" },
+  { file: "avatar-04.png", label: "Avatar 4" },
+  { file: "avatar-05.png", label: "Avatar 5" },
+  { file: "avatar-06.png", label: "Avatar 6" },
+  { file: "avatar-07.png", label: "Avatar 7" },
+  { file: "avatar-08.png", label: "Avatar 8" },
+  { file: "avatar-09.png", label: "Avatar 9" },
+  { file: "avatar-10.png", label: "Avatar 10" },
+  { file: "avatar-drag-queen.png", label: "Drag Queen" },
+  { file: "avatar-white-drag-queen.png", label: "White Drag Queen" },
+  { file: "avatar-masculine-female.png", label: "Masculine Female" },
+  { file: "avatar-white-woman.png", label: "White Woman" },
+  { file: "avatar-gorgeous-man.png", label: "Gorgeous Man" },
+  { file: "avatar-white-man.png", label: "White Man" },
+  { file: "avatar-south.png", label: "South", private: true },
+  { file: "avatar-charly-sunglasses.png", label: "Charly Sunglasses", private: true },
+  { file: "avatar-charly-hoodie.png", label: "Charly Hoodie", private: true }
+];
+
+const PRIVATE_AVATARS = new Set(
+  AVATARS.filter(avatar => avatar.private).map(avatar => avatar.file)
+);
+
+function isLillyName(name = "") {
+  return ["lilly", "charly", "charleen"].includes(
+    String(name).trim().toLowerCase()
+  );
+}
+
+function getPlayerName() {
+  return document.getElementById("playerName").value.trim() || "Player";
+}
+
+function getSelectedAvatar() {
+  return document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
+}
+
+function renderAvatarChoices() {
+  const select = document.getElementById("avatarSelect");
+  const current = select.value;
+  const name = getPlayerName();
+
+  select.innerHTML = "";
+
+  for (const avatar of AVATARS) {
+    if (avatar.private && !isLillyName(name)) continue;
+
+    const option = document.createElement("option");
+    option.value = avatar.file;
+    option.textContent = avatar.label;
+    select.appendChild(option);
+  }
+
+  if ([...select.options].some(option => option.value === current)) {
+    select.value = current;
+  }
+}
+
+function updateTableAvatars(avatars = {}, playerNames = {}) {
+  const names = { N: "North", E: "East", S: "South", W: "West" };
+
+  for (const seat of ["N", "E", "S", "W"]) {
+    const img = document.getElementById(`avatar${seat}`);
+    const playerBox = document.querySelector(
+      `.table-${seat === "N" ? "north" : seat === "E" ? "east" : seat === "S" ? "south" : "west"}`
+    );
+    const label = playerBox ? playerBox.querySelector("b") : null;
+
+    if (label) label.textContent = playerNames[seat] || names[seat];
+
+    if (img && avatars[seat]) {
+      img.src = `avatars/${avatars[seat]}`;
+      playerBox.classList.add("has-avatar");
+    }
+  }
+}
+
+document.getElementById("playerName").addEventListener("input", renderAvatarChoices);
+renderAvatarChoices();
 document.getElementById("matchSetup")
 .after(document.getElementById("exitGame"));
     let isHost = false;
