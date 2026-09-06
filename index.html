@@ -576,6 +576,13 @@ function updateTableAvatars(avatars = {}, playerNames = {}) {
 
 document.getElementById("playerName").addEventListener("change", renderAvatarChoices);
 renderAvatarChoices();
+    function updateAvatarPreview() {
+  const avatar = document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
+  document.getElementById("avatarPreview").src = `avatars/${avatar}`;
+}
+
+document.getElementById("avatarSelect").addEventListener("change", updateAvatarPreview);
+updateAvatarPreview();
 document.getElementById("matchSetup")
 .after(document.getElementById("exitGame"));
     let isHost = false;
