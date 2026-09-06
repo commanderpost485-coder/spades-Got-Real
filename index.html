@@ -541,7 +541,7 @@ function updateTableAvatars(avatars = {}, playerNames = {}) {
   }
 }
 
-document.getElementById("playerName").addEventListener("input", renderAvatarChoices);
+document.getElementById("playerName").addEventListener("change", renderAvatarChoices);
 renderAvatarChoices();
 document.getElementById("matchSetup")
 .after(document.getElementById("exitGame"));
