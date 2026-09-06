@@ -313,6 +313,17 @@ playerNames: { ...(room.playerNames || {}) },
 }
 const INDEX = path.join(__dirname, "index.html");
 const server = http.createServer((req, res) => {
+  if (req.url.startsWith("/avatars/")) {
+    const fileName = path.basename(req.url.split("?")[0]);
+    const filePath = path.join(__dirname, "avatars", fileName);
+
+    if (fs.existsSync(filePath)) {
+      res.writeHead(200, { "Content-Type": "image/png" });
+      return res.end(fs.readFileSync(filePath));
+    }
+  }
+
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Origin", "*");
   if (req.url === "/" || req.url === "/index.html" || req.url.startsWith("/?")) {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
