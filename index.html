@@ -376,17 +376,11 @@ body.table-rumble .container {
     <img class="game-logo" src="https://raw.githubusercontent.com/commanderpost485-coder/spades-Got-Real/main/file_00000000015481fb92483bd950b979d0.jpg" alt="MuthaSpades BADAZZ SPADES">
 <div id="playerSetup" style="display:flex;gap:12px;align-items:center;">
   <div style="flex:1;">
-    <select id="playerName">
-      <option value="Lilly">Lilly</option>
-      <option value="Charleen">Charleen</option>
-      <option value="Charly">Charly</option>
-    </select>
-
     <select id="avatarSelect">
-      <option value="avatar-south.png">Lilly</option>
-      <option value="avatar-charly-sunglasses.png">Charly Sunglasses</option>
-      <option value="avatar-charly-hoodie.png">Charly Hoodie</option>
-    </select>
+  <option value="avatar-south.png">Lilly</option>
+  <option value="avatar-charly-sunglasses.png">Charly Sunglasses</option>
+  <option value="avatar-charly-hoodie.png">Charly Hoodie</option>
+</select>
   </div>
 
   <div style="width:86px;height:86px;border:2px solid white;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#111;">
@@ -507,37 +501,23 @@ function isLillyName(name = "") {
   return ["lilly", "charly", "charleen"].includes(
     String(name).trim().toLowerCase()
   );
-}
+} 
 
 function getPlayerName() {
-  return document.getElementById("playerName").value || "Player";
-}
+  const avatar = document.getElementById("avatarSelect").value;
 
-function getSelectedAvatar() {
+  if (avatar === "avatar-charly-sunglasses.png") return "Charly";
+  if (avatar === "avatar-charly-hoodie.png") return "Charly";
+
+  return "Lilly";
+}
+    function getSelectedAvatar() {
   return document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
 }
 
 function renderAvatarChoices() {
-  const select = document.getElementById("avatarSelect");
-  const current = select.value;
-  const name = getPlayerName();
-
-  select.innerHTML = "";
-
-  for (const avatar of AVATARS) {
-    if (avatar.private && !isLillyName(name)) continue;
-
-    const option = document.createElement("option");
-    option.value = avatar.file;
-    option.textContent = avatar.label;
-    select.appendChild(option);
-  }
-
-  if ([...select.options].some(option => option.value === current)) {
-    select.value = current;
-  }
+  updateAvatarPreview();
 }
-
 function updateTableAvatars(avatars = {}, playerNames = {}) {
   const names = { N: "North", E: "East", S: "South", W: "West" };
 
