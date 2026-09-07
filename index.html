@@ -376,7 +376,7 @@ body.table-rumble .container {
     <img class="game-logo" src="https://raw.githubusercontent.com/commanderpost485-coder/spades-Got-Real/main/file_00000000015481fb92483bd950b979d0.jpg" alt="MuthaSpades BADAZZ SPADES">
 <div id="playerSetup" style="display:flex;gap:12px;align-items:center;">
   <div style="flex:1;">
-    <select id="avatarSelect">
+    <select id="avatarSelect" onchange="document.getElementById('avatarPreview').src='./avatars/'+this.value+'?v='+Date.now()">
   <option value="avatar-south.png">Lilly</option>
   <option value="avatar-charly-sunglasses.png">Charly Sunglasses</option>
   <option value="avatar-charly-hoodie.png">Charly Hoodie</option>
