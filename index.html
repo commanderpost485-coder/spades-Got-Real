@@ -469,7 +469,7 @@ body.table-rumble .container {
 
   <script>
     const statusEl = document.getElementById("status");
-    const socket = new WebSocket("wss://spades-got-real-1.onrender.com");
+    const socket = new WebSocket(`${location.protocol === "https:" ? "wss" : "ws"}://${location.host}`);
     const AVATARS = [
   { file: "avatar-pj-photo.png", label: "PJ" },
   { file: "avatar-01.png", label: "Avatar 1" },
