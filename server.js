@@ -338,6 +338,7 @@ const server = http.createServer((req, res) => {
 
 const wss = new WebSocket.Server({ server });
 wss.on("connection", ws => {
+  console.log("WebSocket client connected");
   const client = { ws, playerId: null, roomCode: null, seat: null };
   ws.on("message", raw => {
     let msg;
