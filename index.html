@@ -561,7 +561,7 @@ document.getElementById("playerName").addEventListener("change", renderAvatarCho
 renderAvatarChoices();
     function updateAvatarPreview() {
   const avatar = document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
-  document.getElementById("avatarPreview").src = `avatars/${avatar}`;
+document.getElementById("avatarPreview").src = `avatars/${avatar}`;
 }
 
 document.getElementById("avatarSelect").addEventListener("change", updateAvatarPreview);
