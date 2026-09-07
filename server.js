@@ -328,6 +328,14 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     return res.end(fs.readFileSync(INDEX));
   }
+  if (req.url === "/debug-index") {
+  const html = fs.readFileSync(INDEX, "utf8");
+  res.writeHead(200, { "Content-Type": "application/json" });
+  return res.end(JSON.stringify({
+    hasMarker: html.includes("JavaScript started"),
+    bytes: html.length
+  }));
+}
   if (req.url === "/health") {
     res.writeHead(200, { "Content-Type": "application/json" });
     return res.end(JSON.stringify({ ok: true, service: "spades-got-real" }));
