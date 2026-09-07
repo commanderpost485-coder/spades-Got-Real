@@ -470,6 +470,10 @@ body.table-rumble .container {
   <script>
     const statusEl = document.getElementById("status");
     const socket = new WebSocket(`${location.protocol === "https:" ? "wss" : "ws"}://${location.host}`);
+
+socket.addEventListener("open", () => {
+  statusEl.innerText = "Connected - Ready to Play!";
+});
     const AVATARS = [
   { file: "avatar-pj-photo.png", label: "PJ" },
   { file: "avatar-01.png", label: "Avatar 1" },
