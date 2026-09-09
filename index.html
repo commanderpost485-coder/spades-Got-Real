@@ -547,8 +547,11 @@ function loadAvatarOptions() {
   updateAvatarPreview();
 }
 
-document.addEventListener("DOMContentLoaded", loadAvatarOptions);
-
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadAvatarOptions);
+} else {
+  loadAvatarOptions();
+}
 const PRIVATE_AVATARS = new Set(
   AVATARS.filter(avatar => avatar.private).map(avatar => avatar.file)
 );
