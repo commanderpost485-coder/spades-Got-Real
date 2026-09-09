@@ -331,14 +331,6 @@ if (requestPath.toLowerCase().endsWith(".png")) {
     return res.end(fs.readFileSync(filePath));
   }
 }
-    const fileName = path.basename(req.url.split("?")[0]);
-    const filePath = path.join(__dirname, "avatars", fileName);
-
-    if (fs.existsSync(filePath)) {
-      res.writeHead(200, { "Content-Type": "image/png" });
-      return res.end(fs.readFileSync(filePath));
-    }
-  }
 
   res.setHeader("Access-Control-Allow-Origin", "*");
   if (req.url === "/" || req.url === "/index.html" || req.url.startsWith("/?")) {
