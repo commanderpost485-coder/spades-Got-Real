@@ -475,27 +475,47 @@ const socket = new WebSocket(`${location.protocol ===
 socket.addEventListener("open", () => {
   statusEl.innerText = "Connected - Ready to Play!";
 });
-    const AVATARS = [
-  { file: "avatar-pj-photo.png", label: "PJ" },
-  { file: "avatar-01.png", label: "Avatar 1" },
-  { file: "avatar-02.png", label: "Avatar 2" },
-  { file: "avatar-03.png", label: "Avatar 3" },
-  { file: "avatar-04.png", label: "Avatar 4" },
-  { file: "avatar-05.png", label: "Avatar 5" },
-  { file: "avatar-06.png", label: "Avatar 6" },
-  { file: "avatar-07.png", label: "Avatar 7" },
-  { file: "avatar-08.png", label: "Avatar 8" },
-  { file: "avatar-09.png", label: "Avatar 9" },
-  { file: "avatar-10.png", label: "Avatar 10" },
-  { file: "avatar-drag-queen.png", label: "Drag Queen" },
-  { file: "avatar-white-drag-queen.png", label: "White Drag Queen" },
-  { file: "avatar-masculine-female.png", label: "Masculine Female" },
-  { file: "avatar-white-woman.png", label: "White Woman" },
-  { file: "avatar-gorgeous-man.png", label: "Gorgeous Man" },
-  { file: "avatar-white-man.png", label: "White Man" },
-  { file: "avatar-south.png", label: "South", private: true },
-  { file: "avatar-charly-sunglasses.png", label: "Charly Sunglasses", private: true },
-  { file: "avatar-charly-hoodie.png", label: "Charly Hoodie", private: true }
+  const AVATARS = [
+  { file: "mona-luxe.png", label: "Mona Luxe" },
+  { file: "duke-dawson.png", label: "Duke Dawson" },
+  { file: "nova-noir.png", label: "Nova Noir" },
+  { file: "greta-grace.png", label: "Greta Grace" },
+  { file: "big-ced.png", label: "Big Ced" },
+  { file: "carmen-sol.png", label: "Carmen Sol" },
+  { file: "bishop-kane.png", label: "Bishop Kane" },
+  { file: "rosa.png", label: "Rosa" },
+  { file: "frank.png", label: "Frank" },
+  { file: "walter.png", label: "Walter" },
+
+  { file: "charly-private.png", label: "Charly", private: true },
+
+  { file: "betty.png", label: "Betty" },
+  { file: "honey-divine.png", label: "Honey Divine" },
+  { file: "leroy.png", label: "Leroy" },
+  { file: "sonia.png", label: "Sonia" },
+  { file: "lee.png", label: "Lee" },
+  { file: "queen-k.png", label: "Queen K" },
+  { file: "sapphire-blaze.png", label: "Sapphire Blaze" },
+  { file: "joe-pa.png", label: "Joe Pa" },
+  { file: "lady-ace.png", label: "Lady Ace" },
+
+  { file: "jerry-private.png", label: "Jerry", private: true },
+  { file: "lilly-private.png", label: "Lilly", private: true },
+
+  { file: "jazz.png", label: "Jazz" },
+  { file: "spoiled-angel.png", label: "Spoiled Angel" },
+  { file: "velvet-havoc.png", label: "Velvet Havoc" },
+  { file: "scarlet-saint.png", label: "Scarlet Saint" },
+  { file: "roxie-royale.png", label: "Roxie Royale" },
+  { file: "noah.png", label: "Noah" },
+  { file: "joshua.png", label: "Joshua" },
+  { file: "lola-lush.png", label: "Lola Lush" },
+  { file: "francesca.png", label: "Francesca" },
+  { file: "diva-dealz.png", label: "Diva Dealz" },
+  { file: "crystal-riot.png", label: "Crystal Riot" },
+  { file: "colby.png", label: "Colby" },
+  { file: "blue-majesty.png", label: "Blue Majesty" },
+  { file: "alexis.png", label: "Alexis" }
 ];
     function shuffleAvatars(list) {
   const mixed = [...list];
