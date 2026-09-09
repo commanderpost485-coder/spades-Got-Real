@@ -562,10 +562,10 @@ function isLillyName(name = "") {
 function getPlayerName() {
   const avatar = document.getElementById("avatarSelect").value;
 
-  if (avatar === "avatar-charly-sunglasses.png") return "Charly";
-  if (avatar === "avatar-charly-hoodie.png") return "Charly";
-
-  return "Lilly";
+ f (avatar === "charly-private.png") return "Charly";
+if (avatar === "Jessica_PRIVATE.png") return "Jessica";
+if (avatar === "jerry-private.png") return "Jerry";
+if (avatar === "lilly-private.png") return "Lilly";
 }
     function getSelectedAvatar() {
   return document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
@@ -587,7 +587,7 @@ function updateTableAvatars(avatars = {}, playerNames = {}) {
     if (label) label.textContent = playerNames[seat] || names[seat];
 
     if (img && avatars[seat] && playerBox) {
-      img.src = `avatars/${avatars[seat]}`;
+      img.src = `${avatars[seat]}`;
       playerBox.classList.add("has-avatar");
     }
   }
@@ -596,7 +596,7 @@ function updateTableAvatars(avatars = {}, playerNames = {}) {
 renderAvatarChoices();
     function updateAvatarPreview() {
   const avatar = document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
-document.getElementById("avatarPreview").src = `./avatars/${avatar}?v=${Date.now()}`;
+document.getElementById("avatarPreview").src = `${avatar}?v=${Date.now()}`;
 }
 
 document.getElementById("avatarSelect").addEventListener("change", updateAvatarPreview);
