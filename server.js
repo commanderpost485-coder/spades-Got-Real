@@ -314,7 +314,23 @@ playerNames: { ...(room.playerNames || {}) },
 }
 const INDEX = path.join(__dirname, "index.html");
 const server = http.createServer((req, res) => {
-  if (req.url.startsWith("/avatars/")) {
+  const requestPath = decodeURIComponent(req.url.split("?")[0]);
+
+if (requestPath.toLowerCase().endsWith(".png")) {
+  const fileName = path.basename(requestPath);
+
+  const avatarPath = path.join(__dirname, "avatars", fileName);
+  const rootPath = path.join(__dirname, fileName);
+
+  const filePath = fs.existsSync(avatarPath)
+    ? avatarPath
+    : rootPath;
+
+  if (fs.existsSync(filePath)) {
+    res.writeHead(200, { "Content-Type": "image/png" });
+    return res.end(fs.readFileSync(filePath));
+  }
+}
     const fileName = path.basename(req.url.split("?")[0]);
     const filePath = path.join(__dirname, "avatars", fileName);
 
