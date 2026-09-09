@@ -17,7 +17,7 @@ const PRIVATE_AVATARS = new Set([
 ]);
 
 function isLillyName(name = "") {
-  return ["lilly", "charly", "charleen"].includes(
+  return ["lilly", "charly", "charleen", "jessica", "jerry"].includes(
     String(name).trim().toLowerCase()
   );
 }
