@@ -10,9 +10,10 @@ const clients = new Map();
 const BID_NEXT = { E: "N", N: "W", W: "S", S: null };
 const PLAY_NEXT = { E: "N", N: "W", W: "S", S: "E" };
 const PRIVATE_AVATARS = new Set([
-  "avatar-south.png",
-  "avatar-charly-sunglasses.png",
-  "avatar-charly-hoodie.png"
+  "charly-private.png",
+  "Jessica_PRIVATE.png",
+  "jerry-private.png",
+  "Lilly_PRIVATE.png"
 ]);
 
 function isLillyName(name = "") {
