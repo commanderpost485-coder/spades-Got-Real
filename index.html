@@ -637,6 +637,19 @@ function updateAvatarPreview() {
 
       localStorage.setItem("customAvatarName", cleanName);
       localStorage.setItem("customAvatarImage", reader.result);
+      const select = document.getElementById("avatarSelect");
+
+let customOption = document.getElementById("customAvatarOption");
+
+if (!customOption) {
+  customOption = document.createElement("option");
+  customOption.id = "customAvatarOption";
+  select.appendChild(customOption);
+}
+
+customOption.value = "CUSTOM_AVATAR";
+customOption.textContent = cleanName;
+select.value = "CUSTOM_AVATAR";
 
       alert(`Custom avatar saved: ${cleanName}`);
     };
