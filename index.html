@@ -549,6 +549,18 @@ function loadAvatarOptions() {
     select.appendChild(option);
   });
 
+const customName = localStorage.getItem("customAvatarName");
+const customImage = localStorage.getItem("customAvatarImage");
+
+if (customName && customImage) {
+  const customOption = document.createElement("option");
+  customOption.id = "customAvatarOption";
+  customOption.value = "CUSTOM_AVATAR";
+  customOption.textContent = customName;
+  select.appendChild(customOption);
+  select.value = "CUSTOM_AVATAR";
+}
+
   updateAvatarPreview();
 }
 
