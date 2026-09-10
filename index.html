@@ -388,9 +388,22 @@ body.table-rumble .container {
   onclick="event.preventDefault(); showCustomAvatarForm();">
   CREATE MY AVATAR
 </button>
-  <button class="create wide" onclick="createGame()">CREATE GAME</button>
-  <button class="join wide" onclick="joinGame()">JOIN GAME</button>
 
+<select id="voiceSelect" class="wide">
+  <option value="olderMale">Older Gentleman</option>
+  <option value="olderFemale">Older Woman</option>
+  <option value="youngMale">Young Man</option>
+  <option value="youngFemale">Young Woman</option>
+  <option value="smoothMale">Smooth Male</option>
+  <option value="boldFemale">Bold Female</option>
+  <option value="streetMale">Streetwise OG</option>
+  <option value="streetFemale">Street-Smart Woman</option>
+  <option value="latinaFemale">Latina Style</option>
+  <option value="dragDiva">Drag Diva</option>
+</select>
+
+<button class="create wide" onclick="createGame()">CREATE GAME</button>
+    <button class="join wide" onclick="joinGame()">JOIN GAME</button>
   <div id="seats">
     <div>North: <span id="seatN">Open</span></div>
     <div>East: <span id="seatE">Open</span></div>
