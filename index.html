@@ -378,7 +378,12 @@ body.table-rumble .container {
   <div style="flex:1;">
   <select id="avatarSelect" onchange="updateAvatarPreview()"></select>
 </div>
-  <button id="customAvatarBtn" type="button">CREATE MY AVATAR</button>
+  <button id="customAvatarBtn"
+  type="button"
+  class="wide"
+  onclick="event.preventDefault(); showCustomAvatarForm();">
+  CREATE MY AVATAR
+</button>
 
   <div style="width:86px;height:86px;border:2px solid white;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#111;">
     <img id="avatarPreview" src="avatars/avatar-south.png" alt="" style="width:74px;height:74px;border-radius:50%;object-fit:cover;">
@@ -602,9 +607,21 @@ renderAvatarChoices();
   const avatar = document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
 document.getElementById("avatarPreview").src = `${avatar}?v=${Date.now()}`;
 }
+function updateAvatarPreview() {
+  const avatar =
+    document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
 
-document.getElementById("avatarSelect").addEventListener("change", updateAvatarPreview);
-updateAvatarPreview();
+  document.getElementById("avatarPreview").src =
+    `${avatar}?v=${Date.now()}`;
+}
+
+function showCustomAvatarForm() {
+  alert("Custom Avatar feature coming next!");
+}
+
+document.getElementById("avatarSelect")
+  .addEventListener("change", updateAvatarPreview);
+  
 document.getElementById("matchSetup")
 .after(document.getElementById("exitGame"));
     let isHost = false;
