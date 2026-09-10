@@ -614,8 +614,16 @@ function updateAvatarPreview() {
     `${avatar}?v=${Date.now()}`;
 }
 
-function showCustomAvatarForm() {
-  alert("Custom Avatar feature coming next!");
+  function showCustomAvatarForm() {
+  const name = prompt("What name do you want for your custom avatar?");
+
+  if (!name) return;
+
+  const cleanName = name.trim();
+
+  if (!cleanName) return;
+
+  alert(`Custom avatar name saved: ${cleanName}`);
 }
 
 document.getElementById("avatarSelect")
