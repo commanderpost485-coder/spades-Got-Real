@@ -582,10 +582,18 @@ function isLillyName(name = "") {
 function getPlayerName() {
   const avatar = document.getElementById("avatarSelect").value;
 
-if (avatar === "charly-private.png") return "Charly";
-if (avatar === "Jackie_PRIVATE.png") return "Jackie";
-if (avatar === "jerry-private.png") return "Jerry";
-if (avatar === "lilly-private.png") return "Lilly";
+  function getPlayerName() {
+  const avatar =
+    document.getElementById("avatarSelect").value;
+
+  if (avatar === "CUSTOM_AVATAR") {
+    return localStorage.getItem("customAvatarName") || "Player";
+  }
+
+  if (avatar === "charly-private.png") return "Charly";
+  if (avatar === "Jackie_PRIVATE.png") return "Jackie";
+  if (avatar === "jerry-private.png") return "Jerry";
+  if (avatar === "Lilly-PRIVATE.png") return "Lilly";
 }
     function getSelectedAvatar() {
   return document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
