@@ -602,21 +602,23 @@ function updateTableAvatars(avatars = {}, playerNames = {}) {
 }
 
 renderAvatarChoices();
-    function updateAvatarPreview() {
-  const avatar = document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
-document.getElementById("avatarPreview").src = `${avatar}?v=${Date.now()}`;
-}
 function updateAvatarPreview() {
   const avatar =
     document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
 
-  document.getElementById("avatarPreview").src =
-    `${avatar}?v=${Date.now()}`;
-}
+  const preview = document.getElementById("avatarPreview");
 
-  function showCustomAvatarForm() {
-  const picker = document.createElement("input");
-  picker.type = "file";
+  if (avatar === "CUSTOM_AVATAR") {
+    const customImage = localStorage.getItem("customAvatarImage");
+
+    if (customImage) {
+      preview.src = customImage;
+      return;
+    }
+  }
+
+  preview.src = `${avatar}?v=${Date.now()}`;
+}
   picker.accept = "image/*";
 
   picker.onchange = () => {
