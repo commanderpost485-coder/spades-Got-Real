@@ -615,12 +615,6 @@ function updateAvatarPreview() {
 }
 
   function showCustomAvatarForm() {
-  const name = prompt("What name do you want for your custom avatar?");
-  if (!name) return;
-
-  const cleanName = name.trim();
-  if (!cleanName) return;
-
   const picker = document.createElement("input");
   picker.type = "file";
   picker.accept = "image/*";
@@ -628,6 +622,12 @@ function updateAvatarPreview() {
   picker.onchange = () => {
     const file = picker.files && picker.files[0];
     if (!file) return;
+
+    const name = prompt("What name do you want for your custom avatar?");
+    if (!name) return;
+
+    const cleanName = name.trim();
+    if (!cleanName) return;
 
     const reader = new FileReader();
 
