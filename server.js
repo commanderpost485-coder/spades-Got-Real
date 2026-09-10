@@ -11,7 +11,7 @@ const BID_NEXT = { E: "N", N: "W", W: "S", S: null };
 const PLAY_NEXT = { E: "N", N: "W", W: "S", S: "E" };
 const PRIVATE_AVATARS = new Set([
   "charly-private.png",
-  "Jessica_PRIVATE.png",
+  "Jackie_PRIVATE.png",
   "jerry-private.png",
   "Lilly_PRIVATE.png"
 ]);
