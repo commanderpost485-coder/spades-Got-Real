@@ -616,14 +616,35 @@ function updateAvatarPreview() {
 
   function showCustomAvatarForm() {
   const name = prompt("What name do you want for your custom avatar?");
-
   if (!name) return;
 
   const cleanName = name.trim();
-
   if (!cleanName) return;
 
-  alert(`Custom avatar name saved: ${cleanName}`);
+  const picker = document.createElement("input");
+  picker.type = "file";
+  picker.accept = "image/*";
+
+  picker.onchange = () => {
+    const file = picker.files && picker.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const preview = document.getElementById("avatarPreview");
+      preview.src = reader.result;
+
+      localStorage.setItem("customAvatarName", cleanName);
+      localStorage.setItem("customAvatarImage", reader.result);
+
+      alert(`Custom avatar saved: ${cleanName}`);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  picker.click();
 }
 
 document.getElementById("avatarSelect")
