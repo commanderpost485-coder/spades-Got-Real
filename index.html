@@ -580,6 +580,25 @@ if (avatar === "lilly-private.png") return "Lilly";
 }
 
 function renderAvatarChoices() {
+  const select = document.getElementById("avatarSelect");
+
+  const customName = localStorage.getItem("customAvatarName");
+  const customImage = localStorage.getItem("customAvatarImage");
+
+  if (customName && customImage) {
+    let customOption =
+      document.getElementById("customAvatarOption");
+
+    if (!customOption) {
+      customOption = document.createElement("option");
+      customOption.id = "customAvatarOption";
+      select.appendChild(customOption);
+    }
+
+    customOption.value = "CUSTOM_AVATAR";
+    customOption.textContent = customName;
+  }
+
   updateAvatarPreview();
 }
 function updateTableAvatars(avatars = {}, playerNames = {}) {
