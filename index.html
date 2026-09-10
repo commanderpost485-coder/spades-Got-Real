@@ -583,8 +583,8 @@ function getPlayerName() {
   const avatar = document.getElementById("avatarSelect").value;
 
   function getPlayerName() {
-  const avatar =
-    document.getElementById("avatarSelect").value;
+  const select = document.getElementById("avatarSelect");
+  const avatar = select.value;
 
   if (avatar === "CUSTOM_AVATAR") {
     return localStorage.getItem("customAvatarName") || "Player";
@@ -593,7 +593,9 @@ function getPlayerName() {
   if (avatar === "charly-private.png") return "Charly";
   if (avatar === "Jackie_PRIVATE.png") return "Jackie";
   if (avatar === "jerry-private.png") return "Jerry";
-  if (avatar === "Lilly-PRIVATE.png") return "Lilly";
+  if (avatar === "Lilly_PRIVATE.png") return "Lilly";
+
+  return select.options[select.selectedIndex]?.textContent || "Player";
 }
     function getSelectedAvatar() {
   return document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
