@@ -476,9 +476,6 @@ const voice =
 
 if (
   !message ||
-
-if (
-  !message ||
   (!TABLE_TALK.includes(message) && message.length > 80)
 ) {
   return send(ws, "ERROR", {
