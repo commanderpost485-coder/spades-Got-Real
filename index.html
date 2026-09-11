@@ -402,7 +402,14 @@ body.table-rumble .container {
   <option value="dragDiva">Drag Diva</option>
 </select>
 
-<button class="create wide" onclick="createGame()">CREATE GAME</button>
+<button
+  id="createVoiceBtn"
+  type="button"
+  class="wide"
+  onclick="alert('Custom Voice coming soon!')">
+  CREATE MY VOICE
+</button>
+    <button class="create wide" onclick="createGame()">CREATE GAME</button>
     <button class="join wide" onclick="joinGame()">JOIN GAME</button>
   <div id="seats">
     <div>North: <span id="seatN">Open</span></div>
