@@ -471,6 +471,12 @@ if (type === "SEND_TABLE_TALK") {
   const message =
   String(payload.message || "").trim();
 
+const voice =
+  String(payload.voice || "").trim();
+
+if (
+  !message ||
+
 if (
   !message ||
   (!TABLE_TALK.includes(message) && message.length > 80)
@@ -480,7 +486,8 @@ if (
   });
 }
   room.lastTableTalk = message;
-  broadcast(room, "TABLE_TALK", { message });
+  broadcast(room, "TABLE_TALK", { message,
+voice                            });
   return;
 }
     if (type === "START_GAME" || type === "NEW_MATCH") {
