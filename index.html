@@ -887,11 +887,37 @@ function showAvailableVoices() {
       voice.lang.toLowerCase().startsWith("en")
     );
 
-  alert(
-    voices.map((voice, i) =>
-      i + ": " + voice.name + " - " + voice.lang
-    ).join("\n")
+  if (!voices.length) {
+    alert("No English voices found.");
+    return;
+  }
+
+  const list = voices.map((voice, i) =>
+    i + ": " + voice.name + " - " + voice.lang
+  ).join("\n");
+
+  const choice = prompt(
+    "Enter the number of the voice you want to hear:\n\n" + list
   );
+
+  if (choice === null) return;
+
+  const index = Number(choice);
+
+  if (!Number.isInteger(index) || !voices[index]) {
+    alert("That voice number is not available.");
+    return;
+  }
+
+  const speech =
+    new SpeechSynthesisUtterance(
+      "This is my MuthaSpades table voice."
+    );
+
+  speech.voice = voices[index];
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(speech);
 }
   function previewSelectedVoice() {
   const select = document.getElementById("voiceSelect");
