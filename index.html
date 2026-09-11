@@ -789,10 +789,16 @@ function requestTalkChoices() {
 }
 
 function sendTableTalk(message) {
+  const voice =
+  document.getElementById("voiceSelect").value;
   socket.send(JSON.stringify({
     type: "SEND_TABLE_TALK",
-    payload: { message }
+    payload: {
+      message,
+      voice
+    }
   }));
+
   show("talkChoices", false);
   show("newTalk", true);
 }
