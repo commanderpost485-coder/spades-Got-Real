@@ -411,6 +411,12 @@ body.table-rumble .container {
   onclick="alert('Custom Voice coming soon!')">
   CREATE MY VOICE
 </button>
+    <button
+  type="button"
+  class="wide"
+  onclick="showAvailableVoices()">
+  CHECK VOICES
+</button>
     <button class="create wide" onclick="createGame()">CREATE GAME</button>
     <button class="join wide" onclick="joinGame()">JOIN GAME</button>
   <div id="seats">
@@ -867,8 +873,11 @@ function sendTableTalk(message) {
 
   socket.onopen = () => {
   statusEl.innerText = "Connected - Ready to Play!";
-      socket.send(JSON.stringify({ type: "AUTH" }));
-    };
+    
+    socket.send(JSON.stringify({ type: "AUTH" 
+  }));
+};
+    
     socket.onerror = () => statusEl.innerText = "Unable to connect to game server.";
 
 function showAvailableVoices() {
