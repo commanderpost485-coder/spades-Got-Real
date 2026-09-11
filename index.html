@@ -864,11 +864,17 @@ function sendTableTalk(message) {
 
     socket.onmessage = event => {
       const msg = JSON.parse(event.data);
-      const p = msg.payload || {};
-if (msg.type === "TABLE_TALK") {
-  const tableTalk = document.getElementById("tableTalk");
+const p = msg.payload || {};
+      if (msg.type === "TABLE_TALK") {
+  const tableTalk =
+    document.getElementById("tableTalk");
+
   tableTalk.innerText = p.message;
   show("tableTalk", true);
+
+  const speech = new SpeechSynthesisUtterance(p.message);
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(speech);
 }
      if (msg.type === "TABLE_TALK_CHOICES") {
   const talkChoices =
