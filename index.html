@@ -389,7 +389,9 @@ body.table-rumble .container {
   CREATE MY AVATAR
 </button>
 
-<select id="voiceSelect" class="wide">
+<select id="voiceSelect"
+  class="wide"
+  onchange="previewSelectedVoice()">
   <option value="olderMale">Older Gentleman</option>
   <option value="olderFemale">Older Woman</option>
   <option value="youngMale">Young Man</option>
@@ -869,6 +871,64 @@ function sendTableTalk(message) {
     };
     socket.onerror = () => statusEl.innerText = "Unable to connect to game server.";
 
+    function previewSelectedVoice() {
+  const select = document.getElementById("voiceSelect");
+  if (!select) return;
+
+  const style = select.value;
+
+  const speech =
+    new SpeechSynthesisUtterance(
+      "This is my MuthaSpades table voice."
+    );
+
+  speech.rate = 0.95;
+  speech.pitch = 1.0;
+
+  if (style === "olderMale") {
+    speech.rate = 0.82;
+    speech.pitch = 0.75;
+
+  } else if (style === "olderFemale") {
+    speech.rate = 0.88;
+    speech.pitch = 1.1;
+
+  } else if (style === "youngMale") {
+    speech.rate = 1.05;
+    speech.pitch = 0.9;
+
+  } else if (style === "youngFemale") {
+    speech.rate = 1.05;
+    speech.pitch = 1.2;
+
+  } else if (style === "smoothMale") {
+    speech.rate = 0.88;
+    speech.pitch = 0.85;
+
+  } else if (style === "boldFemale") {
+    speech.rate = 0.92;
+    speech.pitch = 1.05;
+
+  } else if (style === "streetMale") {
+    speech.rate = 0.88;
+    speech.pitch = 0.72;
+
+  } else if (style === "streetFemale") {
+    speech.rate = 0.95;
+    speech.pitch = 1.05;
+
+  } else if (style === "latinaFemale") {
+    speech.rate = 0.95;
+    speech.pitch = 1.12;
+
+  } else if (style === "dragDiva") {
+    speech.rate = 0.98;
+    speech.pitch = 1.35;
+  }
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(speech);
+}
     socket.onmessage = event => {
       const msg = JSON.parse(event.data);
 const p = msg.payload || {};
