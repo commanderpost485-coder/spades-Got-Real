@@ -865,13 +865,22 @@ function sendTableTalk(message) {
       }).join("");
     }
 
-    socket.onopen = () => {
-      statusEl.innerText = "Connected - Ready to Play!";
+  socket.onopen = () => {
+  statusEl.innerText = "Connected - Ready to Play!";
       socket.send(JSON.stringify({ type: "AUTH" }));
     };
     socket.onerror = () => statusEl.innerText = "Unable to connect to game server.";
 
-    function previewSelectedVoice() {
+function showAvailableVoices() {
+  const voices = window.speechSynthesis.getVoices();
+
+  alert(
+    voices.map((voice, i) =>
+      i + ": " + voice.name + " - " + voice.lang
+    ).join("\n")
+  );
+}
+  function previewSelectedVoice() {
   const select = document.getElementById("voiceSelect");
   if (!select) return;
 
