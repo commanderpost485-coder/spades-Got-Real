@@ -881,7 +881,11 @@ function sendTableTalk(message) {
     socket.onerror = () => statusEl.innerText = "Unable to connect to game server.";
 
 function showAvailableVoices() {
-  const voices = window.speechSynthesis.getVoices();
+  const voices = window.speechSynthesis
+    .getVoices()
+    .filter(voice =>
+      voice.lang.toLowerCase().startsWith("en")
+    );
 
   alert(
     voices.map((voice, i) =>
