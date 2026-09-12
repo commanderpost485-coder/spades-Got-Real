@@ -974,8 +974,11 @@ function showAvailableVoices() {
     speech.pitch = 1.35;
   }
 
-  window.speechSynthesis.cancel();
+ window.speechSynthesis.cancel();
+
+setTimeout(() => {
   window.speechSynthesis.speak(speech);
+}, 150);
 }
     socket.onmessage = event => {
       const msg = JSON.parse(event.data);
