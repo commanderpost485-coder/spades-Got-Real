@@ -914,10 +914,13 @@ function showAvailableVoices() {
       "This is my MuthaSpades table voice."
     );
 
-  speech.voice = voices[index];
+speech.voice = voices[index];
+speech.rate = 0.9;
+speech.pitch = 0.8;
+speech.volume = 1;
 
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(speech);
+window.speechSynthesis.cancel();
+window.speechSynthesis.speak(speech);
 }
   function previewSelectedVoice() {
   const select = document.getElementById("voiceSelect");
