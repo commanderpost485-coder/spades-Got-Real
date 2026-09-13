@@ -928,11 +928,11 @@ window.speechSynthesis.speak(speech);
 
   const style = select.value;
 
-  const speech =
-    new SpeechSynthesisUtterance(
-      "This is my MuthaSpades table voice."
-    );
+  const speech = new SpeechSynthesisUtterance(
+    "This is my MuthaSpades table voice."
+  );
 
+  speech.voice = getMuthaVoice(style);
   speech.rate = 0.95;
   speech.pitch = 1.0;
 
