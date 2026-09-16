@@ -922,6 +922,40 @@ speech.volume = 1;
 window.speechSynthesis.cancel();
 window.speechSynthesis.speak(speech);
 }
+    function getMuthaVoice(style) {
+  const voices = window.speechSynthesis.getVoices()
+    .filter(v =>
+      v.lang &&
+      v.lang.toLowerCase().startsWith("en")
+    );
+
+  if (!voices.length) return null;
+
+  const maleNames = [
+    "Aaron", "Alex", "Daniel", "Fred",
+    "Tom", "Ralph", "Bruce", "Arthur"
+  ];
+
+  const femaleNames = [
+    "Samantha", "Victoria", "Karen",
+    "Moira", "Tessa", "Fiona", "Serena"
+  ];
+
+  const wantsFemale =
+    style.toLowerCase().includes("female") ||
+    style === "dragDiva" ||
+    style === "latinaFemale";
+
+  const names = wantsFemale ? femaleNames : maleNames;
+
+  return voices.find(v =>
+    names.some(name =>
+v.name.toLowerCase().includes(name.toLowerCase())
+    )
+  ) || voices.find(v =>
+v.lang.toLowerCase().startsWith("en-us")
+  ) || voices[0];
+}
   function previewSelectedVoice() {
   const select = document.getElementById("voiceSelect");
   if (!select) return;
@@ -994,16 +1028,17 @@ if (msg.type === "TABLE_TALK") {
   show("tableTalk", true);
 
   const speech =
-    new SpeechSynthesisUtterance(p.message);
+  new SpeechSynthesisUtterance(p.message);
 
-  const style = p.voice || "smoothMale";
+const style = p.voice || "smoothMale";
 
-  speech.rate = 0.95;
-  speech.pitch = 1.0;
+speech.voice = getMuthaVoice(style);
 
+speech.rate = 0.95;
+speech.pitch = 1.0;
   if (style === "olderMale") {
-    speech.rate = 0.82;
-    speech.pitch = 0.75;
+  speech.rate = 0.82;
+  speech.pitch = 0.75;
   } else if (style === "olderFemale") {
     speech.rate = 0.88;
     speech.pitch = 1.1;
@@ -1027,12 +1062,17 @@ if (msg.type === "TABLE_TALK") {
     speech.pitch = 1.35;
   }
 
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(speech);
+window.speechSynthesis.cancel();
+window.speechSynthesis.resume();
+
+setTimeout(() => {
+window.speechSynthesis.speak(speech);
+}, 150);
+
 }
      if (msg.type === "TABLE_TALK_CHOICES") {
   const talkChoices =
-    document.getElementById("talkChoices");
+document.getElementById("talkChoices");
 
   talkChoices.innerHTML = "";
 
