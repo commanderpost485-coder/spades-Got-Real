@@ -632,6 +632,9 @@ function isLillyName(name = "") {
   return select.options[select.selectedIndex]?.textContent || "Player";
 }
     function getSelectedAvatar() {
+  refunction getSelectedAvatar() {
+  return document.getElementById("avatarSelect").value || "noah.png";
+}
   return document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
 }
 
@@ -679,7 +682,7 @@ function updateTableAvatars(avatars = {}, playerNames = {}) {
 renderAvatarChoices();
 function updateAvatarPreview() {
   const avatar =
-    document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
+    document.getElementById("avatarSelect").value || "avatar-noah-photo.png";
 
   const preview = document.getElementById("avatarPreview");
 
