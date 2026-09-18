@@ -23,28 +23,79 @@
     .tagline { font-size: 18px; margin: 10px 0 25px; }
     button, select { padding: 14px; margin: 7px 3px; font-size: 19px; font-weight: bold; border-radius: 12px; }
     #playerSetup {
-  margin: 12px 0;
+  margin: 18px 0;
+  padding: 16px;
+  background: #1b1b1b;
+  border: 2px solid #d4af37;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.45);
 }
 
-#playerName,
+.avatar-picker {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar-select-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.avatar-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #d4af37;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: left;
+  letter-spacing: .5px;
+}
+
 #avatarSelect {
   width: 100%;
   box-sizing: border-box;
-  padding: 14px;
-  margin: 6px 0;
+  padding: 14px 42px 14px 14px;
+  margin: 0;
   font-size: 18px;
   font-weight: bold;
+  color: white;
+  background: #2a2a2a;
+  border: 2px solid #555;
   border-radius: 12px;
+  outline: none;
 }
-    .player-avatar {
-  display: none;
-  width: 52px;
-  height: 52px;
+
+#avatarSelect:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212,175,55,.18);
+}
+
+.avatar-preview-box {
+  width: 108px;
+  min-width: 108px;
+  height: 108px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0d0d0d;
+  border: 3px solid #d4af37;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+#avatarPreview {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border: 2px solid #d4af37;
-  border-radius: 50%;
-  margin: -26px auto 4px;
-  background: #111;
+}
+
+.avatar-helper {
+  margin-top: 10px;
+  color: #bbb;
+  font-size: 14px;
+}
+  
   position: relative;
   z-index: 4;
 }
@@ -374,12 +425,29 @@ body.table-rumble .container {
     <div class="subtitle">BADAZZ SPADES</div>
     <div class="tagline">Talk yo ish. Bid big. Don't get set.</div>
     <img class="game-logo" src="https://raw.githubusercontent.com/commanderpost485-coder/spades-Got-Real/main/file_00000000015481fb92483bd950b979d0.jpg" alt="MuthaSpades BADAZZ SPADES">
-<div id="playerSetup" style="display:flex;gap:12px;align-items:center;">
-  <div style="flex:1;">
-  <select id="avatarSelect" onchange="updateAvatarPreview()"></select>
-</div>
-  <div style="width:86px;height:86px;border:2px solid white;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#111;">
-    <img id="avatarPreview" src="noah.png" alt="" style="width:74px;height:74px;border-radius:50%;object-fit:cover;">
+<div id="playerSetup">
+  <div class="avatar-picker">
+
+    <div class="avatar-select-wrap">
+      <label class="avatar-label" for="avatarSelect">
+        CHOOSE YOUR PLAYER
+      </label>
+
+      <select id="avatarSelect"
+        onchange="updateAvatarPreview()">
+      </select>
+
+      <div class="avatar-helper">
+        Pick your avatar before creating or joining a game.
+      </div>
+    </div>
+
+    <div class="avatar-preview-box">
+      <img id="avatarPreview"
+        src="noah.png"
+        alt="Selected avatar">
+    </div>
+
   </div>
 </div>
     <button id="customAvatarBtn"
