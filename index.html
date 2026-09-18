@@ -508,8 +508,7 @@ const socket = new WebSocket(`${location.protocol ===
 socket.addEventListener("open", () => {
   statusEl.innerText = "Connected - Ready to Play!";
 });
-  "Lee" },
-const AVATARS = [
+  const AVATARS = [
   { file: "pj-private.png", label: "PJ", private: true },
   { file: "smitty.png", label: "Smitty" },
   { file: "pam-private.png", label: "Pam", private: true },
@@ -531,6 +530,7 @@ const AVATARS = [
   { file: "big-ced.png", label: "Big Ced" },
   { file: "sapphire-blaze.png", label: "Sapphire Blaze" },
   { file: "sonia.png", label: "Sonia" },
+
   { file: "edward.png", label: "Edward" },
   { file: "colby.png", label: "Colby" },
   { file: "noah.png", label: "Noah" },
@@ -556,7 +556,7 @@ const AVATARS = [
   { file: "leroy.png", label: "Leroy" },
   { file: "francesca.png", label: "Francesca" },
   { file: "esteban.png", label: "Esteban" },
-  { file: "rosa.png", label: "Rosa" }
+  { file: "jt.png", label: "JT" }
 ];
     function shuffleAvatars(list) {
   const mixed = [...list];
@@ -614,6 +614,7 @@ function isLillyName(name = "") {
   );
 } 
   function getPlayerName() {
+  function getPlayerName() {
   const select = document.getElementById("avatarSelect");
   const avatar = select.value;
 
@@ -624,18 +625,8 @@ function isLillyName(name = "") {
   return select.options[select.selectedIndex]?.textContent || "Player";
 }
 
-  if (avatar === "charly-private.png") return "Charly";
-  if (avatar === "Jackie_PRIVATE.png") return "Jackie";
-  if (avatar === "jerry-private.png") return "Jerry";
-  if (avatar === "Lilly_PRIVATE.png") return "Lilly";
-
-  return select.options[select.selectedIndex]?.textContent || "Player";
-}
-    function getSelectedAvatar() {
-  refunction getSelectedAvatar() {
+function getSelectedAvatar() {
   return document.getElementById("avatarSelect").value || "noah.png";
-}
-  return document.getElementById("avatarSelect").value || "avatar-pj-photo.png";
 }
 
 function renderAvatarChoices() {
