@@ -331,7 +331,17 @@ if (requestPath.toLowerCase().endsWith(".png")) {
     return res.end(fs.readFileSync(filePath));
   }
 }
+if (requestPath.toLowerCase().endsWith(".m4a")) {
+  const fileName = path.basename(requestPath);
+  const voicePath = path.join(__dirname, "voices", fileName);
 
+  if (fs.existsSync(voicePath)) {
+    res.writeHead(200, {
+      "Content-Type": "audio/mp4"
+    });
+    return res.end(fs.readFileSync(voicePath));
+  }
+}
   res.setHeader("Access-Control-Allow-Origin", "*");
   if (req.url === "/" || req.url === "/index.html" || req.url.startsWith("/?")) {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
