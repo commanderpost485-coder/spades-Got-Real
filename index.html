@@ -1036,68 +1036,27 @@ v.name.toLowerCase().includes(name.toLowerCase())
 v.lang.toLowerCase().startsWith("en-us")
   ) || voices[0];
 }
-  function previewSelectedVoice() {
+let currentVoicePreview = null;
+
+function previewSelectedVoice() {
   const select = document.getElementById("voiceSelect");
   if (!select) return;
 
-  const style = select.value;
+  const voiceFile = `${select.value}.m4a`;
 
-  const speech = new SpeechSynthesisUtterance(
-    "This is my MuthaSpades table voice."
-  );
-
-  speech.voice = getMuthaVoice(style);
-  speech.rate = 0.95;
-  speech.pitch = 1.0;
-
-  if (style === "olderMale") {
-    speech.rate = 0.82;
-    speech.pitch = 0.75;
-
-  } else if (style === "olderFemale") {
-    speech.rate = 0.88;
-    speech.pitch = 1.1;
-
-  } else if (style === "youngMale") {
-    speech.rate = 1.05;
-    speech.pitch = 0.9;
-
-  } else if (style === "youngFemale") {
-    speech.rate = 1.05;
-    speech.pitch = 1.2;
-
-  } else if (style === "smoothMale") {
-    speech.rate = 0.88;
-    speech.pitch = 0.85;
-
-  } else if (style === "boldFemale") {
-    speech.rate = 0.92;
-    speech.pitch = 1.05;
-
-  } else if (style === "streetMale") {
-    speech.rate = 0.88;
-    speech.pitch = 0.72;
-
-  } else if (style === "streetFemale") {
-    speech.rate = 0.95;
-    speech.pitch = 1.05;
-
-  } else if (style === "latinaFemale") {
-    speech.rate = 0.95;
-    speech.pitch = 1.12;
-
-  } else if (style === "dragDiva") {
-    speech.rate = 0.98;
-    speech.pitch = 1.35;
+  if (currentVoicePreview) {
+    currentVoicePreview.pause();
+    currentVoicePreview.currentTime = 0;
   }
 
- window.speechSynthesis.cancel();
+  currentVoicePreview = new Audio(encodeURI(voiceFile));
 
-setTimeout(() => {
-  window.speechSynthesis.speak(speech);
-}, 150);
-}
-    socket.onmessage = event => {
+  currentVoicePreview.play().catch(error => {
+    console.error("Voice preview error:", voiceFile, error);
+    alert("Could not play " + voiceFile);
+  });
+}  
+  socket.onmessage = event => {
       const msg = JSON.parse(event.data);
 const p = msg.payload || {};
 if (msg.type === "TABLE_TALK") {
