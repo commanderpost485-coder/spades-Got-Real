@@ -1400,9 +1400,9 @@ updatePlayControls();
       }
 
       if (msg.type === "CARD_PLAYED") {
-    if (p.cardCounts) }
-    updateCardCounts(p.cardCounts)
-  };
+    if (p.cardCounts) {
+    updateCardCounts(p.cardCounts);
+  }
     currentPlayTurn = p.nextTurn;
     playCard.selected = null;
     updatePlayControls();
