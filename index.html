@@ -1400,11 +1400,14 @@ updatePlayControls();
       }
 
       if (msg.type === "CARD_PLAYED") {
-        currentPlayTurn = p.nextTurn;
-playCard.selected = null;
-updatePlayControls();
+    if (p.cardCounts) }
+    updateCardCounts(p.cardCounts)
+  };
+    currentPlayTurn = p.nextTurn;
+    playCard.selected = null;
+    updatePlayControls();
     if (p.playStyle === "throw") {
-  document.body.classList.remove("table-rumble");
+document.body.classList.remove("table-rumble");
   void document.body.offsetWidth;
   document.body.classList.add("table-rumble");
 
