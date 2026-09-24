@@ -589,13 +589,19 @@ room.currentTrick.push({ seat:
       }
       sendHand(room, client.seat, false);
       broadcast(room, "CARD_PLAYED", {
-      seat: client.seat,
-      card: playedCard,
-      playStyle,
-      nextTurn: room.playTurn,
-      tricks: room.tricks,
-      bids: room.bids
-      });
+  seat: client.seat,
+  card: playedCard,
+  playStyle,
+  nextTurn: room.playTurn,
+  tricks: room.tricks,
+  bids: room.bids,
+  cardCounts: {
+    N: room.hands.N.length,
+    E: room.hands.E.length,
+    S: room.hands.S.length,
+    W: room.hands.W.length
+  }
+});
       if (handOver) finishHand(room);
 return;
 }
