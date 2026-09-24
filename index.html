@@ -1329,6 +1329,8 @@ document.querySelector(".join").style.display = "none";
       }
 
       if (msg.type === "HAND_STARTED") {
+updateCardCounts({ N: 13, E: 13, S: 13, W: 13 });
+bids = {};
         bids = {};
         myBid = null;
         tricks = { N: 0, E: 0, S: 0, W: 0 };
