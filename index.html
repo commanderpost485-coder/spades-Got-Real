@@ -913,6 +913,24 @@ function sendTableTalk(message) {
   sendTableTalk(message);
   input.value = "";
 }
+    function updateCardCounts(counts = { N: 13, E: 13, S: 13, W: 13 }) {
+  for (const seat of ["N", "E", "S", "W"]) {
+    const holder = document.getElementById(`cards${seat}`);
+    if (!holder) continue;
+
+    const count = Math.max(0, Math.min(13, counts[seat] ?? 13));
+
+    holder.innerHTML = "";
+
+    for (let i = 0; i < count; i++) {
+      const card = document.createElement("span");
+      card.className = "card-back";
+      holder.appendChild(card);
+    }
+
+    holder.setAttribute("data-count", count);
+  }
+}
     function updateSeats(seats) {
       for (const seat of ["N", "E", "S", "W"]) {
         document.getElementById(`seat${seat}`).innerText =
