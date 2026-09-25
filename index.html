@@ -95,11 +95,6 @@
   color: #bbb;
   font-size: 14px;
 }
-  
-  position: relative;
-  z-index: 4;
-}
-
 .table-player.has-avatar {
   padding-top: 8px;
 }
@@ -1306,7 +1301,6 @@ document.querySelector(".join").style.display = "none";
       if (msg.type === "HAND_STARTED") {
 updateCardCounts({ N: 13, E: 13, S: 13, W: 13 });
 bids = {};
-        bids = {};
         myBid = null;
         tricks = { N: 0, E: 0, S: 0, W: 0 };
         trickPlays = [];
