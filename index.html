@@ -309,13 +309,17 @@ body.game-active #status {
 }
 
 .held-cards {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: flex-end;
   width: 82px;
   height: 34px;
-  margin: 6px auto 0;
+  margin: 0;
+  z-index: 6;
 }
 
 .card-back {
@@ -992,7 +996,7 @@ function sendTableTalk(message) {
       const sorted = [...cards].sort((a, b) => suitOrder[a.suit] - suitOrder[b.suit] || rankOrder[b.rank] - rankOrder[a.rank]);
       document.getElementById("hand").innerHTML = sorted.map(card => {
         const color = card.suit === "H" || card.suit === "D" ? "#c62828" : "#111";
-        return `<button style="color:${color}" onclick="playCard('${card.rank}','${card.suit}')">${card.rank}${suitSymbols[card.suit]}</button>`;
+    return `<button style="color:${color}" onclick="playCard('${card.rank}','${card.suit}')">${card.rank}${suitSymbols[card.suit]}</button>`;
       }).join("");
     }
 
@@ -1305,27 +1309,7 @@ statusEl.innerText = turnText;
     }
   }
 }
-       if (msg.type === "GAME_STARTED") {
-document.body.classList.add("game-active");
-      requestTalkChoices();
-      show("cardTable", true);
-      currentTarget = p.targetScore;
-document.querySelector(".create").style.display = "none";
-document.querySelector(".join").style.display = "none";
-        show("matchSetup", false);
-        show("startGame", false);
-        updateScore({ NS: 0, EW: 0 }, currentTarget);
-      }
-
-      if (msg.type === "HAND_STARTED") {
-updateCardCounts({ N: 13, E: 13, S: 13, W: 13 });
-bids = {};
-        myBid = null;
-        tricks = { N: 0, E: 0, S: 0, W: 0 };
-        trickPlays = [];
-        currentPlayTurn = null;
-playCard.selected = null;
-show("throwCard", false);
+       didthrowCard", false);
 document.getElementById("hand").innerHTML = "";
         show("nilChoice", false);
         show("bidding", false);
