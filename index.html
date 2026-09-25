@@ -63,7 +63,9 @@
   background: #2a2a2a;
   border: 2px solid #555;
   border-radius: 12px;
-  outline: none;
+  text-align: center;
+  text-align-last: center;
+}
 }
 
 #avatarSelect:focus {
@@ -107,7 +109,21 @@
 .table-player.has-avatar .player-avatar {
   display: block;
 }
-    .wide { width: 100%; border: none; }
+  .wide {
+  width: 100%;
+  border: none;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+select.wide {
+  text-align: center;
+  text-align-last: center;
+}
+
+select.wide option {
+  text-align: center;
+}
     .create { background: white; color: black; }
     .join { background: #333; color: white; border: 2px solid white; }
     #matchSetup, #scoreBoard, #playedCards, #bidBoard { margin: 14px 0; }
