@@ -1091,8 +1091,10 @@ function previewSelectedVoice() {
   const select = document.getElementById("voiceSelect");
   if (!select) return;
 
-  const voiceFile =
-`voices/${select.value}.m4a`;
+selectedVoice = select.value;
+
+const voiceFile =
+  `voices/${select.value}.m4a`;
 
   if (currentVoicePreview) {
     currentVoicePreview.pause();
