@@ -1086,15 +1086,19 @@ v.lang.toLowerCase().startsWith("en-us")
   ) || voices[0];
 }
 let currentVoicePreview = null;
+let selectedVoice = "";
 
 function previewSelectedVoice() {
+
   const select = document.getElementById("voiceSelect");
   if (!select) return;
 
 selectedVoice = select.value;
 
 const voiceFile =
-  `voices/${select.value}.m4a`;
+`voices/${selectedVoice}.m4a`;
+
+  select.value = "";
 
   if (currentVoicePreview) {
     currentVoicePreview.pause();
@@ -1459,10 +1463,11 @@ localStorage.removeItem("seat");
   socket.send(JSON.stringify({
     type: "JOIN_ROOM",
     payload: {
-      roomCode: code.toUpperCase(),
-      playerName: getPlayerName(),
-      avatar: getSelectedAvatar()
-    }
+  roomCode: code.toUpperCase(),
+  playerName: getPlayerName(),
+  avatar: getSelectedAvatar(),
+  voice: selectedVoice
+}
   }));
 
   statusEl.innerText = "Joining game...";
