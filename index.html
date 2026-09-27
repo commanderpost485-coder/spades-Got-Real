@@ -736,28 +736,6 @@ function getSelectedAvatar() {
   return document.getElementById("avatarSelect").value || "noah.png";
 }
 
-function renderAvatarChoices() {
-  const select = document.getElementById("avatarSelect");
-
-  const customName = localStorage.getItem("customAvatarName");
-  const customImage = localStorage.getItem("customAvatarImage");
-
-  if (customName && customImage) {
-    let customOption =
-      document.getElementById("customAvatarOption");
-
-    if (!customOption) {
-      customOption = document.createElement("option");
-      customOption.id = "customAvatarOption";
-      select.appendChild(customOption);
-    }
-
-    customOption.value = "CUSTOM_AVATAR";
-    customOption.textContent = customName;
-  }
-
-  updateAvatarPreview();
-}
 function updateTableAvatars(avatars = {}, playerNames = {}) {
   const names = { N: "North", E: "East", S: "South", W: "West" };
 
@@ -777,7 +755,6 @@ function updateTableAvatars(avatars = {}, playerNames = {}) {
   }
 }
 
-renderAvatarChoices();
 function updateAvatarPreview() {
   const avatar =
     document.getElementById("avatarSelect").value || "avatar-noah-photo.png";
@@ -930,7 +907,7 @@ function sendTableTalk(message) {
 }
     function sendCustomTalk() {
   const input =
-    document.getElementById("customTalkInput");
+document.getElementById("customTalkInput");
   const message = input.value.trim();
 
   if (!message) return;
@@ -978,7 +955,7 @@ function sendTableTalk(message) {
       const value = seat => bids[seat] === undefined ? "—" : bids[seat];
       const mine = myBid === null ? "—" : myBid;
       const myTricks = mySeat ? (tricks[mySeat] || 0) : 0;
-      document.getElementById("bidBoard").innerHTML =
+document.getElementById("bidBoard").innerHTML =
         `Bids — N: ${value("N")} | E: ${value("E")} | S: ${value("S")} | W: ${value("W")}<br>` +
         `Your bid: ${mine} | Your tricks: ${myTricks}`;
     }
@@ -986,7 +963,7 @@ function sendTableTalk(message) {
     function updateScore(scores = { NS: 0, EW: 0 }, target = currentTarget) {
       currentTarget = target;
       show("scoreBoard", true);
-      document.getElementById("scoreBoard").innerText = `NS: ${scores.NS} | EW: ${scores.EW} | Goal: ${target}`;
+document.getElementById("scoreBoard").innerText = `NS: ${scores.NS} | EW: ${scores.EW} | Goal: ${target}`;
     }
 
     function renderHand(cards) {
@@ -994,7 +971,7 @@ function sendTableTalk(message) {
       const suitOrder = { S: 0, H: 1, D: 2, C: 3 };
       const rankOrder = { A: 14, K: 13, Q: 12, J: 11, "10": 10, "9": 9, "8": 8, "7": 7, "6": 6, "5": 5, "4": 4, "3": 3, "2": 2 };
       const sorted = [...cards].sort((a, b) => suitOrder[a.suit] - suitOrder[b.suit] || rankOrder[b.rank] - rankOrder[a.rank]);
-      document.getElementById("hand").innerHTML = sorted.map(card => {
+document.getElementById("hand").innerHTML = sorted.map(card => {
         const color = card.suit === "H" || card.suit === "D" ? "#c62828" : "#111";
     return `<button style="color:${color}" onclick="playCard('${card.rank}','${card.suit}')">${card.rank}${suitSymbols[card.suit]}</button>`;
       }).join("");
@@ -1013,7 +990,7 @@ function showAvailableVoices() {
   const voices = window.speechSynthesis
     .getVoices()
     .filter(voice =>
-      voice.lang.toLowerCase().startsWith("en")
+voice.lang.toLowerCase().startsWith("en")
     );
 
   if (!voices.length) {
@@ -1203,8 +1180,8 @@ document.getElementById("talkChoices");
         localStorage.setItem("roomCode", p.roomCode);
         localStorage.setItem("seat", p.seat);
         statusEl.innerText = `Game created! Room code: ${p.roomCode}`;
-        updateSeats(p.seats);
-        updateTableAvatars(p.avatars,    p.playerNames);
+updateSeats(p.seats);
+updateTableAvatars(p.avatars,    p.playerNames);
         showRoomCode(p.roomCode);
       }
 
@@ -1212,10 +1189,10 @@ document.getElementById("talkChoices");
         if (p.playerId === myPlayerId) {
           mySeat = p.seat;
           localStorage.setItem("roomCode", p.roomCode);
-          localStorage.setItem("seat", p.seat);
+localStorage.setItem("seat", p.seat);
         }
-        statusEl.innerText = `Joined room: ${p.roomCode}`;
-        updateSeats(p.seats);
+        statusEl.innerText = `Joined room: ${p.roomCode}`; 
+updateSeats(p.seats);
         updateTableAvatars(p.avatars, p.playerNames);
         showRoomCode(p.roomCode);
       }
@@ -1257,8 +1234,8 @@ bids = p.bids || {};
   show("newMatch", false);
 
   if (p.phase !== "LOBBY") {
-    document.querySelector(".create").style.display = "none";
-    document.body.classList.add("game-active");
+document.querySelector(".create").style.display = "none";
+document.body.classList.add("game-active");
 document.querySelector(".join").style.display = "none";
     show("matchSetup", false);
     show("startGame", false);
@@ -1298,7 +1275,7 @@ document.getElementById("playedCards").innerText =
   trickPlays.length ? `Cards played: ${trickPlays.join(" | ")}` : "Cards played: —";
 statusEl.innerText = turnText;
   } else if (p.phase === "HAND_OVER") {
-    document.getElementById("hand").innerHTML = "";
+document.getElementById("hand").innerHTML = "";
     statusEl.innerText = "Hand over.";
 
     if (isHost) {
@@ -1410,7 +1387,7 @@ show("playCardButton", false);
 show("throwCard", false);
 tricks = p.tricks;
 bids = p.bids;
-        document.getElementById("hand").innerHTML = "";
+document.getElementById("hand").innerHTML = "";
         show("bidding", false);
         show("nilChoice", false);
         updateBoards();
