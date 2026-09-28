@@ -66,7 +66,6 @@
   text-align: center;
   text-align-last: center;
 }
-}
 
 #avatarSelect:focus {
   border-color: #d4af37;
@@ -1075,8 +1074,6 @@ selectedVoice = select.value;
 const voiceFile =
 `voices/${selectedVoice}.m4a`;
 
-  select.value = "";
-
   if (currentVoicePreview) {
     currentVoicePreview.pause();
     currentVoicePreview.currentTime = 0;
@@ -1292,16 +1289,25 @@ document.getElementById("hand").innerHTML = "";
     }
   }
 }
-       didthrowCard", false);
-document.getElementById("hand").innerHTML = "";
-        show("nilChoice", false);
-        show("bidding", false);
-        show("nextHand", false);
-        show("newMatch", false);
-        updateScore(p.scores, p.targetScore);
-        updateBoards();
-        statusEl.innerText = `Hand ${p.handNumber}: East bids first`;
-      }
+       if (msg.type === "GAME_STARTED") {
+  currentPlayTurn = null;
+  playCard.selected = null;
+
+  show("playCardButton", false);
+  show("throwCard", false);
+
+  document.getElementById("hand").innerHTML = "";
+
+  show("nilChoice", false);
+  show("bidding", false);
+  show("nextHand", false);
+  show("newMatch", false);
+
+  updateScore(p.scores, p.targetScore);
+  updateBoards();
+
+  statusEl.innerText = `Hand ${p.handNumber}: East bids first`;
+}
 
       if (msg.type === "BID_TURN") {
         currentPlayTurn = null;
@@ -1425,7 +1431,8 @@ localStorage.removeItem("seat");
     type: "CREATE_ROOM",
     payload: {
       playerName: getPlayerName(),
-      avatar: getSelectedAvatar()
+      avatar: getSelectedAvatar(),
+      voice: selectedVoice
     }
   }));
   statusEl.innerText = "Creating game...";
