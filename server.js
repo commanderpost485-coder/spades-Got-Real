@@ -11,9 +11,14 @@ const BID_NEXT = { E: "N", N: "W", W: "S", S: null };
 const PLAY_NEXT = { E: "N", N: "W", W: "S", S: "E" };
 const PRIVATE_AVATARS = new Set([
   "charly-private.png",
-  "Jackie_PRIVATE.png",
+  "pj-private.png",
   "jerry-private.png",
-  "Lilly_PRIVATE.png"
+  "lilly-private.png",
+  "jackie-private.png",
+  "pam-private.png",
+  "spoiled-angel-private.png",
+  "peaches-private.png",
+  "jazz.png"
 ]);
 
 function isLillyName(name = "") {
