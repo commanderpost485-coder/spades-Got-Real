@@ -20,7 +20,7 @@ const PRIVATE_AVATARS = new Set([
   "peaches-private.png",
   "jazz.png"
 ]);
-
+const PRIVATE_PLAYER_CODE = process.env.PRIVATE_PLAYER_CODE || "0902";
 function isPrivatePlayerName(name = "") {
   return [
     "charly",
