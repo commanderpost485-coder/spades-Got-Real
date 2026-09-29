@@ -735,6 +735,19 @@ function getSelectedAvatar() {
   return document.getElementById("avatarSelect").value || "noah.png";
 }
 
+function askPrivatePassword() {
+  const avatar = getSelectedAvatar();
+
+  if (!PRIVATE_AVATARS.has(avatar)) {
+    return true;
+  }
+
+  const password = prompt("Enter the password for this private avatar:");
+  return password;
+}
+
+function updateTableAvatars(avatars = {}, playerNames = {}) {
+
 function updateTableAvatars(avatars = {}, playerNames = {}) {
   const names = { N: "North", E: "East", S: "South", W: "West" };
 
@@ -1427,12 +1440,15 @@ localStorage.removeItem("seat");
   window.location.reload();
 }
     function createGame() {
+      const privatePassword = askPrivatePassword();
+if (privatePassword === null) return;
   socket.send(JSON.stringify({
     type: "CREATE_ROOM",
     payload: {
       playerName: getPlayerName(),
       avatar: getSelectedAvatar(),
-      voice: selectedVoice
+      voice: selectedVoice,
+privatePassword: privatePassword
     }
   }));
   statusEl.innerText = "Creating game...";
@@ -1440,8 +1456,13 @@ localStorage.removeItem("seat");
     function joinGame() {
   const code = prompt("Enter your game room code:");
   if (!code) return;
+      const code = prompt("Enter your game room code:");
+if (!code) return;
 
-  localStorage.removeItem("roomCode");
+const privatePassword = askPrivatePassword();
+if (privatePassword === null) return;
+
+localStorage.removeItem("roomCode");
   localStorage.removeItem("seat");
 
   socket.send(JSON.stringify({
@@ -1450,7 +1471,7 @@ localStorage.removeItem("seat");
   roomCode: code.toUpperCase(),
   playerName: getPlayerName(),
   avatar: getSelectedAvatar(),
-  voice: selectedVoice
+  voice: selectedVoice,
 }
   }));
 
