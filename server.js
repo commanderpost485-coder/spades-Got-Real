@@ -432,6 +432,7 @@ wss.on("connection", ws => {
       const code = String(payload.roomCode || "").toUpperCase();
       const room = rooms.get(code);
       if (!room) return send(ws, "ERROR", { message: "Room not found" });
+      
       const seat = ["E", "N", "W"].find(value => !room.seats[value]);
       if (!seat) return send(ws, "ERROR", { message: "Room full" });
       room.seats[seat] = client.playerId;
