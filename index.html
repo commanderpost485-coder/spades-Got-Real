@@ -747,8 +747,6 @@ function askPrivatePassword() {
 }
 
 function updateTableAvatars(avatars = {}, playerNames = {}) {
-
-function updateTableAvatars(avatars = {}, playerNames = {}) {
   const names = { N: "North", E: "East", S: "South", W: "West" };
 
   for (const seat of ["N", "E", "S", "W"]) {
@@ -1456,8 +1454,6 @@ privatePassword: privatePassword
     function joinGame() {
   const code = prompt("Enter your game room code:");
   if (!code) return;
-      const code = prompt("Enter your game room code:");
-if (!code) return;
 
 const privatePassword = askPrivatePassword();
 if (privatePassword === null) return;
@@ -1472,6 +1468,7 @@ localStorage.removeItem("roomCode");
   playerName: getPlayerName(),
   avatar: getSelectedAvatar(),
   voice: selectedVoice,
+      privatePassword: privatePassword
 }
   }));
 
