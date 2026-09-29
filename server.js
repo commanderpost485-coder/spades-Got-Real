@@ -21,16 +21,24 @@ const PRIVATE_AVATARS = new Set([
   "jazz.png"
 ]);
 
-function isLillyName(name = "") {
-  return ["lilly", "charly", "charleen", "jackie", "jerry"].includes(
-    String(name).trim().toLowerCase()
-  );
+function isPrivatePlayerName(name = "") {
+  return [
+    "charly",
+    "charleen",
+    "pj",
+    "jerry",
+    "lilly",
+    "jackie",
+    "pam",
+    "spoiled angel",
+    "peaches",
+    "jazz"
+  ].includes(String(name).trim().toLowerCase());
 }
-
 function cleanAvatar(file, playerName) {
   const avatar = String(file || "").replace(/[^a-z0-9_.-]/gi, "");
   if (!avatar) return "avatar-pj-photo.png";
-  if (PRIVATE_AVATARS.has(avatar) && !isLillyName(playerName)) {
+  if (PRIVATE_AVATARS.has(avatar) && !isPrivatePlayerName(playerName)) {
     return "avatar-pj-photo.png";
   }
   return avatar;
