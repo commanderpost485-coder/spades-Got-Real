@@ -394,15 +394,15 @@ wss.on("connection", ws => {
     if (!client.playerId) return send(ws, "ERROR", { message: "Authenticate first" });
 
     if (type === "CREATE_ROOM") {
-  if (
-    PRIVATE_AVATARS.has(payload.avatar) &&
-    payload.privatePassword !== PRIVATE_PLAYER_CODE
-  ) {
-    return send(ws, "ERROR", {
-      message: "Incorrect password for this private avatar"
-    });
-  }
-
+  
+if (
+  PRIVATE_AVATARS.has(String(payload.avatar || "").trim()) &&
+  String(payload.privatePassword || "").trim() !== String(PRIVATE_PLAYER_CODE).trim()
+) {
+  return send(ws, "ERROR", {
+    message: "Incorrect password for this private avatar"
+  });
+}
   let code = roomCode();
       while (rooms.has(code)) code = roomCode();
       const room = {
