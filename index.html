@@ -773,7 +773,7 @@ function updateTableAvatars(avatars = {}, playerNames = {}) {
 
 function updateAvatarPreview() {
   const avatar =
-    document.getElementById("avatarSelect").value || "avatar-noah-photo.png";
+document.getElementById("avatarSelect").value || "avatar-noah-photo.png";
 
   const preview = document.getElementById("avatarPreview");
 
@@ -809,13 +809,12 @@ function updateAvatarPreview() {
       const preview = document.getElementById("avatarPreview");
       preview.src = reader.result;
 
-      localStorage.setItem("customAvatarName", cleanName);
+localStorage.setItem("customAvatarName", cleanName);
       localStorage.setItem("customAvatarImage", reader.result);
 
       const select = document.getElementById("avatarSelect");
 
-      let customOption =
-        document.getElementById("customAvatarOption");
+      let customOption document.getElementById("customAvatarOption");
 
       if (!customOption) {
         customOption = document.createElement("option");
@@ -835,7 +834,29 @@ function updateAvatarPreview() {
 
   picker.click();
 }
+    
+function deleteCustomAvatar() {
+  localStorage.removeItem("customAvatarName");
+  localStorage.removeItem("customAvatarImage");
 
+  const customOption =
+    document.getElementById("customAvatarOption");
+
+  if (customOption) {
+    customOption.remove();
+  }
+
+  const select =
+    document.getElementById("avatarSelect");
+
+  if (select && select.options.length) {
+    select.selectedIndex = 0;
+  }
+
+  updateAvatarPreview();
+
+  alert("Custom avatar removed.");
+}
 document.getElementById("avatarSelect")
   .addEventListener("change", updateAvatarPreview);
   
