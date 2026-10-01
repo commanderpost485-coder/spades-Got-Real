@@ -835,9 +835,9 @@ localStorage.setItem("customAvatarName", cleanName);
   picker.click();
 }
     
-function deleteCustomAvatar() {
+function deleteCustomAvatar() { 
   localStorage.removeItem("customAvatarName");
-  localStorage.removeItem("customAvatarImage");
+localStorage.removeItem("customAvatarImage");
 
   const customOption =
     document.getElementById("customAvatarOption");
