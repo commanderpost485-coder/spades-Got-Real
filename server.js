@@ -215,23 +215,71 @@ function sendHand(room, seat, allowBid = false) {
   const player = seatClient(room, seat);
   if (player) send(player.ws, "HAND_DEALT", { seat, cards: room.hands[seat], allowBid });
 }
-
 function promptBidder(room) {
   if (!room.bidTurn) {
     room.playTurn = "E";
-    for (const seat of ["N", "E", "S", "W"]) sendHand(room, seat, false);
+
+    for (const seat of ["N", "E", "S", "W"]) {
+      sendHand(room, seat, false);
+    }
+
     broadcast(room, "BIDDING_COMPLETE", {
-      bids: room.bids,
-      playTurn: room.playTurn,
-      tricks: room.tricks,
-      scores: room.scores,
-      targetScore: room.targetScore
+  bids: room.bids,
+  playTurn: room.playTurn,
+  tricks: room.tricks,
+  scores: room.scores,
+  targetScore: room.targetScore
+});
+
+if (room.vsComputer) {
+  setTimeout(() => {
+    playComputerTurn(room);
+  }, 700);
+}
+
+return;
+  }
+
+  broadcast(room, "BID_TURN", {
+    seat: room.bidTurn,
+    bids: room.bids
+  });
+
+  if (
+    room.vsComputer &&
+    room.bidTurn !== "S"
+  ) {
+    const seat = room.bidTurn;
+
+    room.nilChoices[seat] = "SEE_CARDS";
+
+    const bid = getComputerBid(
+      room.hands[seat]
+    );
+
+    room.bids[seat] = bid;
+
+    broadcast(room, "BID_SUBMITTED", {
+      seat,
+      bid,
+      bids: room.bids
     });
+
+    setTimeout(() => {
+      advanceBid(room);
+    }, 700);
+
     return;
   }
-  broadcast(room, "BID_TURN", { seat: room.bidTurn, bids: room.bids });
-  const player = seatClient(room, room.bidTurn);
-  if (player) send(player.ws, "NIL_PROMPT", { seat: room.bidTurn });
+
+  const player =
+    seatClient(room, room.bidTurn);
+
+  if (player) {
+    send(player.ws, "NIL_PROMPT", {
+      seat: room.bidTurn
+    });
+  }
 }
 
 function advanceBid(room) {
@@ -258,7 +306,136 @@ function startHand(room) {
   });
   promptBidder(room);
 }
+function isComputerSeat(room, seat) {
+  return (
+    room.vsComputer &&
+    ["N", "E", "W"].includes(seat)
+  );
+}
 
+function chooseComputerCard(room, seat) {
+  const hand = room.hands[seat] || [];
+
+  if (!hand.length) return null;
+
+  if (!room.currentTrick.length) {
+    return hand[
+      Math.floor(Math.random() * hand.length)
+    ];
+  }
+
+  const leadSuit =
+    room.currentTrick[0].card.suit;
+
+  const matchingCards =
+    hand.filter(card => card.suit === leadSuit);
+
+  const choices =
+    matchingCards.length ? matchingCards : hand;
+
+  return choices[
+    Math.floor(Math.random() * choices.length)
+  ];
+}
+
+function playComputerTurn(room) {
+  const seat = room.playTurn;
+
+  if (!isComputerSeat(room, seat)) return;
+
+  const hand = room.hands[seat];
+  const card = chooseComputerCard(room, seat);
+
+  if (!card) return;
+
+  const cardIndex = hand.findIndex(
+    item =>
+      item.rank === card.rank &&
+      item.suit === card.suit
+  );
+
+  if (cardIndex === -1) return;
+
+  const playedCard =
+    hand.splice(cardIndex, 1)[0];
+
+  room.currentTrick.push({
+    seat,
+    card: playedCard
+  });
+
+  let handOver = false;
+
+  if (room.currentTrick.length < 4) {
+    room.playTurn = PLAY_NEXT[seat];
+  } else {
+    const leadSuit =
+      room.currentTrick[0].card.suit;
+
+    const values = {
+      "2": 2, "3": 3, "4": 4,
+      "5": 5, "6": 6, "7": 7,
+      "8": 8, "9": 9, "10": 10,
+      J: 11, Q: 12, K: 13, A: 14
+    };
+
+    let winner = room.currentTrick[0];
+
+    for (const play of room.currentTrick.slice(1)) {
+      const winnerSuit = winner.card.suit;
+      const playSuit = play.card.suit;
+
+      if (
+        (winnerSuit === "S" &&
+          playSuit === "S" &&
+          values[play.card.rank] >
+          values[winner.card.rank]) ||
+
+        (winnerSuit !== "S" &&
+          playSuit === "S") ||
+
+        (winnerSuit !== "S" &&
+          playSuit === leadSuit &&
+          values[play.card.rank] >
+          values[winner.card.rank])
+      ) {
+        winner = play;
+      }
+    }
+
+    room.tricks[winner.seat]++;
+    room.playTurn = winner.seat;
+    room.currentTrick = [];
+
+    handOver =
+      Object.values(room.tricks)
+        .reduce((sum, value) => sum + value, 0) === 13;
+  }
+
+  broadcast(room, "CARD_PLAYED", {
+    seat,
+    card: playedCard,
+    playStyle: "normal",
+    nextTurn: room.playTurn,
+    tricks: room.tricks,
+    bids: room.bids,
+    cardCounts: {
+      N: room.hands.N.length,
+      E: room.hands.E.length,
+      S: room.hands.S.length,
+      W: room.hands.W.length
+    }
+  });
+
+  if (handOver) {
+    finishHand(room);
+    return;
+  }
+
+  setTimeout(() => {
+    playComputerTurn(room);
+  }, 700);
+}
 function numericBid(value) {
   if (value === "NIL") return 0;
   const bid = Number(value);
@@ -436,7 +613,56 @@ if (
   playerNames: { ...room.playerNames }
 });
     }
+if (type === "PLAY_VS_COMPUTER") {
+  let code = roomCode();
+  while (rooms.has(code)) code = roomCode();
 
+  const room = {
+    code,
+    hostId: client.playerId,
+    vsComputer: true,
+
+    seats: {
+      S: client.playerId,
+      N: "BOT_N",
+      E: "BOT_E",
+      W: "BOT_W"
+    },
+
+    scores: { NS: 0, EW: 0 },
+    targetScore: 500,
+    handNumber: 0,
+
+    avatars: {
+      S: cleanAvatar(payload.avatar, payload.playerName),
+      N: "noah.png",
+      E: "smitty.png",
+      W: "lady-ace.png"
+    },
+
+    playerNames: {
+      S: String(payload.playerName || "Player"),
+      N: "Computer North",
+      E: "Computer East",
+      W: "Computer West"
+    }
+  };
+
+  rooms.set(code, room);
+
+  client.roomCode = code;
+  client.seat = "S";
+
+  send(ws, "ROOM_CREATED", {
+    roomCode: code,
+    seat: "S",
+    seats: room.seats,
+    avatars: { ...room.avatars },
+    playerNames: { ...room.playerNames }
+  });
+
+  return;
+}
     if (type === "JOIN_ROOM") {
 
   if (
@@ -635,7 +861,17 @@ room.currentTrick.push({ seat:
     W: room.hands.W.length
   }
 });
-      if (handOver) finishHand(room);
+      if (handOver) {
+  finishHand(room);
+  return;
+}
+
+if (room.vsComputer) {
+  setTimeout(() => {
+    playComputerTurn(room);
+  }, 700);
+}
+
 return;
 }
 
