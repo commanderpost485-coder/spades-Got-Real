@@ -1478,6 +1478,18 @@ privatePassword: privatePassword
   }));
   statusEl.innerText = "Creating game...";
 }
+    function playVsComputer() {
+  socket.send(JSON.stringify({
+    type: "PLAY_VS_COMPUTER",
+    payload: {
+      playerName: getPlayerName(),
+      avatar: getSelectedAvatar(),
+      voice: selectedVoice
+    }
+  }));
+
+  statusEl.innerText = "Starting computer game...";
+}
     function joinGame() {
   const code = prompt("Enter your game room code:");
   if (!code) return;
