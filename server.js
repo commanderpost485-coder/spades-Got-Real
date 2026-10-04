@@ -617,6 +617,46 @@ if (type === "PLAY_VS_COMPUTER") {
   let code = roomCode();
   while (rooms.has(code)) code = roomCode();
 
+  const availableBotAvatars = [
+  "smitty.png",
+  "duke-dawson.png",
+  "fabio.png",
+  "darius.png",
+  "lady-ace.png",
+  "michael.png",
+  "greta-grace.png",
+  "hector.png",
+  "alexis.png",
+  "joe-pa.png",
+  "lee.png",
+  "willie.png",
+  "big-ced.png",
+  "sapphire-blaze.png",
+  "sonia.png",
+  "edward.png",
+  "colby.png",
+  "noah.png",
+  "scarlet-saint.png",
+  "nova-noir.png",
+  "lola-lush.png",
+  "jesse.png",
+  "mr-t.png",
+  "crystal-riot.png",
+  "carmen-sol.png",
+  "suga-j.png",
+  "bishop-kane.png",
+  "leroy.png",
+  "francesca.png",
+  "esteban.png",
+  "jt.png"
+].filter(file => file !== payload.avatar);
+
+availableBotAvatars.sort(() => Math.random() - 0.5);
+
+const botN = availableBotAvatars[0];
+const botE = availableBotAvatars[1];
+const botW = availableBotAvatars[2];
+
   const room = {
     code,
     hostId: client.playerId,
@@ -635,9 +675,9 @@ if (type === "PLAY_VS_COMPUTER") {
 
     avatars: {
       S: cleanAvatar(payload.avatar, payload.playerName),
-      N: "noah.png",
-      E: "smitty.png",
-      W: "lady-ace.png"
+      N: botN,
+      E: botE,
+      W: botW
     },
 
     playerNames: {
