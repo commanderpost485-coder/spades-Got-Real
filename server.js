@@ -282,6 +282,26 @@ return;
   }
 }
 
+function getComputerBid(hand = []) {
+  let strength = 0;
+
+  for (const card of hand) {
+    if (card.suit === "S") {
+      if (card.rank === "A") strength += 1;
+      else if (card.rank === "K") strength += 0.8;
+      else if (card.rank === "Q") strength += 0.6;
+      else if (card.rank === "J") strength += 0.4;
+      else if (["10", "9"].includes(card.rank)) strength += 0.2;
+    } else {
+      if (card.rank === "A") strength += 0.9;
+      else if (card.rank === "K") strength += 0.6;
+      else if (card.rank === "Q") strength += 0.3;
+    }
+  }
+
+  const bid = Math.round(strength);
+  return Math.max(1, Math.min(7, bid));
+}
 function advanceBid(room) {
   room.bidTurn = BID_NEXT[room.bidTurn];
   promptBidder(room);
