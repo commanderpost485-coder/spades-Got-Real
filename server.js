@@ -694,19 +694,19 @@ const botW = availableBotAvatars[2];
     handNumber: 0,
 
     avatars: {
-      S: cleanAvatar(payload.avatar, payload.playerName),
-      N: botN,
-      E: botE,
-      W: botW
-    },
+  S: cleanAvatar(payload.avatar, payload.playerName),
+  N: botN,
+  E: botE,
+  W: botW
+},
 
-    playerNames: {
-      S: String(payload.playerName || "Player"),
-      N: "Computer North",
-      E: "Computer East",
-      W: "Computer West"
-    }
-  };
+playerNames: {
+  S: String(payload.playerName || "Player"),
+  N: botN.replace(".png", "").replaceAll("-", " "),
+  E: botE.replace(".png", "").replaceAll("-", " "),
+  W: botW.replace(".png", "").replaceAll("-", " ")
+}
+};
 
   rooms.set(code, room);
 
