@@ -1309,6 +1309,7 @@ document.getElementById("hand").innerHTML = "";
   }  
 }  
        if (msg.type === "GAME_STARTED") {  
+  show("cardTable", true);
   currentPlayTurn = null;  
   playCard.selected = null;  
   
