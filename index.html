@@ -1351,7 +1351,8 @@ document.getElementById("hand").innerHTML = "";
         statusEl.innerText = "NIL locked in for 100 points";  
       }  
   
-      if (msg.type === "HAND_DEALT" && p.seat === mySeat) {  
+if (msg.type === "HAND_DEALT" && p.seat === mySeat) {  
+  show("cardTable", true);
         renderHand(p.cards);  
         show("nilChoice", false);  
         show("bidding", Boolean(p.allowBid));  
