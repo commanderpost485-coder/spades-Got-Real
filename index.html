@@ -442,7 +442,47 @@ body.table-rumble .container {
 animation: tableRumble 0.35s ease-in-out;
 }
 
-  </style>  
+  
+/* MuthaSpades live-game layout */
+body.game-active .spade,body.game-active h1,body.game-active .subtitle,
+body.game-active .tagline,body.game-active .game-logo,body.game-active #playerSetup,
+body.game-active #customAvatarBtn,body.game-active button[onclick="deleteCustomAvatar()"],
+body.game-active #voiceSelect,body.game-active .create,body.game-active .join,
+body.game-active button[onclick="playVsComputer()"],body.game-active #seats,
+body.game-active #roomCodeDisplay,body.game-active #playedCards{display:none!important}
+body.game-active .container{max-width:580px;padding:8px 8px 28px;gap:5px}
+body.game-active #cardTable{order:1;width:min(100%,520px);height:clamp(315px,88vw,390px);margin:4px auto 6px;flex:none}
+body.game-active #scoreBoard{order:2}
+body.game-active #bidBoard{order:3}
+body.game-active #status{order:4}
+body.game-active #nilChoice,body.game-active #bidding{order:5}
+body.game-active #hand{order:6;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;width:100%;margin:6px 0}
+body.game-active #playCardButton,body.game-active #throwCard{order:7;margin:2px 0;padding:11px;font-size:16px}
+body.game-active #nextHand,body.game-active #newMatch,body.game-active #matchSetup{order:8}
+body.game-active #tableTalk,body.game-active #talkChoices,body.game-active #customTalk,body.game-active #newTalk{order:9}
+body.game-active #exitGame{order:10;font-size:14px;padding:9px}
+body.game-active #scoreBoard,body.game-active #bidBoard,body.game-active #status{width:100%;margin:0;padding:7px;border-radius:8px;box-sizing:border-box;font-size:15px}
+body.game-active #hand button{width:100%;min-width:0;max-width:56px;height:60px;margin:0 auto;padding:0;font-size:18px;touch-action:manipulation}
+body.game-active #hand button.selected-card{outline:3px solid #d4af37;transform:translateY(-5px)}
+body.game-active .table-player{min-width:73px;max-width:106px;padding:7px 5px 13px;font-size:12px;box-sizing:border-box}
+body.game-active .table-player.has-avatar .player-avatar{width:64px;height:64px;margin:0 auto 3px}
+body.game-active .table-player b{display:block;max-width:94px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Keep card count, not the duplicate red card-back stacks */
+body.game-active .card-table .held-cards{width:70px;height:20px;left:50%;bottom:-12px;transform:translateX(-50%);pointer-events:none}
+body.game-active .card-table .held-cards .card-back,body.game-active .card-table .held-cards::before{display:none}
+body.game-active .card-table .held-cards::after{content:attr(data-count) " left";position:absolute;left:50%;right:auto;top:0;transform:translateX(-50%);width:max-content;min-width:0;padding:1px 8px;line-height:18px;font-size:11px;color:#111;background:#ffd700;border-radius:99px}
+.trick-slot{position:absolute;width:44px;height:62px;transform:translate(-50%,-50%);z-index:4;pointer-events:none}
+.trick-slot[data-seat="N"]{top:37%;left:50%}
+.trick-slot[data-seat="W"]{top:50%;left:38%}
+.trick-slot[data-seat="E"]{top:50%;left:62%}
+.trick-slot[data-seat="S"]{top:63%;left:50%}
+.trick-card{width:44px;height:62px;border:1px solid #aaa;box-sizing:border-box;border-radius:6px;background:white;color:#111;box-shadow:0 4px 12px #000b;display:flex;flex-direction:column;align-items:center;justify-content:center;font:bold 20px Georgia,serif}
+.trick-card.red{color:#bd2026}
+.trick-card .card-seat{color:#555;font:bold 9px Arial,sans-serif;margin-top:2px}
+.trick-card.winning-book{outline:3px solid #ffd700}
+@media(max-width:390px){body.game-active .table-player.has-avatar .player-avatar{width:54px;height:54px}body.game-active #hand button{height:55px;font-size:16px}}
+
+</style>  
 </head>  
 <body>  
   <div class="container">  
@@ -555,7 +595,11 @@ onclick="exitGame()">EXIT GAME</button>
     <img class="player-avatar" id="avatarW" alt="West avatar">  
     <b>West</b>  
     <div class="held-cards" id="cardsW"></div>  
-  </div>    <div class="table-center">♠</div>    <div class="table-player table-east">  
+  </div>    <div class="table-center">♠</div>
+<div class="trick-slot" data-seat="N"></div>
+<div class="trick-slot" data-seat="E"></div>
+<div class="trick-slot" data-seat="S"></div>
+<div class="trick-slot" data-seat="W"></div>    <div class="table-player table-east">  
     <img class="player-avatar" id="avatarE" alt="East avatar">  
     <b>East</b>  
     <div class="held-cards" id="cardsE"></div>  
@@ -1540,5 +1584,127 @@ function throwDownCard() {
       currentTarget = Number(document.getElementById("targetScore").value);  
       socket.send(JSON.stringify({ type: "NEW_MATCH", payload: { targetScore: currentTarget } }));  
     }  
-  </script>  </body>  
+  
+
+/* MuthaSpades animation and hand-count update, both game modes. */
+(() => {
+  const symbols={S:"♠",H:"♥",D:"♦",C:"♣"};
+  let tablePlays=[],clearTimer=null,chosenOrigin=null,startingComputer=false;
+  const oldControls=updatePlayControls;
+  updatePlayControls=function(){
+    oldControls();
+    const active=currentPlayTurn===mySeat;
+    show("playCardButton",active);show("throwCard",active);
+    document.querySelectorAll("#hand button").forEach(btn=>{
+      const c=playCard.selected;
+      btn.classList.toggle("selected-card",!!c&&btn.textContent===c.rank+symbols[c.suit]);
+    });
+  };
+  updateCardCounts=function(counts={N:13,E:13,S:13,W:13}){
+    for(const seat of ["N","E","S","W"]){
+      const holder=document.getElementById("cards"+seat);if(!holder)continue;
+      const count=Math.max(0,Math.min(13,Number(counts[seat]??13)));
+      holder.replaceChildren();holder.dataset.count=String(count);
+      holder.setAttribute("aria-label",seat+" has "+count+" cards left");
+    }
+  };
+  const oldSendCard=sendSelectedCard;
+  sendSelectedCard=function(style){
+    const c=playCard.selected;
+    if(c&&currentPlayTurn===mySeat){
+      const btn=[...document.querySelectorAll("#hand button")].find(b=>b.textContent===c.rank+symbols[c.suit]);
+      chosenOrigin={rank:c.rank,suit:c.suit,rect:btn?btn.getBoundingClientRect():null};
+    }
+    return oldSendCard(style);
+  };
+  playVsComputer=function(){
+    const privatePassword=askPrivatePassword();if(privatePassword===null)return;
+    if(socket.readyState!==WebSocket.OPEN){statusEl.innerText="Wait for the server to connect.";return;}
+    startingComputer=true;
+    socket.send(JSON.stringify({type:"PLAY_VS_COMPUTER",payload:{
+      playerName:getPlayerName(),avatar:getSelectedAvatar(),voice:selectedVoice,privatePassword
+    }}));statusEl.innerText="Starting computer game...";
+  };
+  function clearTrick(){
+    if(clearTimer)clearTimeout(clearTimer);clearTimer=null;tablePlays=[];
+    document.querySelectorAll(".trick-slot").forEach(slot=>slot.replaceChildren());
+  }
+  function playerPosition(seat){
+    const name={N:"north",E:"east",S:"south",W:"west"}[seat];
+    return document.querySelector(".table-"+name+" .player-avatar")?.getBoundingClientRect()||null;
+  }
+  function placeCard(seat,card,style="normal",animate=true){
+    const slot=document.querySelector('.trick-slot[data-seat="'+seat+'"]');
+    if(!slot||!card||!symbols[card.suit])return;
+    slot.replaceChildren();
+    const face=document.createElement("div");
+    face.className="trick-card"+(["H","D"].includes(card.suit)?" red":"");
+    const value=document.createElement("span");value.textContent=card.rank+symbols[card.suit];
+    const name=document.createElement("span");name.className="card-seat";name.textContent=seat;
+    face.append(value,name);slot.appendChild(face);
+    const own=seat===mySeat&&chosenOrigin&&chosenOrigin.rank===card.rank&&chosenOrigin.suit===card.suit;
+    const from=(own&&chosenOrigin.rect)||playerPosition(seat);if(own)chosenOrigin=null;
+    if(!animate||!from||!face.animate)return;
+    const to=face.getBoundingClientRect();
+    const x=from.left+from.width/2-to.left-to.width/2;
+    const y=from.top+from.height/2-to.top-to.height/2;
+    const thrown=style==="throw";
+    face.animate([
+      {transform:"translate("+x+"px,"+y+"px) rotate("+(thrown?"-25deg":"-8deg")+") scale(.75)",opacity:.68},
+      {transform:"translate(0,0) rotate(0deg) scale(1)",opacity:1}
+    ],{duration:thrown?290:580,easing:"ease-out"});
+  }
+  function playOnTable(p){
+    if(!p.card||!p.seat)return;
+    if(tablePlays.length>=4)clearTrick();
+    tablePlays.push({seat:p.seat,card:p.card});placeCard(p.seat,p.card,p.playStyle);
+    if(p.trickComplete||tablePlays.length===4){
+      const win=p.winnerSeat||p.nextTurn;
+      document.querySelector('.trick-slot[data-seat="'+win+'"] .trick-card')?.classList.add("winning-book");
+      clearTimer=setTimeout(clearTrick,1450);
+    }
+  }
+  function restoreTrick(plays){
+    clearTrick();(plays||[]).forEach(p=>{
+      if(!p?.seat||!p?.card)return;tablePlays.push(p);placeCard(p.seat,p.card,"normal",false);
+    });
+  }
+  function beginNewHand(p){
+    clearTrick();chosenOrigin=null;bids={};myBid=null;tricks={N:0,E:0,S:0,W:0};
+    currentPlayTurn=null;playCard.selected=null;trickPlays=[];
+    document.getElementById("hand").replaceChildren();
+    updateCardCounts({N:13,E:13,S:13,W:13});updateBoards();
+    if(p.scores)updateScore(p.scores,p.targetScore);
+    show("cardTable",true);
+    ["matchSetup","nilChoice","bidding","playCardButton","throwCard","nextHand","newMatch"]
+      .forEach(id=>show(id,false));
+    statusEl.innerText="Hand "+p.handNumber+": East bids first";
+  }
+  const originalHandler=socket.onmessage;
+  socket.onmessage=function(event){
+    let msg;try{msg=JSON.parse(event.data)}catch{return originalHandler.call(socket,event)}
+    const p=msg.payload||{};
+    if(msg.type==="HAND_STARTED")beginNewHand(p);
+    if(msg.type==="CARD_PLAYED")tricks=p.tricks||tricks;
+    originalHandler.call(socket,event);
+    if(msg.type==="ROOM_CREATED"&&startingComputer){startingComputer=false;startGame()}
+    else if(msg.type==="GAME_STARTED"){
+      clearTrick();updateCardCounts({N:13,E:13,S:13,W:13});show("matchSetup",false)
+    } else if(msg.type==="GAME_STATE"&&p.phase!=="LOBBY"){
+      show("matchSetup",false);updateCardCounts(p.cardCounts||{N:13,E:13,S:13,W:13});
+      restoreTrick(p.currentTrick||[]);
+    } else if(msg.type==="CARD_PLAYED"){
+      playOnTable(p);updateBoards();
+      statusEl.innerText=p.trickComplete
+        ?((p.winnerSeat||p.nextTurn)+" won the book")
+        :(p.nextTurn===mySeat?"YOUR TURN TO PLAY":"NEXT PLAYER: "+p.nextTurn);
+    } else if(msg.type==="HAND_OVER"){
+      updateCardCounts({N:0,E:0,S:0,W:0});
+    } else if(msg.type==="ERROR"){
+      startingComputer=false;
+    }
+  };
+})();
+
+</script>  </body>  
 </html>
