@@ -385,6 +385,7 @@ function playComputerTurn(room) {
   });
 
   let handOver = false;
+  let winnerSeat = null;
 
   if (room.currentTrick.length < 4) {
     room.playTurn = PLAY_NEXT[seat];
@@ -423,6 +424,7 @@ function playComputerTurn(room) {
       }
     }
 
+    winnerSeat=winner.seat;
     room.tricks[winner.seat]++;
     room.playTurn = winner.seat;
     room.currentTrick = [];
@@ -436,6 +438,7 @@ function playComputerTurn(room) {
     seat,
     card: playedCard,
     playStyle: "normal",
+    trickComplete: Boolean(winnerSeat), winnerSeat,
     nextTurn: room.playTurn,
     tricks: room.tricks,
     bids: room.bids,
@@ -454,7 +457,7 @@ function playComputerTurn(room) {
 
   setTimeout(() => {
     playComputerTurn(room);
-  }, 700);
+  }, winnerSeat ? 1650 : 700);
 }
 function numericBid(value) {
   if (value === "NIL") return 0;
@@ -519,7 +522,8 @@ playerNames: { ...(room.playerNames || {}) },
     cards: room.hands
       ? room.hands[client.seat]
       : [],
-    currentTrick: room.currentTrick || []
+    currentTrick: room.currentTrick || [],
+    cardCounts: room.hands ? {N:room.hands.N.length,E:room.hands.E.length,S:room.hands.S.length,W:room.hands.W.length} : {N:0,E:0,S:0,W:0}
   });
 }
 const INDEX = path.join(__dirname, "index.html");
@@ -634,6 +638,9 @@ if (
 });
     }
 if (type === "PLAY_VS_COMPUTER") {
+  if (PRIVATE_AVATARS.has(String(payload.avatar || "").trim()) && String(payload.privatePassword || "").trim() !== String(PRIVATE_PLAYER_CODE).trim()) {
+    return send(ws,"ERROR",{message:"Incorrect password for this private avatar"});
+  }
   let code = roomCode();
   while (rooms.has(code)) code = roomCode();
 
@@ -888,6 +895,7 @@ const playStyle =
 room.currentTrick.push({ seat:
   client.seat, card: playedCard });
       let handOver = false;
+      let winnerSeat = null;
       if (room.currentTrick.length < 4) {
         room.playTurn = PLAY_NEXT[client.seat];
       } else {
@@ -901,6 +909,7 @@ room.currentTrick.push({ seat:
               (winnerSuit !== "S" && playSuit === "S") ||
               (winnerSuit !== "S" && playSuit === leadSuit && values[play.card.rank] > values[winner.card.rank])) winner = play;
         }
+        winnerSeat=winner.seat;
         room.tricks[winner.seat]++;
         room.playTurn = winner.seat;
         room.currentTrick = [];
@@ -911,6 +920,7 @@ room.currentTrick.push({ seat:
   seat: client.seat,
   card: playedCard,
   playStyle,
+  trickComplete: Boolean(winnerSeat), winnerSeat,
   nextTurn: room.playTurn,
   tricks: room.tricks,
   bids: room.bids,
@@ -929,7 +939,7 @@ room.currentTrick.push({ seat:
 if (room.vsComputer) {
   setTimeout(() => {
     playComputerTurn(room);
-  }, 700);
+  }, winnerSeat ? 1650 : 700);
 }
 
 return;
