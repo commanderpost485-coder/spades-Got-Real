@@ -1366,6 +1366,7 @@ body:not(.game-active) #seats>div:before{color:#0b0409!important;-webkit-text-st
 @media(max-width:360px){#muthaAvatarModal .mutha-avatar-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}}
 </style>
 
+<meta name="theme-color" content="#180618">
 </head>  
 <body>  
   <div class="container">  
@@ -3311,6 +3312,218 @@ window.addEventListener('load',displayCurrent,{once:true});
 setTimeout(displayCurrent,0); // after original loadAvatarOptions if run inline
 })();
 </script>
+
+
+<style id="mutha-full-hot-pink-every-screen">
+/* MuthaSpades 2026 — one consistent pink + black + gold look across ALL game states.
+   Visual rules only: card identities, bids, network messages and voices are unchanged. */
+:root { --mutha-pink:#ff2aa9;--mutha-pink-bright:#ff75d4;--mutha-pink-dark:#8d064b;
+  --mutha-gold:#f5c768;--mutha-gold-light:#ffe7a0;--mutha-black:#09030d;
+  --mutha-plum:#270c24;--mutha-paper:#fff8e7;--mutha-text:#fff1f9;color-scheme:dark; }
+html { background:#08020c!important; }
+body {accent-color:var(--mutha-pink);}
+body.game-active{
+ background:
+  radial-gradient(ellipse at 50% 0%,#710a50 0%,transparent 40%),
+  radial-gradient(ellipse at 12% 60%,#500d4e 0%,transparent 43%),
+  radial-gradient(ellipse at 90% 80%,#7f0a4475 0%,transparent 36%),
+  repeating-linear-gradient(90deg,transparent 0 38px,#ff58b908 40px 42px,transparent 44px 87px),
+  linear-gradient(165deg,#2b0727,#120515 46%,#06040d 100%)!important;
+ color:var(--mutha-text)!important;
+ min-height:100dvh;
+}
+body.game-active .container:before{
+ background:repeating-linear-gradient(90deg,transparent 0 41px,#fe2bac11 42px,#0000 46px),
+ radial-gradient(ellipse at 50% 0,#ac13674d,transparent 68%)!important;
+}
+/* Keep the original pink lobby, adding a stronger matching glow to its panels. */
+body:not(.game-active) #muthaLobbyActions>button,
+body:not(.game-active) #muthaLobbyActions>select{
+ border-color:#ff4db7!important;box-shadow:0 0 0 1px #f8ba6970,0 0 12px #ff149080!important;
+}
+body:not(.game-active) #muthaLobbyActions>button:nth-child(4){
+ background:linear-gradient(135deg,#ff4fb0 0%,#ef168d 52%,#73063c 100%)!important;
+ color:white!important;border-color:#ffcb80!important;
+ text-shadow:0 1px 2px #450824;
+}
+body:not(.game-active) #muthaLobbyActions>button:nth-child(4):before{color:#120512!important;-webkit-text-stroke:.5px #ffd27d;}
+body:not(.game-active) #muthaChooseAvatarButton{
+ background:linear-gradient(120deg,#4a0a48,#ba137c,#370b37)!important;
+ color:white!important;border-color:#ffc875!important;box-shadow:0 0 16px #ff3fb585!important;
+}
+/* In-game header: pink subtitles and BLACK spades (gold outlines), gold title. */
+body.game-active h1{color:var(--mutha-gold-light)!important;
+ text-shadow:0 2px #6b2247,0 4px #1d0819,0 0 13px #ff31998b,0 0 22px #ff319945!important;
+}
+body.game-active .subtitle{color:#ff6fc8!important;text-shadow:0 2px 8px #ff2991b0!important}
+body.game-active .subtitle:before,body.game-active .subtitle:after{
+ color:#08020a!important;-webkit-text-stroke:1px #ffcf6a;
+ text-shadow:0 0 7px #ff2fa6!important;
+}
+/* Scoring stays live. Navy/teal boxes replaced with pink-lit obsidian. */
+body.game-active #scoreBoard,body.game-active #bidBoard{
+ background:linear-gradient(155deg,#380c35f5,#0a0615fa 68%,#360c2ffa)!important;
+ border:1.5px solid #ff7fc7!important;
+ border-radius:15px!important;
+ box-shadow:inset 0 1px 0 #ffd89355,0 0 0 1px #c1995530,0 0 17px #ff20955e,0 5px 12px #000c!important;
+ color:#fff4f8!important;
+}
+body.game-active #scoreBoard .mutha-score-head{color:#ffd786!important}
+body.game-active #scoreBoard .mutha-score-us{color:#75ffd6!important}
+body.game-active #scoreBoard .mutha-score-them{color:#ff6c92!important}
+body.game-active #bidBoard{color:#ffdfed!important}
+/* Table remains legible and dark, but becomes a plush wine-purple felt game table. */
+body.game-active #cardTable{
+ background:radial-gradient(ellipse at 48% 38%,#732754 0%,#4d1546 39%,#250e2d 73%,#130719 100%)!important;
+ border:9px ridge #d99459!important;
+ outline:2px solid #ff74bf!important;
+ box-shadow:inset 0 0 22px #000e,inset 0 0 0 3px #e9af6666,
+ 0 0 0 3px #2f0a24,0 0 26px #ff25a570,0 14px 32px #000e!important;
+}
+body.game-active #cardTable:before{background:repeating-linear-gradient(24deg,#ffadd408 0 1px,transparent 1px 12px)!important}
+body.game-active #cardTable:after{border-color:#ffc47c77!important}
+body.game-active #cardTable .table-center{color:#ff7cc4!important;opacity:.09!important}
+/* Nameplates, avatar circles and card counts. All data still comes from JS. */
+body.game-active #cardTable .table-player b,
+body.game-active #cardTable .table-player .held-cards:after{
+ background:linear-gradient(130deg,#3c092eea,#110916f5 68%)!important;
+ border:1px solid #ff7ec4!important;
+ color:#fff1fa!important;
+ box-shadow:0 0 10px #f4228573,0 3px 8px #000b!important;
+}
+body.game-active #cardTable .table-player.has-avatar .player-avatar{
+ border-color:var(--mutha-gold)!important;
+ box-shadow:0 0 0 2px #440c39,0 0 12px #ff4098ab!important;
+}
+body.game-active #cardTable .table-south.has-avatar .player-avatar{
+ border:4px solid #ff4cb8!important;
+ box-shadow:0 0 0 4px #4a0b3c,0 0 20px #ff38a5c9!important;
+}
+/* The custom cards stay CREAM / BLACK / GOLD, not pink-tinted or recolored. */
+body.game-active #hand button,body.game-active .trick-card{
+ color:#141015!important;
+ background:linear-gradient(160deg,#fffdf2,#fff2d5)!important;
+ border:2px solid #e1b55f!important;
+ box-shadow:inset 0 0 0 2px #fff8e4,inset 0 0 0 3px #d5ad65,
+ 0 4px 10px #0009!important;
+}
+body.game-active #hand button.selected-card{
+ border-color:#ff40ad!important;box-shadow:0 0 0 2px #ff35af,0 0 14px #ff329ad0,0 8px 13px #000e!important;
+}
+body.game-active #hand:before{color:#ffdf98!important;text-shadow:0 1px 6px #a90f6c!important}
+/* Betting/bidding buttons and NIL/PLAY become pink game buttons instead of yellow blocks. */
+body.game-active #nilChoice,body.game-active #bidding{
+ width:100%!important;box-sizing:border-box!important;
+ padding:10px 6px!important;margin:5px 0 7px!important;
+ border:1px solid #fb4bb0!important;border-radius:15px!important;
+ background:linear-gradient(145deg,#4c093bdc,#120716ed)!important;
+ box-shadow:0 0 13px #ff3fa84c!important;
+}
+body.game-active #nilChoice button,body.game-active #bidding button{
+ min-width:57px!important;min-height:45px!important;margin:3px!important;padding:6px 11px!important;
+ background:linear-gradient(150deg,#ff70c7,#ef2799 42%,#a71160)!important;
+ color:#fffafc!important;font:bold clamp(14px,4vw,19px)/1 Arial,sans-serif!important;
+ border:1.5px solid #ffd88a!important;border-radius:11px!important;
+ box-shadow:inset 0 1px 1px #fff7,0 3px 8px #0008,0 0 9px #ff2d9477!important;
+ text-shadow:0 1px 2px #680b40!important;touch-action:manipulation;
+}
+body.game-active #nilChoice button:active,body.game-active #bidding button:active{
+ transform:translateY(1px);filter:brightness(1.16);
+}
+body.game-active #bidding{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:1px}
+body.game-active #bidding.hidden,body.game-active #nilChoice.hidden{display:none!important}
+/* All game action controls: make pink the main action color, gold the accent. */
+body.game-active .play-action-row button,
+body.game-active #nextHand,body.game-active #newMatch,
+body.game-active #newTalk,body.game-active #exitGame,
+body.game-active #startGame,
+body.game-active #customTalk button{
+ color:#fff7fc!important;
+ border:1.5px solid #ff67bb!important;
+ background:linear-gradient(145deg,#4e0b40,#c01079 57%,#5d1145)!important;
+ border-radius:12px!important;
+ box-shadow:0 0 11px #ff2e9973,0 3px 9px #000a!important;
+ text-shadow:0 1px 3px #20000f!important;
+}
+body.game-active #playCardButton{
+ color:#1a081a!important;background:linear-gradient(130deg,#ffe6a6,#ffb2d9 58%,#ff409f)!important;
+ border:2px solid #ffe38f!important;box-shadow:0 0 15px #ff40a6b3,0 3px 10px #000b!important;
+ text-shadow:none!important;
+}
+body.game-active #throwCard{
+ color:white!important;background:linear-gradient(135deg,#a80555,#fd249e 55%,#5c0b4f)!important;
+ border:2px solid #ffcd76!important;box-shadow:0 0 16px #fe249aaf,0 3px 10px #000b!important;
+}
+body.game-active #muthaSortHand{
+ background:linear-gradient(145deg,#190d26,#3e1749)!important;color:#ffe6f7!important;
+ border:1.5px solid #eab976!important;box-shadow:0 0 10px #f9339555!important;
+}
+body.game-active #status{color:#ffe4f3!important;background:transparent!important;text-shadow:0 0 6px #c82483!important}
+/* Reactions and smack talk: formerly navy/gray/brown. */
+body.game-active #muthaFunBar{
+ background:linear-gradient(135deg,#310b2d,#0b0815 65%,#380d30)!important;
+ border:1.5px solid #ff65b7!important;border-radius:14px!important;
+ box-shadow:inset 0 1px 1px #ffe5b93f,0 0 13px #ff3d9f78!important;
+}
+body.game-active #muthaFunBar .fun-caption{color:#ffc4e5!important}
+body.game-active #muthaFunBar button{
+ color:white!important;background:linear-gradient(145deg,#4d1240,#160c1d)!important;
+ border:1px solid #ff74bf!important;box-shadow:0 0 7px #ff2b9673!important;
+}
+body.game-active #muthaFunBar button:active{background:#9e165d!important}
+body.game-active #muthaSmackToggle{
+ color:#ffebf7!important;background:linear-gradient(120deg,#330e30,#aa0b67,#250d28)!important;
+ border:1.5px solid #ff6fc9!important;box-shadow:0 0 12px #ff289d80!important;
+}
+body.game-active #muthaSmackToggle[aria-expanded=true]{
+ border-color:#ffdb88!important;box-shadow:0 0 0 2px #ff368c8b,0 0 13px #ff28a6ad!important;
+}
+body.game-active #muthaSmackMenu{
+ color:#fff2fa!important;background:linear-gradient(150deg,#390c32,#160c20 70%,#4b1036)!important;
+ border:1.5px solid #ff62c3!important;box-shadow:0 6px 15px #000b,0 0 15px #ff31947a!important;
+}
+body.game-active #muthaSmackMenu button,
+body.game-active #talkChoices button{
+ color:#fff1f9!important;background:linear-gradient(115deg,#661044,#2d0c2c)!important;
+ border:1px solid #ff68b8!important;border-radius:11px!important;
+ box-shadow:0 0 5px #ee259351!important;
+}
+body.game-active #muthaSmackMenu button:active,body.game-active #talkChoices button:active{
+ background:#bb1c79!important;
+}
+body.game-active #tableTalk{
+ color:#fff0fb!important;background:linear-gradient(110deg,#670944,#31091f)!important;
+ border:2px solid #ff77bf!important;border-radius:14px!important;
+ box-shadow:0 0 16px #fe2da36b!important;
+}
+body.game-active #customTalk,body.game-active #talkChoices{
+ width:100%;box-sizing:border-box;padding:7px;border-radius:14px;
+ background:#170916b8;border:1px solid #e760b084;
+}
+body.game-active #customTalkInput,body.game-active #matchSetup select,
+body.game-active #targetScore{
+ color:white!important;background:#290c2a!important;border:1px solid #ff6dc0!important;
+ border-radius:10px!important;
+}
+body.game-active #customTalkInput::placeholder{color:#ebc3dc!important}
+body.game-active #matchSetup{padding:9px;border:1px solid #ff6ac4;border-radius:13px;background:#210a1f}
+/* Keep overlays/dropdowns and the forty-avatar gallery in the same palette. */
+body #muthaAvatarModal{--mutha-pink:#ff30ab;--mutha-gold:#f5c768;}
+body #muthaAvatarModal button:focus-visible,
+body button:focus-visible,body select:focus-visible{
+ outline:2px solid #ffe197!important;outline-offset:2px!important;
+}
+/* Landscape view: use same color palette, not older navy fallback. */
+@media (orientation:landscape) and (max-height:550px){
+ body.game-active{background:linear-gradient(145deg,#390728,#110513 70%,#07040a)!important;}
+ body.game-active #cardTable{box-shadow:0 0 15px #ff27956a,inset 0 0 18px #000c!important;}
+ body.game-active #muthaFunBar{background:linear-gradient(145deg,#320a2c,#120718)!important;}
+}
+/* Reduced animation, without removing functional cues. */
+@media(prefers-reduced-motion:reduce){
+ body.game-active #muthaSmackToggle,body.game-active #muthaFunBar button{transition:none!important}
+}
+</style>
 
 </body>  
 </html>
