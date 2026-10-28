@@ -3602,6 +3602,59 @@ body.game-active #cardTable .trick-card{backface-visibility:hidden}
  body.game-active #cardTable .table-player.mutha-performing .human-portrait{will-change:auto}
 }
 </style>
-</body>  
-</html>
 
+<!-- MOBILE LAYOUT FIX — keeps existing pink colors, avatars, voices, cards, and speech bubbles -->
+<style id="mutha-mobile-fit-20261028">
+@media (orientation:portrait) and (max-width:600px) {
+  body.game-active #cardTable {margin-top:100px!important;height:clamp(340px,96vw,415px)!important;}
+    body.game-active #hand {margin-top:-38px!important;min-height:108px!important;}
+      body.game-active .play-action-row {margin-top:8px!important;}
+        body.game-active .card-table .table-north {top:-51px!important;height:220px!important;}
+          body.game-active .card-table .table-west,
+            body.game-active .card-table .table-east {top:43%!important;height:215px!important;}
+            }
+            @media (orientation:landscape) and (max-height:600px) {
+              body.game-active .container {
+                  display:grid!important;grid-template-columns:57% minmax(0,1fr)!important;
+                      gap:3px 7px!important;max-width:none!important;width:100%!important;
+                          padding:4px 7px 12px!important;align-content:start!important;
+                            }
+                              body.game-active h1,body.game-active .subtitle {display:none!important;}
+                                body.game-active #cardTable {
+                                    grid-column:1!important;grid-row:1/span 6!important;
+                                        margin:0!important;width:100%!important;
+                                            height:calc(100dvh - 16px)!important;min-height:235px!important;
+                                              }
+                                                body.game-active #scoreBoard,body.game-active #bidBoard {
+                                                    position:static!important;grid-column:2!important;
+                                                        width:100%!important;min-height:0!important;padding:3px!important;
+                                                          }
+                                                            body.game-active #scoreBoard {grid-row:1!important;}
+                                                              body.game-active #bidBoard {grid-row:2!important;}
+                                                                body.game-active #nilChoice,body.game-active #bidding {
+                                                                    grid-column:2!important;grid-row:3!important;margin:0!important;padding:2px!important;
+                                                                      }
+                                                                        body.game-active #nilChoice button,body.game-active #bidding button {
+                                                                            min-height:30px!important;min-width:36px!important;padding:4px!important;font-size:12px!important;
+                                                                              }
+                                                                                body.game-active #hand {
+                                                                                    grid-column:2!important;grid-row:4!important;
+                                                                                        margin:0!important;padding:4px 0!important;min-height:65px!important;
+                                                                                          }
+                                                                                            body.game-active #hand button {
+                                                                                                width:29px!important;flex:0 0 29px!important;height:65px!important;
+                                                                                                    margin-left:-11px!important;font-size:13px!important;
+                                                                                                      }
+                                                                                                        body.game-active .play-action-row {grid-column:2!important;grid-row:5!important;margin:0!important;}
+                                                                                                          body.game-active #status {grid-column:2!important;grid-row:6!important;margin:0!important;padding:3px!important;}
+                                                                                                            body.game-active .card-table .table-north {top:-8px!important;height:44%!important;width:70%!important;}
+                                                                                                              body.game-active .card-table .table-west,
+                                                                                                                body.game-active .card-table .table-east {top:49%!important;height:58%!important;width:55%!important;}
+                                                                                                                  body.game-active #muthaFunBar,body.game-active #muthaSmackBar,
+                                                                                                                    body.game-active #exitGame {grid-column:1/-1!important;}
+                                                                                                                    }
+                                                                                                                    </style>
+                                                                                                                    </body>
+                                                                                                                    </html>
+                                                                                    
+                                                                                  -->
