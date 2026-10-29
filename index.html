@@ -3602,6 +3602,34 @@ body.game-active #cardTable .trick-card{backface-visibility:hidden}
  body.game-active #cardTable .table-player.mutha-performing .human-portrait{will-change:auto}
 }
 </style>
+<style id="mutha-mobile-fix">
+@media (max-width:600px) {
+  body.game-active {
+    overflow-x:hidden!important;
+  }
+
+  body.game-active .container,
+  body.game-active #cardTable {
+    width:100%!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+
+  body.game-active #hand {
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+    grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  }
+
+  body.game-active #hand button {
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+}
+</style>
 </body>  
 </html>
 
