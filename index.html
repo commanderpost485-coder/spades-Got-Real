@@ -3620,7 +3620,8 @@ body.game-active #cardTable .trick-card{backface-visibility:hidden}
     max-width:100%!important;
     min-width:0!important;
     box-sizing:border-box!important;
-    grid-template-columns:repeat(7,minmax(0,1fr))!important;
+    overflow-x:auto!important;
+touch-action:pan-x;
   }
 
   body.game-active #hand button {
